@@ -1,0 +1,28 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from '../Pages/Home';
+import PlayPage from '../Pages/Play';
+// import TutorialPage from '../Pages/Tutorial';
+// import NewsPage from '../Pages/News';
+// import ContactPage from '../Pages/Contact';
+import './index.css';
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+      <Routes>
+        <Route path="/" exact element={<HomePage/>}/>
+        <Route path="/play" exact element={<PlayPage/>}/>
+        {/* <Route path="/tutorial" exact element={<TutorialPage/>}/>
+        <Route path="/news" exact element={<NewsPage/>}/>
+        <Route path="/contact" exact element={<ContactPage/>}/>
+        <Route path="/play/:id" element={<DuelPage/>}/>
+        <Route path='*' exact element={<Error404Page/>}/> */}
+      </Routes>
+    </div>
+    </Router>
+  );
+}
+
+export default App;
