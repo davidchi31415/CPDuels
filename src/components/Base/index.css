@@ -1,0 +1,45 @@
+.base__layout {
+    height: 1200px;
+}
+
+.base__navbar {
+    position: sticky;
+    top: 0;
+    font-size: 1.8rem;
+    height: 10vh;
+    margin: 0 10vw;
+}
+
+.base__navbar img {
+    height: 75%;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .base__navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.base__navbar__links {
+    min-width: 500px;
+    list-style-type: none;
+}
+
+.base__navbar__links ul {
+    margin: auto;
+    list-style-type: none;
+    display: flex;
+    gap: 3vw;
+    align-items: center;
+}
+
+.base__navbar__links li {
+    text-align: center;
+}
+
+.base__container {
+    margin: 0 2vw;
+}

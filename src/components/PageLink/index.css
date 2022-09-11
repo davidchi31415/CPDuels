@@ -1,0 +1,9 @@
+.page__link {
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+}
+
+.page__link:hover {
+    color: var(--primary-300);
+}
