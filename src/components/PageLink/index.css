@@ -1,7 +1,8 @@
 .page__link {
     text-decoration: none;
     color: black;
-    font-weight: 700;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
 }
 
 .page__link:hover {
