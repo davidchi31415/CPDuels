@@ -1,0 +1,32 @@
+.home__hero__container {
+    display: grid;
+    gap: 2vw;
+    grid-auto-flow: column;
+}
+
+.home__hero__header {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    width: 500px;
+}
+
+.home__hero__title {
+    margin-top: 150px;
+    font-weight: var(--titleWeight);
+    font-size: 375%;
+    line-height: 120%;
+    letter-spacing: -0.04em;
+}
+
+.home__hero__description {
+    font-weight: 500;
+    font-size: 125%;
+    
+}
+
+.home__hero__art {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}

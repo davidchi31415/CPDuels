@@ -3,28 +3,34 @@
 }
 
 .base__navbar__container {
-    position: sticky;
-    top: 0;
     width: 100%;
 }
 
 .base__navbar {
     font-size: 1.5rem;
-    font-weight: bold;
     height: 10vh;
-    padding: 0 8vw;
+    margin-top: 0.2vh;
 }
 
 .base__navbar img {
     height: 60%;
     cursor: pointer;
 }
-
+ 
 @media (min-width:900px) {
+    .base__layout {
+        margin: 0 4vw;
+    }
     .base__navbar {
         display: flex;
         align-items: center;
         justify-content: space-between;
+    }
+}
+
+@media (min-width: 1100px) {
+    .base__layout {
+        margin: 0 7vw;
     }
 }
 
@@ -36,31 +42,52 @@
     padding: 0;
     list-style-type: none;
     display: flex;
-    gap: 3vw;
+    gap: 2vw;
     align-items: center;
 }
 
 .base__navbar__links li {
+    font-weight: bold;
     text-align: center;
 }
 
-.base__login__button {
-    color: black;
-    background-color: var(--primary-100);
+.base__signup_login {
+    display: inline-flex;
+    gap: 1vw;
+}
+
+.base__signup_login .button {
     border: none;
-    font-size: inherit;
-    font-weight: inherit;
-    padding: 0.3em 0.7em;
+    font-size: 0.8em;
     cursor: pointer;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
+    width: 5em;
+    height: 2.3em;
+}
+
+.base__signup__button {
+    color: black;
+    background-color: var(--primary-100);
+    border: none;
+}
+
+.base__signup__button:hover {
+    background-color: var(--primary-300);
+    box-shadow: 0.5px 0.8px 0.5px rgb(0, 0, 0, 0.7);
+}
+
+.base__login__button {
+    color: var(--off-white);
+    background-color: var(--primary-500);
+    border: none;
 }
 
 .base__login__button:hover {
     background-color: var(--primary-300);
-    box-shadow: 1px 3px rgb(0, 0, 0, 0.7);
+    box-shadow: 0.5px 0.8px 0.5px rgb(0, 0, 0, 0.7);
 }
 
-.base__content__container {
-    margin: 0 2vw;
+.base__content__container, .base__footer {
+    margin: 0.5vw;
 }

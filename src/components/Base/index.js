@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageLink from '../PageLink';
-import logo from '../../images/logo.png';
+import logo from '../../images/logo-offwhite.png';
 import './index.css';
 
 const BaseNavbar = () => {
@@ -19,7 +19,10 @@ const BaseNavbar = () => {
             <li><PageLink name="Contact" destination="/contact"/></li>
           </ul>
         </div>
-        <button className="base__login__button rounded">Login</button>
+        <div className="base__signup_login">
+          <button className="base__signup__button button rounded">Sign Up</button>
+          <button className="base__login__button button rounded">Login</button>
+        </div>
       </div>
     </nav>
   )
