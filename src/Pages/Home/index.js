@@ -10,7 +10,7 @@ const HomePageHero = () => {
           A better way to practice coding
         </div>
         <div className="home__hero__description">
-          Sharpen your programming skills by playing 1-v-1 live duels, using problems from Codeforces, HackerRank, Leetcode, and more.
+          Sharpen your programming skills by playing one-on-one live duels, with problems drawn from Leetcode, Codeforces, HackerRank, and more.
         </div>
       </div>
       <div className="home__hero__art">
