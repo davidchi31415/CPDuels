@@ -1,14 +1,14 @@
 import React from 'react';
 import BaseLayout from '../../components/Base';
 
-const PlayPage = () => {
+const Error404Page = () => {
   return (
     <BaseLayout content={
-        <div className="play__page">
-          Coming soon.
+        <div className="error404__page">
+          No such page.
         </div>
       } />
   )
 }
 
-export default PlayPage;
+export default Error404Page;

@@ -1,14 +1,14 @@
 import React from 'react';
 import BaseLayout from '../../components/Base';
 
-const PlayPage = () => {
+const ContactPage = () => {
   return (
     <BaseLayout content={
-        <div className="play__page">
+        <div className="contact__page">
           Coming soon.
         </div>
       } />
   )
 }
 
-export default PlayPage;
+export default ContactPage;
