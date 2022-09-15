@@ -7,6 +7,7 @@ import NewsPage from '../pages/News';
 import ContactPage from '../pages/Contact';
 import DuelPage from '../pages/Duel';
 import Error404Page from '../pages/Error404';
+import LoginPage from '../pages/Login';
 import './index.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/news" exact element={<NewsPage />} />
           <Route path="/contact" exact element={<ContactPage />} />
           <Route path="/play/:id" element={<DuelPage />} />
+          <Route path="/login/" exact element={<LoginPage />} />
           <Route path='*' exact element={<Error404Page />} />
         </Routes>
       </div>

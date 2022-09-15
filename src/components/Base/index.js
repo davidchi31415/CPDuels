@@ -21,7 +21,7 @@ const BaseNavbar = () => {
         </div>
         <div className="base__signup_login">
           <button className="base__signup__button button rounded">Sign Up</button>
-          <button className="base__login__button button rounded">Login</button>
+          <button className="base__login__button button rounded" onClick={() => navigate("/login")}>Login</button>
         </div>
       </div>
     </nav>
