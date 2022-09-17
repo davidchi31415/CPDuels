@@ -1,10 +1,11 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { Box, Container } from '@mui/system';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import PageLink from '../PageLink';
-import logo from '../../images/logo-offwhite.png';
+import logo from '../../images/logo_f3f3f3.png';
 import './index.css';
 
 const theme = createTheme({
@@ -13,13 +14,38 @@ const theme = createTheme({
           main: "#2626FF"
       },
       background: {
-          default: "f7f7f7"
+          default: "#f3f3f3"
       }
   },
   typography: {
       fontFamily: [
           "century-gothic, sans-serif"
       ]
+  },
+  components: {
+    MuiTableContainer: {
+      variants: [
+        {
+          props: { variant: 'play__table' },
+          style: {
+            background: "#f7f7f7",
+            border: "solid black 0.5px",
+          }
+        }
+      ]
+    },
+    MuiContainer: {
+      variants: [
+        {
+          props: { variant: 'play__form' },
+          style: {
+            background: "#f7f7f7",
+            border: "solid black 0.5px",
+            borderRadius: "4px",
+          }
+        }
+      ]
+    }
   }
 });
 
@@ -70,10 +96,17 @@ function Copyright(props) {
 
 const BaseFooter = () => {
   return (
-    <footer className="base__footer">
-      <Copyright sx={{ mt: 8, mb: 4 }} />
-    </footer>
-  )
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto' }}>
+        <Container maxWidth="sm">
+          <Typography variant="body1">
+            My sticky footer can be found here.
+          </Typography>
+          <Copyright />
+        </Container>
+      </Box>
+    </Box>
+  );
 }
 
 const  BaseLayout = ({ content }) => {
