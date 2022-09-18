@@ -1,0 +1,32 @@
+.score__player__info {
+    width: 230px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.score__player__info h4 {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+.score__player table {
+  margin: 5px auto;
+}
+
+.score__player table td {
+  text-align: center;
+}
+
+.score__boxes td {
+  width: 30px;
+  height: 30px;
+  border: solid black 0.5px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 700;
+  color: var(--primary-500);
+}
+
+.score__box__numbers td {
+  font-size: 0.8em;
+}

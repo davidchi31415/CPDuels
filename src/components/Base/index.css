@@ -1,5 +1,6 @@
 .base__layout {
-    height: 1200px;
+    min-height: 100vh;
+    position: relative;
 }
 
 .base__navbar__container {
@@ -89,5 +90,24 @@
 }
 
 .base__content__container, .base__footer {
-    margin-top: 1vw;
+    margin-top: 1vh;
+}
+
+.base__content__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.base__footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 4em;
+}
+
+.base__footer__text {
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }

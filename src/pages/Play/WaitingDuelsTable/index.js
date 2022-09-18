@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 
 function createData(duelID, handle, rating, problemCount, timeLimit, style) {
@@ -101,6 +100,8 @@ export default function WaitingDuelsTable() {
         setRowData(sortStyles(rows, styleOrderDirection));
         setStyleOrderDirection(styleOrderDirection === "asc" ? "desc" : "asc");
         break;
+      default:
+        console.log("error");
     }
   };
 
@@ -134,7 +135,7 @@ export default function WaitingDuelsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rowData.map((row) => (
             <TableRow key={row.duelID} sx={{ "& td": { cursor: 'pointer' }, ":hover": { backgroundColor: "#ffe176"} }}>
               <TableCell align="center">{row.duelID}</TableCell>
               <TableCell align="center">{row.handle}</TableCell>

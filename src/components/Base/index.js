@@ -1,7 +1,4 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import { Box, Container } from '@mui/system';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import PageLink from '../PageLink';
@@ -81,31 +78,14 @@ const BaseContainer = ({ content }) => {
   )
 }
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        CPDuels
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const BaseFooter = () => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto' }}>
-        <Container maxWidth="sm">
-          <Typography variant="body1">
-            My sticky footer can be found here.
-          </Typography>
-          <Copyright />
-        </Container>
-      </Box>
-    </Box>
+    <div className="base__footer">
+      <div className="base__footer__text">
+        2022 CPDuels.com<br/>
+        Made by David Chi and Jeffrey Li.
+      </div>
+    </div>
   );
 }
 
