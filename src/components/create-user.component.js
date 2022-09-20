@@ -1,43 +1,27 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-export default class CreateUser extends Component {
-    constructor(props) {
-        super(props);
+export default function CreateUser() {
+    const [handle, setHandle] = useState("");
+    const [rating, setRating] = useState(0);
+    const [rank, setRank] = useState("");
 
-        this.onChangeHandle = this.onChangeHandle.bind(this);
-        this.onChangeRating = this.onChangeRating.bind(this);
-        this.onChangeRank = this.onChangeRank.bind(this);
-
-        this.state = {
-            handle: '',
-            rating: 0,
-            rank: ''
-        }
+    function onChangeHandle(e) {
+        setHandle(e.target.value);
     }
-    
-    onChangeHandle(e) {
-        this.setState({
-            handle: e.target.value
-        });
+    function onChangeRating(e) {
+        setRating(e.target.value);
     }
-    onChangeRating(e) {
-        this.setState({
-            rating: e.target.value
-        });
-    }
-    onChangeRank(e) {
-        this.setState({
-            rank: e.target.value
-        });
+    function onChangeRank(e) {
+        setRank(e.target.value);
     }
 
-    onSubmit(e) {
+    function onSubmit(e) {
         e.preventDefault();
 
         const user = {
-            handle: this.state.handle,
-            rating: this.state.rating,
-            rank: this.state.rank
+            handle: handle,
+            rating: rating,
+            rank: rank
         }
 
         console.log(user)

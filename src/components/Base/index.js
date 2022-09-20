@@ -57,14 +57,14 @@ const BaseNavbar = () => {
           <ul>
             <li><PageLink name="Play" destination="/play"/></li>
             <li><PageLink name="Tutorial" destination="/tutorial"/></li>
-            <li><PageLink name="News" destination="/news"/></li>
+            {/* <li><PageLink name="News" destination="/news"/></li> */}
             <li><PageLink name="Contact" destination="/contact"/></li>
           </ul>
         </div>
-        <div className="base__signup_login">
+        {/* <div className="base__signup_login">
           <button className="base__signup__button button rounded" onClick={() => navigate("/signup")}>Sign Up</button>
           <button className="base__login__button button rounded" onClick={() => navigate("/login")}>Login</button>
-        </div>
+        </div> */}
       </div>
     </nav>
   )

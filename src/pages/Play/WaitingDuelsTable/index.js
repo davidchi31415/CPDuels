@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TableBody from "@mui/material/TableBody";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
@@ -7,27 +7,24 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
+import Database from '../../../data';
 
 function createData(duelID, handle, rating, problemCount, timeLimit, style) {
   return { duelID, handle, rating, problemCount, timeLimit, style };
 }
 
-const rows = [
-  createData(1314351182993, "davidchi", 1585, 5, 121, "lockout"),
-  createData(1314351182993, "davidchi", 1586, 6, 122, "lockout"),
-  createData(1314351182993, "davidchi", 158295, 7, 123, "normal"),
-  createData(1314351182993, "davidchi", 1588, 8, 126, "normal"),
-  createData(1314351182993, "davidchi", 1589, 7, 125, "lockout"),
-  createData(1314351182993, "davidchi", 1590, 6, 124, "normal"),
-  createData(1314351182993, "davidchi", 1590, 6, 124, "normal")
-];
-
 export default function WaitingDuelsTable() {
-  const [rowData, setRowData] = useState(rows);
+  const [rowData, setRowData] = useState([]);
   const [ratingOrderDirection, setRatingOrderDirection] = useState('asc');
   const [problemCountOrderDirection, setProblemCountOrderDirection] = useState('asc');
   const [timeLimitOrderDirection, setTimeLimitOrderDirection] = useState('asc');
   const [styleOrderDirection, setStyleOrderDirection] = useState('asc');
+
+  useEffect(() => {
+    Database.getDuelWaiting().then(
+      (result) => setRowData(result)
+    );
+  }, []);
 
   const sortRatings = (arr, orderBy) => {
     switch (orderBy) {
@@ -85,19 +82,19 @@ export default function WaitingDuelsTable() {
   const handleSortRequest = (target) => {
     switch (target) {
       case "rating":
-        setRowData(sortRatings(rows, ratingOrderDirection));
+        setRowData(sortRatings(rowData, ratingOrderDirection));
         setRatingOrderDirection(ratingOrderDirection === "asc" ? "desc" : "asc");
         break;
       case "problemCount":
-        setRowData(sortProblemCounts(rows, problemCountOrderDirection));
+        setRowData(sortProblemCounts(rowData, problemCountOrderDirection));
         setProblemCountOrderDirection(problemCountOrderDirection === "asc" ? "desc" : "asc");
         break;
       case "timeLimit":
-        setRowData(sortTimeLimits(rows, timeLimitOrderDirection));
+        setRowData(sortTimeLimits(rowData, timeLimitOrderDirection));
         setTimeLimitOrderDirection(timeLimitOrderDirection === "asc" ? "desc" : "asc");
         break;
       case "styles":
-        setRowData(sortStyles(rows, styleOrderDirection));
+        setRowData(sortStyles(rowData, styleOrderDirection));
         setStyleOrderDirection(styleOrderDirection === "asc" ? "desc" : "asc");
         break;
       default:
@@ -105,12 +102,19 @@ export default function WaitingDuelsTable() {
     }
   };
 
+  const ellipsisStyle = {
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    width: '100px',
+    maxWidth: '125px' 
+  };
+
   return (
     <TableContainer sx={{ width: 650 }} variant="play__table" component={Paper}>
       <Table aria-label="Available Duels">
-        <TableHead>
+        <TableHead variant="play__table__head">
           <TableRow sx={{ "& th": { backgroundColor: "#bebeff", fontWeight: 700 } }}>
-            <TableCell align="center">Duel ID</TableCell>
             <TableCell align="center">Handle</TableCell>
             <TableCell align="center" onClick={() => handleSortRequest("rating")}>
               <TableSortLabel active={true} direction={ratingOrderDirection}>
@@ -135,16 +139,15 @@ export default function WaitingDuelsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowData.map((row) => (
-            <TableRow key={row.duelID} sx={{ "& td": { cursor: 'pointer' }, ":hover": { backgroundColor: "#ffe176"} }}>
-              <TableCell align="center">{row.duelID}</TableCell>
-              <TableCell align="center">{row.handle}</TableCell>
+          {rowData ? rowData.map((row) => (
+            <TableRow key={row._id} sx={{ "& td": { cursor: 'pointer' }, ":hover": { backgroundColor: "#ffe176"} }}>
+              <TableCell align="center">{row.players[0]}</TableCell>
               <TableCell align="center">{row.rating}</TableCell>
               <TableCell align="center">{row.problemCount}</TableCell>
               <TableCell align="center">{row.timeLimit}</TableCell>
               <TableCell align="center">{row.style}</TableCell>
             </TableRow>
-          ))}
+          )) : "none"}
         </TableBody>
       </Table>
     </TableContainer>
