@@ -68,7 +68,7 @@ export default class Database {
   }
 
   static async addDuel(params) {
-    await fetch(`http://localhost:${BACKEND_PORT}/duel/add`, {
+    const duel = await fetch(`http://localhost:${BACKEND_PORT}/duel/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -76,11 +76,7 @@ export default class Database {
       body: JSON.stringify(params)
     }).then(
       res => res.json()
-    ).then(
-      json => {
-        console.log(json);
-        return json;
-      }
     ).catch((err) => console.log(err));
+    return duel;
   }
 }

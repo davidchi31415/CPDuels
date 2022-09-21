@@ -105,7 +105,7 @@ export default function CreateDuelForm() {
                         let duelID;
                         await Database.addDuel(
                             {
-                                "players": ["jeffrey", "rico"],
+                                "players": [],
                                 "ratingMin":1200,
                                 "ratingMax": 1600,
                                 "problemCount": 5,
@@ -116,7 +116,6 @@ export default function CreateDuelForm() {
                               }
                         ).then(
                             res => {
-                                console.log(Object.values(res));
                                 duelID = res._id;
                                 navigate(`/play/${duelID}`);
                             }
