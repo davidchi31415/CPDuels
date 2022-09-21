@@ -27,7 +27,7 @@ export default function ScoreTable() {
         <TableBody>
         <div className="score__player">
           <div className="score__player__info">
-            <h4>davidchi</h4>
+            <h4>davidchi (YOU)</h4>
             <div>Score: 500</div>
           </div>
           <table>
