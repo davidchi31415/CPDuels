@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
+import Database from '../../../data';
 
 export default function CreateDuelForm() {
   const [submitted, setSubmitted] = React.useState(false);
@@ -98,9 +99,28 @@ export default function CreateDuelForm() {
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
                     variant="contained"
-                    onClick={() => {
+                    onClick={async (e) => {
                         // setSubmitted(true);
-                        navigate('/play/283921498');
+                        e.preventDefault();
+                        let duelID;
+                        await Database.addDuel(
+                            {
+                                "players": ["jeffrey", "rico"],
+                                "ratingMin":1200,
+                                "ratingMax": 1600,
+                                "problemCount": 5,
+                                "timeLimit": 5,
+                                "style": "Normal",
+                                "status": "FINISHED",
+                                "result": ["WON", "jeffrey"]
+                              }
+                        ).then(
+                            res => {
+                                console.log(Object.values(res));
+                                duelID = res._id;
+                                navigate(`/play/${duelID}`);
+                            }
+                        );
                     }}
                     sx={{ margin: "0 auto", mt: "1em" }}
                 >

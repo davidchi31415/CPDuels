@@ -66,4 +66,21 @@ export default class Database {
     const duels = await this._getModel('duel');
     return duels;
   }
+
+  static async addDuel(params) {
+    await fetch(`http://localhost:${BACKEND_PORT}/duel/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(
+      res => res.json()
+    ).then(
+      json => {
+        console.log(json);
+        return json;
+      }
+    ).catch((err) => console.log(err));
+  }
 }
