@@ -11,13 +11,13 @@ const socket = io("http://localhost:8081");
 
 const DuelPage = () => {
   const { id } = useParams();
-
   const [isConn, setIsConn] = useState(false);
   const [timerVal, setTimerVal] = useState(200);
   useEffect(() => {
     socket.on('connect', () => {
-      socket.emit('Join', id);
-      socket.emit('Start Timer');
+      socket.emit('join', id);
+      console.log(id);
+      socket.emit('startTimer', {roomId: id, timeLimit: 200});
       setIsConn(true);
     });
     socket.on('timeLeft', (val) => {
