@@ -92,7 +92,7 @@ export default function WaitingDuelsTable() {
     <TableContainer sx={{ width: 650 }} variant="play__table" component={Paper}>
       <Table aria-label="Available Duels">
         <TableHead variant="play__table__head">
-          <TableRow sx={{ "& th": { backgroundColor: "#bebeff", fontWeight: 700 } }}>
+          <TableRow sx={{ "& th": { backgroundColor: "#bebeff", fontWeight: 700, borderBottom: 'solid black 0.5px' } }}>
             <TableCell align="center">Handle</TableCell>
             <TableCell align="center" onClick={() => handleSortRequest("rating")}>
               <TableSortLabel active={true} direction={ratingOrderDirection}>
@@ -113,7 +113,7 @@ export default function WaitingDuelsTable() {
         </TableHead>
         <TableBody>
           {rowData ? rowData.map((row) => (
-            <TableRow key={row._id} sx={{ "& td": { cursor: 'pointer' }, ":hover": { backgroundColor: "#ffe176"} }}>
+            <TableRow key={row._id} sx={{ "& td": { cursor: 'pointer', borderBottom: 'solid black 0.5px' }, ":hover": { backgroundColor: "#ffe176"} }}>
               <TableCell align="center">{row.players[0]}</TableCell>
               <TableCell align="center">{row.ratingMin}-{row.ratingMax}</TableCell>
               <TableCell align="center">{row.problemCount}</TableCell>

@@ -16,7 +16,7 @@ export default function ScoreTable() {
     <TableContainer sx={{ width: 475 }} variant="play__table" component={Paper}>
       <Table aria-label="Score Table">
         <TableHead>
-          <TableRow sx={{ height: 10, "& th": { backgroundColor: "#bebeff", fontWeight: 700 } }}>
+          <TableRow sx={{ height: 10, "& th": { backgroundColor: "#bebeff", fontWeight: 700, borderBottom: 'solid black 0.5px' } }}>
             <TableCell align="center">
               <Typography variant="h6" align="center">
                 Scores

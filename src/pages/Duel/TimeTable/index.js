@@ -8,30 +8,14 @@ import TableRow from "@mui/material/TableRow";
 import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Grid from '@mui/material/Grid';
-import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:8081');
+export default function TimeTable({timerVal}) {
 
-export default function TimeTable() {
-  const [isConn, setIsConn] = useState(false);
-  const [timerVal, setTimerVal] = useState(10);
-  useEffect(() => {
-    socket.on('connect', () => {
-      socket.emit('startTimer', timerVal);
-      setIsConn(true);
-    });
-    socket.on('timeLeft', (val) => {
-      setTimerVal(val);
-    })
-    return () => {
-      socket.off('connect');
-    };
-  }, []);
   return (
     <TableContainer sx={{ width: 475 }} variant="play__table" component={Paper}>
       <Table aria-label="Time Table">
         <TableHead>
-          <TableRow sx={{ height: 10, "& th": { backgroundColor: "#bebeff", fontWeight: 700 } }}>
+          <TableRow sx={{ height: 10, "& th": { backgroundColor: "#bebeff", fontWeight: 700, borderBottom: 'solid black 0.5px' } }}>
             <TableCell align="center">
               <Typography variant="h6" align="center">
                 Time

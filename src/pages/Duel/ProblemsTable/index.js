@@ -27,7 +27,7 @@ export default function ProblemsTable() {
   const [rowData, setRowData] = useState(rows);
 
   return (
-    <TableContainer sx={{ width: 650, maxHeight: 330, borderBottom: '0.5px' }} variant="play__table" component={Paper}>
+    <TableContainer sx={{ width: 650, maxHeight: 330 }} variant="play__table" component={Paper}>
       <Table aria-label="Duel Problems">
         <TableHead>
           <TableRow sx={{ "& th": { backgroundColor: "#bebeff", fontWeight: 700, borderBottom: "solid black 0.5px" } }}>
@@ -45,7 +45,7 @@ export default function ProblemsTable() {
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <TableRow key={index+1} sx={{ "& td": { cursor: 'pointer', borderBottom: "solid black 0.5px" }, ":hover": { backgroundColor: "#ffe176"} }}
+            <TableRow key={index+1} sx={{ "& td": { cursor: 'pointer', borderBottom: `${(index<rows.length-1)?'solid black 0.5px':''}` }, ":hover": { backgroundColor: "#ffe176"} }}
             onClick={() => { window.open(row.problemLink) }}>
               <TableCell align="center">{index+1}</TableCell>
               <TableCell align="center">{row.problemName}</TableCell>
