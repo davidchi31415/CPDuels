@@ -9,18 +9,19 @@ import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import socket from '../../../components/socket.js';
 
-export default function TimeTable({roomId, duelStatus}) {
+export default function TimeTable({id, duelStatus}) {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [startButtonClicked, setStartButtonClicked] = useState(false);
 
   useEffect(() => {
-    socket.on('time-left', (val) => {
-      console.log(val);      
-      setHours(Math.floor(val/3600));
-      setMinutes(Math.floor(val/60)%60);
-      setSeconds(val%60);
+    socket.on('time-left', ({roomId, timeLeft}) => {
+      if (roomId == id) {
+        setHours(Math.floor(timeLeft/3600));
+        setMinutes(Math.floor(timeLeft/60)%60);
+        setSeconds(timeLeft%60);
+      }
     });
     return () => {
       socket.off('time-left');
@@ -30,7 +31,7 @@ export default function TimeTable({roomId, duelStatus}) {
   useEffect(() => {
     if (startButtonClicked) {
       console.log('button clicked');
-      socket.emit('start-timer', {roomId: roomId});
+      socket.emit('start-timer', {roomId: id});
     }
   }, [startButtonClicked]);
 

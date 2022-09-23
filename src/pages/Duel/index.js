@@ -21,13 +21,17 @@ const DuelPage = () => {
   // }, []) ;
   useEffect(() => {
     socket.on('connect', async () => {
-      socket.emit('join', id);
+      console.log(id);
+      socket.emit('join', {roomId: id});
       const duel = await Database.getDuelById(id);
       setDuelStatus(duel.status);
     });
-    socket.on('status-change', (newStatus) => {
-      setDuelStatus(newStatus);
-    })
+    socket.on('status-change', ({roomId, newStatus}) => {
+      if (roomId == roomId) {
+        console.log('status changed to ' + newStatus);
+        setDuelStatus(newStatus);
+      }
+    });
     return () => {
       socket.off('connect');
       socket.off('status-change');
@@ -39,7 +43,7 @@ const DuelPage = () => {
         <div className="duel__page">
           <ProblemsTable />
           <div className="duel__time__and__score">
-            <TimeTable roomId={id} duelStatus={duelStatus} />
+            <TimeTable id={id} duelStatus={duelStatus} />
             <ScoreTable />
           </div>
         </div>
