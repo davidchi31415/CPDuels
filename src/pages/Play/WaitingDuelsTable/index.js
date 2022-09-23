@@ -8,15 +8,17 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
 import Database from '../../../data';
+import { useNavigate } from 'react-router-dom';
 
 export default function WaitingDuelsTable() {
+  const navigate = useNavigate();
   const [rowData, setRowData] = useState([]);
   const [ratingOrderDirection, setRatingOrderDirection] = useState('asc');
   const [problemCountOrderDirection, setProblemCountOrderDirection] = useState('asc');
   const [timeLimitOrderDirection, setTimeLimitOrderDirection] = useState('asc');
 
   useEffect(() => {
-    Database.getDuelWaiting().then(
+    Database.getDuelsWaiting().then(
       (result) => setRowData(result)
     );
   }, []);
@@ -113,7 +115,7 @@ export default function WaitingDuelsTable() {
         </TableHead>
         <TableBody>
           {rowData ? rowData.map((row) => (
-            <TableRow key={row._id} sx={{ "& td": { cursor: 'pointer', borderBottom: 'solid black 0.5px' }, ":hover": { backgroundColor: "#ffe176"} }}>
+            <TableRow onClick={() => navigate(`/play/${row._id}`)} key={row._id} sx={{ "& td": { cursor: 'pointer', borderBottom: 'solid black 0.5px' }, ":hover": { backgroundColor: "#ffe176"} }}>
               <TableCell align="center">{row.players[0]}</TableCell>
               <TableCell align="center">{row.ratingMin}-{row.ratingMax}</TableCell>
               <TableCell align="center">{row.problemCount}</TableCell>

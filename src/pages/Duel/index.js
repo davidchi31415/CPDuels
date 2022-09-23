@@ -4,27 +4,33 @@ import ProblemsTable from './ProblemsTable';
 import TimeTable from './TimeTable';
 import ScoreTable from './ScoreTable';
 import { useParams } from 'react-router-dom';
-import { io } from 'socket.io-client';
+import socket from '../../components/socket.js';
+import Database from '../../data';
+import { useNavigate } from 'react-router-dom';
 import './index.css';
-
-const socket = io("http://localhost:8081");
 
 const DuelPage = () => {
   const { id } = useParams();
-  const [isConn, setIsConn] = useState(false);
-  const [timerVal, setTimerVal] = useState(200);
+  const navigate = useNavigate();
+  const [duelStatus, setDuelStatus] = useState("WAITING");
+  // useEffect(async () => {
+  //   let duel = await Database.getDuelById(id);
+  //   console.log(duel);
+  //   socket.disconnect();
+  //   if (!duel._id) navigate('/404');
+  // }, []) ;
   useEffect(() => {
-    socket.on('connect', () => {
+    socket.on('connect', async () => {
       socket.emit('join', id);
-      console.log(id);
-      socket.emit('startTimer', {roomId: id, timeLimit: 200});
-      setIsConn(true);
+      const duel = await Database.getDuelById(id);
+      setDuelStatus(duel.status);
     });
-    socket.on('timeLeft', (val) => {
-      setTimerVal(val);
-    });
+    socket.on('status-change', (newStatus) => {
+      setDuelStatus(newStatus);
+    })
     return () => {
       socket.off('connect');
+      socket.off('status-change');
     };
   }, []);
   
@@ -33,7 +39,7 @@ const DuelPage = () => {
         <div className="duel__page">
           <ProblemsTable />
           <div className="duel__time__and__score">
-            <TimeTable timerVal={timerVal} />
+            <TimeTable roomId={id} duelStatus={duelStatus} />
             <ScoreTable />
           </div>
         </div>

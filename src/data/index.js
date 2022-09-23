@@ -7,7 +7,9 @@ export default class Database {
     ).then(
       json => { return json; }
     ).catch(
-      err => console.log(err)
+      err => {
+        console.log(err);
+      }
     );
     return response;
   }
@@ -44,19 +46,19 @@ export default class Database {
     const duel = await this._getModel(`duel/${db_id}`);
     return duel;
   }
-  static async getDuelWaiting() {
+  static async getDuelsWaiting() {
     const duels = await this._getModel('duel').then(
       result => result.filter(duel => duel.status === "WAITING")
     );
     return duels;
   }
-  static async getDuelOngoing() {
+  static async getDuelsOngoing() {
     const duels = await this._getModel('duel').then(
       result => result.filter(duel => duel.status === "ONGOING")
     );
     return duels;
   }
-  static async getDuelFinished() {
+  static async getDuelsFinished() {
     const duels = await this._getModel('duel').then(
       result => result.filter(duel => duel.status === "FINISHED")
     );

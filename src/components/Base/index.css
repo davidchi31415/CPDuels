@@ -1,6 +1,7 @@
 .base__layout {
     min-height: 100vh;
     position: relative;
+    padding-bottom: 4em;
 }
 
 .base__navbar__container {
