@@ -5,4 +5,4 @@ WORKDIR /usr/app
 COPY . .
 RUN npm install
 
-CMD ["npm", "docker-start"]
+CMD ["npm", "run", "docker-start"]
