@@ -2,7 +2,7 @@ const BACKEND_PORT = 8080;
 
 export default class Database {  
   static async _getModel(model) {
-    const response = await fetch(`http://localhost:${BACKEND_PORT}/${model}`).then(
+    const response = await fetch(`https://cpduels-backend.onrender.com/${model}`).then(
       res => res.json()
     ).then(
       json => { return json; }
@@ -70,7 +70,7 @@ export default class Database {
   }
 
   static async addDuel(params) {
-    const duel = await fetch(`http://localhost:${BACKEND_PORT}/duel/add`, {
+    const duel = await fetch(`https://cp-duels.onrender.com/duel/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
