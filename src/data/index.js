@@ -70,7 +70,7 @@ export default class Database {
   }
 
   static async addDuel(params) {
-    const duel = await fetch(`https://cp-duels.onrender.com/duel/add`, {
+    const duel = await fetch(`https://cpduels.onrender.com/duel/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
