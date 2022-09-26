@@ -13,7 +13,7 @@ import './index.css';
 
 function App() {
   return (
-    <Router basename={"https://cpduels-backend.onrender.com"}>
+    <Router basename={"https://cpduels.onrender.com"}>
       <div className="app">
         <Routes>
           <Route path="/" exact element={<HomePage />} />
