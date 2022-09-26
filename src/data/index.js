@@ -1,4 +1,4 @@
-const BACKEND_PORT = 8080;
+const BACKEND_PORT = process.env.PORT || 8080;
 
 export default class Database {  
   static async _getModel(model) {
