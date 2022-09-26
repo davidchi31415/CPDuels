@@ -44,7 +44,7 @@ const DuelPage = () => {
           <ProblemsTable />
           <div className="duel__time__and__score">
             <TimeTable id={id} duelStatus={duelStatus} />
-            <ScoreTable />
+            <ScoreTable id={id} />
           </div>
         </div>
       } />
