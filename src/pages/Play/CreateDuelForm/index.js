@@ -129,6 +129,7 @@ export default function CreateDuelForm() {
                             duelData
                         ).then(
                             res => {
+                                console.log(res);
                                 duelID = res._id;
                                 navigate(`/play/${duelID}`);
                             }
