@@ -1,8 +1,8 @@
-const BACKEND_PORT = process.env.PORT || 8080;
+import backendOrigin from "../config/origins";
 
 export default class Database {  
   static async _getModel(model) {
-    const response = await fetch(`https://cpduels-backend.onrender.com/${model}`).then(
+    const response = await fetch(`${backendOrigin}/${model}`).then(
       res => res.json()
     ).then(
       json => { return json; }
@@ -70,7 +70,7 @@ export default class Database {
   }
 
   static async addDuel(params) {
-    const duel = await fetch(`https://cpduels-backend.onrender.com/duel/add`, {
+    const duel = await fetch(`${backendOrigin}/duel/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
