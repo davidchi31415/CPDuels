@@ -19,6 +19,7 @@ export default function ScoreTable({id}) {
   useEffect(() => {
     const getPlayers = async () => {
       let duel = await Database.getDuelById(id);
+      console.log(duel.players);
       setPlayers(duel.players.map((player) => player.handle));
     }
     const updateScores = async () => {
@@ -30,12 +31,12 @@ export default function ScoreTable({id}) {
     updateScores();
 
     socket.on('time-left', () => {
+      getPlayers();
       updateScores();
     });
 
     return () => {
-      socket.off('players-update');
-      socket.off('scores-update');
+      socket.off('time-left');
     }
   }, []);
 

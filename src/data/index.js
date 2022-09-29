@@ -1,4 +1,5 @@
 import backendOrigin from "../config/origins";
+import uuid from 'react-uuid';
 
 export default class Database {  
   static async _getModel(model) {
@@ -80,5 +81,25 @@ export default class Database {
       res => res.json()
     ).catch((err) => console.log(err));
     return duel;
+  }
+
+  static async addPlayer() {
+    const player = await fetch(`${backendOrigin}/players/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(
+      res => res.json()
+    ).catch((err) => console.log(err));
+    return player;
+  }
+}
+
+export const handleUID = () => {
+  let uid = localStorage.getItem('uid');
+  if (!uid) {
+      uid = uuid();
+      localStorage.setItem('uid', uid);
   }
 }

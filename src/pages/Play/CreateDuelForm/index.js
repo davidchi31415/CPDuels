@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
-import Database from '../../../data';
+import Database, { handleUID } from '../../../data';
 
 export default function CreateDuelForm() {
   const [duelData, setDuelData] = useState({
@@ -30,9 +30,11 @@ export default function CreateDuelForm() {
     e.preventDefault();
     let duelID;
     console.log(duelData);
+    handleUID();
+    let uid = localStorage.getItem('uid');
     await Database.addDuel(
         {...duelData, 
-            players: [{ handle: duelData.handle }], 
+            players: [{ handle: duelData.handle, uid: uid }], 
             problems: [
               {
                 contestId: 1712,
