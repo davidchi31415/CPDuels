@@ -15,7 +15,7 @@ export default class Database {
   }
 
   static async getProblemById(db_id) {
-    const problem = await this._getModel(`problem/${db_id}`);
+    const problem = await this._getModel(`problems/${db_id}`);
     return problem;
   }
   static async getProblems(rating=null) {
@@ -28,7 +28,7 @@ export default class Database {
   }
 
   static async getUserById(db_id) {
-    const user = await this._getModel(`user/${db_id}`);
+    const user = await this._getModel(`users/${db_id}`);
     return user;
   }
   static async getUserByHandle(handle) {
@@ -43,34 +43,34 @@ export default class Database {
   }
 
   static async getDuelById(db_id) {
-    const duel = await this._getModel(`duel/${db_id}`);
+    const duel = await this._getModel(`duels/${db_id}`);
     return duel;
   }
   static async getDuelsWaiting() {
-    const duels = await this._getModel('duel').then(
+    const duels = await this._getModel('duels').then(
       result => result.filter(duel => duel.status === "WAITING")
     );
     return duels;
   }
   static async getDuelsOngoing() {
-    const duels = await this._getModel('duel').then(
+    const duels = await this._getModel('duels').then(
       result => result.filter(duel => duel.status === "ONGOING")
     );
     return duels;
   }
   static async getDuelsFinished() {
-    const duels = await this._getModel('duel').then(
+    const duels = await this._getModel('duels').then(
       result => result.filter(duel => duel.status === "FINISHED")
     );
     return duels;
   }
   static async getDuels() {
-    const duels = await this._getModel('duel');
+    const duels = await this._getModel('duels');
     return duels;
   }
 
   static async addDuel(params) {
-    const duel = await fetch(`${backendOrigin}/duel/add`, {
+    const duel = await fetch(`${backendOrigin}/duels/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -116,7 +116,7 @@ export default function WaitingDuelsTable() {
         <TableBody>
           {rowData ? rowData.map((row) => (
             <TableRow onClick={() => navigate(`/play/${row._id}`)} key={row._id} sx={{ "& td": { cursor: 'pointer', borderBottom: 'solid black 0.5px' }, ":hover": { backgroundColor: "#ffe176"} }}>
-              <TableCell align="center">{row.players[0]}</TableCell>
+              <TableCell align="center">{row.players[0]?.handle}</TableCell>
               <TableCell align="center">{row.ratingMin}-{row.ratingMax}</TableCell>
               <TableCell align="center">{row.problemCount}</TableCell>
               <TableCell align="center">{row.timeLimit}</TableCell>

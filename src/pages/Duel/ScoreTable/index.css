@@ -1,3 +1,7 @@
+.score__player {
+  margin-bottom: 0.5em;
+}
+
 .score__player__info {
     width: 230px;
     margin: 0 auto;

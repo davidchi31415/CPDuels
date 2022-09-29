@@ -8,20 +8,29 @@ import TableRow from "@mui/material/TableRow";
 import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import socket from '../../../components/socket.js';
+import Database from "../../../data";
 import './index.css';
 
 export default function ScoreTable({id}) {
-  const [playerHandles, setPlayerHandles] = useState([]);
+  const [players, setPlayers] = useState([]);
   const [playerScores, setPlayerScores] = useState([]);
   const [problemScores, setProblemScores] = useState([]);
 
   useEffect(() => {
-    socket.on('players-update', ({ players }) => {
-      setPlayerHandles(players);
-    });
-    socket.on('scores-update', ({ scores }) => {
-      setProblemScores(scores);
-      
+    const getPlayers = async () => {
+      let duel = await Database.getDuelById(id);
+      setPlayers(duel.players.map((player) => player.handle));
+    }
+    const updateScores = async () => {
+      let duel = await Database.getDuelById(id);
+      setPlayerScores([duel.playerOneScore, duel.playerTwoScore]);
+      setProblemScores(duel.problems.map((problem) => [problem.playerOneScore, problem.playerTwoScore])); 
+    }
+    getPlayers();
+    updateScores();
+
+    socket.on('time-left', () => {
+      updateScores();
     });
 
     return () => {
@@ -43,54 +52,37 @@ export default function ScoreTable({id}) {
           </TableRow>
         </TableHead>
         <TableBody>
-        <div className="score__player">
-          <div className="score__player__info">
-            <h4>davidchi (YOU)</h4>
-            <div>Score: 500</div>
-          </div>
-          <table>
-            <tbody>
-              <tr className="score__boxes">
-                <td>100</td>
-                <td>100</td>
-                <td>100</td>
-                <td>100</td>
-                <td>100</td>
-              </tr>
-              <tr className="score__box__numbers">
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="score__player">
-          <div className="score__player__info">
-            <h4>jeffrey</h4>
-            <div>Score: 500</div>
-          </div>
-          <table>
-            <tbody>
-              <tr className="score__boxes">
-                <td>100</td>
-                <td>100</td>
-                <td>100</td>
-                <td>100</td>
-                <td>100</td>
-              </tr>
-              <tr className="score__box__numbers">
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {
+          players.map((handle, index) => 
+            <div className="score__player">
+              <div className="score__player__info">
+                <h4>{handle}</h4>
+                <div>Score: {playerScores[index]}</div>
+              </div>
+              <table>
+                <tbody>
+                  <tr className="score__boxes">
+                    {
+                      problemScores.map((scores) => <td>{scores[index]}</td>)
+                    }
+                  </tr>
+                  <tr className="score__box__numbers">
+                    {
+                      problemScores.map((scores, index) => <td>{index+1}</td>)
+                    }
+                  </tr>
+                </tbody>
+              </table>
+            </div>)
+        }
+        {
+          (players.length != 2) ?
+            <div className="score__player">
+              <div className="score__player__info">
+                <h4>Waiting for next player...</h4>
+              </div>
+            </div> : ""
+        } 
         </TableBody>
       </Table>
     </TableContainer>

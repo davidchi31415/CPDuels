@@ -31,7 +31,7 @@ export default function TimeTable({id, duelStatus}) {
   useEffect(() => {
     if (startButtonClicked) {
       console.log('button clicked');
-      socket.emit('start-timer', {roomId: id});
+      socket.emit('start-duel', {roomId: id});
     }
   }, [startButtonClicked]);
 
