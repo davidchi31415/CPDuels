@@ -29,12 +29,18 @@ export default function ScoreTable({id}) {
     getPlayers();
     updateScores();
 
+    socket.on('status-change', () => {
+      getPlayers();
+      updateScores();
+    });
+
     socket.on('time-left', () => {
       getPlayers();
       updateScores();
     });
 
     return () => {
+      socket.off('status-change');
       socket.off('time-left');
     }
   }, []);

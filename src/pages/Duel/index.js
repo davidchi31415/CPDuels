@@ -33,6 +33,9 @@ const DuelPage = () => {
       socket.emit('join', {roomId: id});
   
     });
+    socket.on('error-message', (message) => {
+      alert(message);
+    });
     socket.on('status-change', ({roomId, newStatus}) => {
       if (roomId == roomId) {
         console.log('status changed to ' + newStatus);
@@ -41,6 +44,7 @@ const DuelPage = () => {
     });
     return () => {
       socket.off('connect');
+      socket.off('error-message');
       socket.off('status-change');
     };
   }, []);

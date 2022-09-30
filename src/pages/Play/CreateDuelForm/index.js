@@ -46,8 +46,12 @@ export default function CreateDuelForm() {
         }
     ).then(
         res => {
-            duelID = res._id;
-            navigate(`/play/${duelID}`);
+            if (!res._id) {
+                alert(res.message);
+            } else {
+                duelID = res._id;
+                navigate(`/play/${duelID}`);
+            }
         }
     );
   }
