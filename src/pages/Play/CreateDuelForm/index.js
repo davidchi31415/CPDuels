@@ -34,15 +34,7 @@ export default function CreateDuelForm() {
     let uid = localStorage.getItem('uid');
     await Database.addDuel(
         {...duelData, 
-            players: [{ handle: duelData.handle, uid: uid }], 
-            problems: [
-              {
-                contestId: 1712,
-                index: "C",
-                name: "Sort Zero",  
-                points: 500
-              }
-            ]
+            players: [{ handle: duelData.handle, uid: uid }]
         }
     ).then(
         res => {

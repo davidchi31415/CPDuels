@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TableBody from "@mui/material/TableBody";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
@@ -8,26 +8,60 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
-
-function createData(problemName, problemLink, status) {
-  return { problemName, problemLink, status };
-}
+import Database from '../../../data';
+import socket from '../../../components/socket.js';
 
 // na = not attempted, wa = wrong answer, ac = accepted
 
-const rows = [
-  createData("1729G Cut Substrings", "https://codeforces.com/problemset/problem/1729/G", "ac"),
-  createData("1729F Kirei and the Linear Function", "https://codeforces.com/problemset/problem/1729/F", "ac"),
-  createData("1728F Fishermen", "https://codeforces.com/problemset/problem/1728/F", "wa"),
-  createData("1728B Best Permutation", "https://codeforces.com/problemset/problem/1728/B", "wa"),
-  createData("1728A Colored Balls: Revisited", "https://codeforces.com/problemset/problem/1728/A", "na")
-];
+export default function ProblemsTable({ id }) {
+  const [problems, setProblems] = useState([]);
 
-export default function ProblemsTable() {
-  const [rowData, setRowData] = useState(rows);
+  useEffect(() => {
+    const getProblems = async () => {
+      let duel = await Database.getDuelById(id);
+      setProblems(duel.problems);
+    }
+    getProblems();
+    
+    socket.on('problem-change', ({ roomId }) => {
+      if (roomId === id) {
+        getProblems();
+      }
+    });
+
+    return () => {
+      socket.off('problem-change');
+    }
+  }, []);
+
+  const renderContent = () => {
+    if (problems?.length) {
+      return (
+        problems.map((problem, index) => (
+          <TableRow key={index+1} sx={{ "& td": { cursor: 'pointer', borderBottom: `${(index<problems.length-1)?'solid black 0.5px':''}` }, ":hover": { backgroundColor: "#ffe176"} }}
+          onClick={() => { 
+            window.open(`https://www.codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`);
+          }}>
+            <TableCell align="center">{index+1}</TableCell>
+            <TableCell align="center">{problem.name}</TableCell>
+          </TableRow>
+        ))
+      );
+    } else {
+      return (
+        <TableRow>
+          <TableCell colSpan={2} align="center" sx={{ fontSize: '2em' }}>
+            {
+              "No problems generated yet."
+            }
+          </TableCell>
+        </TableRow>
+      );
+    }
+  }
 
   return (
-    <TableContainer sx={{ width: 650, maxHeight: 330 }} variant="play__table" component={Paper}>
+    <TableContainer sx={{ width: 650 }} variant="play__table" component={Paper}>
       <Table aria-label="Duel Problems">
         <TableHead>
           <TableRow sx={{ "& th": { backgroundColor: "#bebeff", fontWeight: 700, borderBottom: "solid black 0.5px" } }}>
@@ -44,13 +78,9 @@ export default function ProblemsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
-            <TableRow key={index+1} sx={{ "& td": { cursor: 'pointer', borderBottom: `${(index<rows.length-1)?'solid black 0.5px':''}` }, ":hover": { backgroundColor: "#ffe176"} }}
-            onClick={() => { window.open(row.problemLink) }}>
-              <TableCell align="center">{index+1}</TableCell>
-              <TableCell align="center">{row.problemName}</TableCell>
-            </TableRow>
-          ))}
+          {
+            renderContent()
+          } 
         </TableBody>
       </Table>
     </TableContainer>

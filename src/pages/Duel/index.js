@@ -52,7 +52,7 @@ const DuelPage = () => {
   return (
     <BaseLayout content={
         <div className="duel__page">
-          <ProblemsTable />
+          <ProblemsTable id={id} />
           <div className="duel__time__and__score">
             <TimeTable id={id} duelStatus={duelStatus} duelOwnership={duelOwnership} />
             <ScoreTable id={id} duelOwnership={duelOwnership} />
