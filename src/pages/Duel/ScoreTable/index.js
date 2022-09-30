@@ -19,7 +19,6 @@ export default function ScoreTable({id}) {
   useEffect(() => {
     const getPlayers = async () => {
       let duel = await Database.getDuelById(id);
-      console.log(duel.players);
       setPlayers(duel.players.map((player) => player.handle));
     }
     const updateScores = async () => {
