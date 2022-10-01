@@ -9,6 +9,7 @@ import { Typography, FormControl, TextField, InputLabel, Box, Button } from "@mu
 import Paper from "@mui/material/Paper";
 import socket from '../../../components/socket.js';
 import { handleUID } from "../../../data/index.js";
+import Database from "../../../data/index.js";
 
 const JoinDuelSection = ({ id }) => {
   const [handle, setHandle] = useState('');
@@ -46,6 +47,7 @@ export default function TimeTable({id, duelStatus, duelOwnership}) {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [startButtonClicked, setStartButtonClicked] = useState(false);
+  const [winner, setWinner] = useState("");
 
   const renderContent = () => {
     if (duelStatus === 'WAITING') {
@@ -63,7 +65,7 @@ export default function TimeTable({id, duelStatus, duelOwnership}) {
         </Box>
       )
     } else {
-      return (duelStatus === 'FINISHED') ? "Time's up."
+      return (duelStatus === 'FINISHED') ? `${winner} wins!`
       : `${`${hours}`.padStart(2, '0') + ':' + `${minutes}`.padStart(2, '0') + ':' + `${seconds}`.padStart(2, '0')}`
     }
   }
@@ -88,6 +90,21 @@ export default function TimeTable({id, duelStatus, duelOwnership}) {
     }
   }, [startButtonClicked]);
 
+  useEffect(() => {
+    const getWinner = async () => {
+      let duel = await Database.getDuelById(id);
+      let winner = duel.result;
+      if (winner) {
+        if (winner[0] === 'TIE') {
+          setWinner('TIE');
+        } else {
+          setWinner(winner[1]);
+        }
+      }
+    }
+    getWinner();
+  });
+
   return (
     <TableContainer sx={{ width: 475 }} variant="play__table" component={Paper}>
       <Table aria-label="Time Table">
@@ -100,7 +117,10 @@ export default function TimeTable({id, duelStatus, duelOwnership}) {
                   : (
                       (duelStatus === 'WAITING' && duelOwnership) ? "Wait"
                       : (
-                          (duelStatus === 'READY') ? "Start" : "Time"
+                          (duelStatus === 'READY') ? "Start"
+                          : (
+                            (duelStatus === 'ONGOING') ? "Time" : "Result"
+                          )
                         )
                     )
                 }
