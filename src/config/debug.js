@@ -1,3 +1,3 @@
-const DEBUG = process.env.DEPLOYED ? false : true;
+const DEBUG = process.env.VERCEL ? false : true;
 console.log(DEBUG);
 export default DEBUG;
