@@ -14,6 +14,7 @@ const DuelPage = () => {
   const navigate = useNavigate();
   const [duelStatus, setDuelStatus] = useState("WAITING");
   const [duelOwnership, setDuelOwnership] = useState(true);
+  const [playerNum, setPlayerNum] = useState(null);
   // useEffect(async () => {
   //   let duel = await Database.getDuelById(id);
   //   console.log(duel);
@@ -25,8 +26,14 @@ const DuelPage = () => {
       const duel = await Database.getDuelById(id);
       setDuelStatus(duel.status);
       handleUID();
-      const ownership = duel.players[0].uid === localStorage.getItem('uid');
+      let uid = localStorage.getItem('uid');
+      const ownership = duel.players[0].uid === uid;
       setDuelOwnership(ownership);
+      if (uid === duel.players[0].uid) {
+        setPlayerNum(1);
+      } else if (uid === duel.players[1].uid) {
+        setPlayerNum(2);
+      }
     }
     getDuelInfo();
     socket.on('connect', async () => {
@@ -52,7 +59,7 @@ const DuelPage = () => {
   return (
     <BaseLayout content={
         <div className="duel__page">
-          <ProblemsTable id={id} />
+          <ProblemsTable id={id} playerNum={playerNum} />
           <div className="duel__time__and__score">
             <TimeTable id={id} duelStatus={duelStatus} duelOwnership={duelOwnership} />
             <ScoreTable id={id} duelOwnership={duelOwnership} />

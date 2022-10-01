@@ -13,30 +13,17 @@ import socket from '../../../components/socket.js';
 
 // na = not attempted, wa = wrong answer, ac = accepted
 
-export default function ProblemsTable({ id }) {
+export default function ProblemsTable({ id, playerNum }) {
   const [problems, setProblems] = useState([]);
-  const [playerNum, setPlayerNum] = useState(null);
 
   useEffect(() => {
-    const getPlayerNum = async () => {
-      handleUID();
-      let uid = localStorage.getItem('uid');
-      let duel = await Database.getDuelById(id);
-      if (uid === duel.players[0].uid) {
-        setPlayerNum(1);
-      } else if (uid === duel.players[1].uid) {
-        setPlayerNum(2);
-      }
-    }
     const getProblems = async () => {
       let duel = await Database.getDuelById(id);
       setProblems(duel.problems);
     }
-    getPlayerNum();
     getProblems();
 
     socket.on('time-left', async () => {
-      await getPlayerNum();
       await getProblems();
     })
     

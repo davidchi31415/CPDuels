@@ -1,3 +1,3 @@
-const DEBUG = process.env.REACT_APP_DEBUG ? false : true;
+const DEBUG = process.env.DEPLOYED ? false : true;
 console.log(DEBUG);
 export default DEBUG;
