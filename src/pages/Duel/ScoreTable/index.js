@@ -46,7 +46,7 @@ export default function ScoreTable({id}) {
   }, []);
 
   return (
-    <TableContainer sx={{ width: 475 }} variant="play__table" component={Paper}>
+    <TableContainer variant="play__table" component={Paper}>
       <Table aria-label="Score Table">
         <TableHead>
           <TableRow sx={{ height: 10, "& th": { backgroundColor: "#bebeff", fontWeight: 700, borderBottom: 'solid black 0.5px' } }}>

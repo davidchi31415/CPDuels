@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import { CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Database, { handleUID } from '../../../data';
 
@@ -24,10 +25,17 @@ export default function CreateDuelForm() {
     style: null,
     private: false
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const loadingStyles = {
+    opacity: "0.5",
+    pointerEvents: "none"
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let duelID;
     console.log(duelData);
     handleUID();
@@ -40,6 +48,7 @@ export default function CreateDuelForm() {
         res => {
             if (!res._id) {
                 alert(res.message);
+                setLoading(false);
             } else {
                 duelID = res._id;
                 navigate(`/play/${duelID}`);
@@ -49,7 +58,7 @@ export default function CreateDuelForm() {
   }
 
   return (
-    <Container variant="play__form" component="main" sx={{ width: 450, height: 450, padding: "1em" }}>
+    <Container variant="play__form" component="main" sx={[{ flex: 1, height: 450, padding: "1em" }, (loading && loadingStyles)]}>
         <Typography sx={{letterSpacing: "-0.025em", marginBottom: "0.5em"}} component="h1" variant="h3" align="center">
             Create Duel
         </Typography>
@@ -116,6 +125,9 @@ export default function CreateDuelForm() {
                         id="outlined-required"
                         labelID="handle-input-label"
                         onChange={(e) => setDuelData({...duelData, handle: e.target.value})}
+                        onKeyDown={async (e) => {
+                            if (e.key === 'Enter') await handleSubmit(e);
+                        }}
                     /> 
                 </FormControl>
                 </Grid>
@@ -127,14 +139,17 @@ export default function CreateDuelForm() {
                 />
                 </Grid>
             </Grid>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-                variant="contained"
-                onClick={handleSubmit}
-                sx={{ margin: "0 auto", mt: "1em" }}
-            >
-                Submit
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            {
+                loading ? <CircularProgress />
+                : <Button
+                    variant="contained"
+                    onClick={handleSubmit}
+                    sx={{ margin: "0 auto", mt: "1em" }}
+                >
+                    Submit
+                </Button>
+            }
             </Box>
         </React.Fragment>
     </Container>

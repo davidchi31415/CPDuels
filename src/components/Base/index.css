@@ -94,12 +94,6 @@
     margin-top: 1vh;
 }
 
-.base__content__container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .base__footer {
     position: absolute;
     bottom: 0;

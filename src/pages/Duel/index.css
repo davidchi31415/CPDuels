@@ -1,9 +1,11 @@
 .duel__page {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 1em;
 }
 
 .duel__time__and__score {
+    flex: 1;
     display: grid;
     gap: 1em;
 }

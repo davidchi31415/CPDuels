@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
+import { CircularProgress } from '@mui/material';
 import Database from '../../../data';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,10 +17,15 @@ export default function WaitingDuelsTable() {
   const [ratingOrderDirection, setRatingOrderDirection] = useState('asc');
   const [problemCountOrderDirection, setProblemCountOrderDirection] = useState('asc');
   const [timeLimitOrderDirection, setTimeLimitOrderDirection] = useState('asc');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     Database.getDuelsWaiting().then(
-      (result) => setRowData(result)
+      (result) => {
+        setRowData(result);
+        setLoading(false);
+      }
     );
   }, []);
 
@@ -91,9 +97,9 @@ export default function WaitingDuelsTable() {
   };
 
   return (
-    <TableContainer sx={{ width: 650 }} variant="play__table" component={Paper}>
+    <TableContainer sx={{ flex: 2 }} variant="play__table" component={Paper}>
       <Table aria-label="Available Duels">
-        <TableHead variant="play__table__head">
+      <TableHead variant="play__table__head">
           <TableRow sx={{ "& th": { backgroundColor: "#bebeff", fontWeight: 700, borderBottom: 'solid black 0.5px' } }}>
             <TableCell align="center">Handle</TableCell>
             <TableCell align="center" onClick={() => handleSortRequest("rating")}>
@@ -112,17 +118,20 @@ export default function WaitingDuelsTable() {
               </TableSortLabel>
             </TableCell>
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {rowData ? rowData.map((row) => (
-            <TableRow onClick={() => navigate(`/play/${row._id}`)} key={row._id} sx={{ "& td": { cursor: 'pointer', borderBottom: 'solid black 0.5px' }, ":hover": { backgroundColor: "#ffe176"} }}>
-              <TableCell align="center">{row.players[0]?.handle}</TableCell>
-              <TableCell align="center">{row.ratingMin}-{row.ratingMax}</TableCell>
-              <TableCell align="center">{row.problemCount}</TableCell>
-              <TableCell align="center">{row.timeLimit}</TableCell>
-            </TableRow>
-          )) : "none"}
-        </TableBody>
+      </TableHead>
+      <TableBody>
+        {
+          loading ? <TableRow><TableCell colSpan={4} align="center"><CircularProgress /></TableCell></TableRow>
+          : rowData.map((row) => (
+                <TableRow onClick={() => navigate(`/play/${row._id}`)} key={row._id} sx={{ "& td": { cursor: 'pointer', borderBottom: 'solid black 0.5px' }, ":hover": { backgroundColor: "#ffe176"} }}>
+                  <TableCell align="center">{row.players[0]?.handle}</TableCell>
+                  <TableCell align="center">{row.ratingMin}-{row.ratingMax}</TableCell>
+                  <TableCell align="center">{row.problemCount}</TableCell>
+                  <TableCell align="center">{row.timeLimit}</TableCell>
+                </TableRow>
+              ))
+        }
+      </TableBody>
       </Table>
     </TableContainer>
   );
