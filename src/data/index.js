@@ -4,7 +4,10 @@ import uuid from 'react-uuid';
 export default class Database {  
   static async _getModel(model) {
     const response = await fetch(`${backendOrigin}/${model}`).then(
-      res => res.json()
+      res => {
+        console.log(res)
+        res.json()
+        }
     ).then(
       json => { return json; }
     ).catch(
