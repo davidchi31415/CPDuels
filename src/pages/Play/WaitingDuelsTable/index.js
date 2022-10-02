@@ -21,6 +21,7 @@ export default function WaitingDuelsTable() {
 
   useEffect(() => {
     setLoading(true);
+    console.log(1);
     Database.getDuelsWaiting().then(
       (result) => {
         setRowData(result);
