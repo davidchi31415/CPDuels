@@ -34,6 +34,10 @@
     .base__layout {
         margin: 0 7vw;
     }
+    body {
+        margin:0;
+        overflow-x: hidden;
+    }
 }
 
 .base__navbar__links {

@@ -1,13 +1,13 @@
 .home__hero__container {
     display: flex;
-    gap: 5em;
+    gap: 1em;
 }
 
 .home__hero__header {
     display: flex;
     flex-direction: column;
     gap: 2em;
-    width: 520px;
+    min-width: 500px;
 }
 
 .home__hero__title {
@@ -25,8 +25,9 @@
 }
 
 .home__hero__art {
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    overflow-x: visible;
+}
+
+.home__hero__art img {
+    width: 60vw;
 }

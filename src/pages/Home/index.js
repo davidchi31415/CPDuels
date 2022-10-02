@@ -1,6 +1,8 @@
 import React from 'react';
 import BaseLayout from '../../components/Base';
 import './index.css';
+import image1 from '../../images/home_hero_art_1.png';
+import image2 from '../../images/home_hero_art_2.png';
 
 const HomePageHero = () => {
   return(
@@ -14,7 +16,8 @@ const HomePageHero = () => {
         </div>
       </div>
       <div className="home__hero__art">
-        Art
+        <img className="home__hero__art__image1" src={image1} />
+        <img className="home__hero__art__image2" src={image2} />
       </div>
     </div>
   )
