@@ -74,7 +74,13 @@ export default function TimeTable({id, duelStatus, duelOwnership}) {
   const [startButtonLoading, setStartButtonLoading] = useState(false);
 
   const renderContent = () => {
-    if (duelStatus === 'WAITING') {
+    if (!duelStatus) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      );
+    } else if (duelStatus === 'WAITING') {
       return duelOwnership ? "Wait for someone to join." : <JoinDuelSection id={id} />
     } else if (duelStatus === 'READY') {
       return (

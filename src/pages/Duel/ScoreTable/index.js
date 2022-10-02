@@ -7,14 +7,63 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import { Box, CircularProgress } from '@mui/material';
 import socket from '../../../components/socket.js';
 import Database from "../../../data";
 import './index.css';
 
-export default function ScoreTable({id}) {
+export default function ScoreTable({ id, duelStatus, playerNum }) {
   const [players, setPlayers] = useState([]);
   const [playerScores, setPlayerScores] = useState([]);
   const [problemScores, setProblemScores] = useState([]);
+
+  const renderContent = () => {
+    if (duelStatus) {
+      return (
+        <>
+          {
+            players.map((handle, index) => 
+              <div className="score__player">
+                <div className="score__player__info">
+                  <h4>{handle} {(playerNum === index+1) ? "(YOU)" : ""}</h4>
+                  <div>Score: {playerScores[index]}</div>
+                </div>
+                <table>
+                  <tbody>
+                    <tr className="score__boxes">
+                      {
+                        problemScores.map((scores) => <td>{scores[index]}</td>)
+                      }
+                    </tr>
+                    <tr className="score__box__numbers">
+                      {
+                        problemScores.map((scores, index) => <td>{index+1}</td>)
+                      }
+                    </tr>
+                  </tbody>
+                </table>
+              </div>)
+          }
+          {
+            (players.length != 2) ?
+              <div className="score__player">
+                <div className="score__player__info">
+                  <h4>Waiting for next player...</h4>
+                </div>
+              </div> : ""
+          } 
+        </>
+      );
+    } else {
+      return (
+        <div className="score__player">
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
+          </Box>
+        </div>
+      );
+    }
+  }
 
   useEffect(() => {
     const getPlayers = async () => {
@@ -58,37 +107,9 @@ export default function ScoreTable({id}) {
           </TableRow>
         </TableHead>
         <TableBody>
-        {
-          players.map((handle, index) => 
-            <div className="score__player">
-              <div className="score__player__info">
-                <h4>{handle}</h4>
-                <div>Score: {playerScores[index]}</div>
-              </div>
-              <table>
-                <tbody>
-                  <tr className="score__boxes">
-                    {
-                      problemScores.map((scores) => <td>{scores[index]}</td>)
-                    }
-                  </tr>
-                  <tr className="score__box__numbers">
-                    {
-                      problemScores.map((scores, index) => <td>{index+1}</td>)
-                    }
-                  </tr>
-                </tbody>
-              </table>
-            </div>)
-        }
-        {
-          (players.length != 2) ?
-            <div className="score__player">
-              <div className="score__player__info">
-                <h4>Waiting for next player...</h4>
-              </div>
-            </div> : ""
-        } 
+          {
+            renderContent()
+          }
         </TableBody>
       </Table>
     </TableContainer>

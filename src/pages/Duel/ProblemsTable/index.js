@@ -8,12 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import { Box, CircularProgress } from '@mui/material';
 import Database, { handleUID } from '../../../data';
 import socket from '../../../components/socket.js';
 
 // na = not attempted, wa = wrong answer, ac = accepted
 
-export default function ProblemsTable({ id, playerNum }) {
+export default function ProblemsTable({ id, duelStatus, playerNum }) {
   const [problems, setProblems] = useState([]);
 
   useEffect(() => {
@@ -47,7 +48,13 @@ export default function ProblemsTable({ id, playerNum }) {
   };
 
   const renderContent = () => {
-    if (problems?.length) {
+    if (!duelStatus) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      );
+    } else if (problems?.length) {
       return (
         problems.map((problem, index) => {
           let color = null;

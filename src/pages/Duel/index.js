@@ -12,7 +12,7 @@ import './index.css';
 const DuelPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [duelStatus, setDuelStatus] = useState("WAITING");
+  const [duelStatus, setDuelStatus] = useState("");
   const [duelOwnership, setDuelOwnership] = useState(true);
   const [playerNum, setPlayerNum] = useState(null);
   // useEffect(async () => {
@@ -47,6 +47,7 @@ const DuelPage = () => {
       if (roomId == roomId) {
         console.log('status changed to ' + newStatus);
         setDuelStatus(newStatus);
+        getDuelInfo();
       }
     });
     return () => {
@@ -59,10 +60,10 @@ const DuelPage = () => {
   return (
     <BaseLayout content={
         <div className="duel__page">
-          <ProblemsTable id={id} playerNum={playerNum} />
+          <ProblemsTable id={id} duelStatus={duelStatus} playerNum={playerNum} />
           <div className="duel__time__and__score">
             <TimeTable id={id} duelStatus={duelStatus} duelOwnership={duelOwnership} />
-            <ScoreTable id={id} duelOwnership={duelOwnership} />
+            <ScoreTable id={id} duelStatus={duelStatus} playerNum={playerNum} />
           </div>
         </div>
       } />
