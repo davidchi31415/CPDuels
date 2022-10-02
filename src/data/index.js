@@ -1,31 +1,22 @@
 import backendOrigin from "../config/origins";
 import uuid from 'react-uuid';
-import axios from 'axios';
 
 export default class Database {  
   static async _getModel(model) {
-    axios({
-      method: 'get',
-      url: `${backendOrigin}/${model}`,
-      
-    })
-      .then(function (response) {
-        console.log(response)
-      });
-    // const response = await  fetch(`${backendOrigin}/${model}`).then(
-    //   res => {
-    //     console.log(res)
-    //     //res.json()
-    //     }
-    // )
-    // .then(
-    //   json => { return json; }
-    // ).catch(
-    //   err => {
-    //     console.log(err);
-    //   }
-    // );
-    return 0;
+    const response = await fetch(`${backendOrigin}/${model}`,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }}).then(
+      res => res.json()
+    ).then(
+      json => { return json; }
+    ).catch(
+      err => {
+        console.log(err);
+      }
+    );
+    return response;
   }
 
   static async getProblemById(db_id) {
