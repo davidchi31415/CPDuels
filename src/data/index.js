@@ -1,14 +1,23 @@
 import backendOrigin from "../config/origins";
 import uuid from 'react-uuid';
+import axios from 'axios';
 
 export default class Database {  
   static async _getModel(model) {
-    const response = await fetch(`${backendOrigin}/${model}`).then(
-      res => {
-        console.log(res)
-        //res.json()
-        }
-    )
+    axios({
+      method: 'get',
+      url: `${backendOrigin}/${model}`,
+      
+    })
+      .then(function (response) {
+        console.log(response)
+      });
+    // const response = await  fetch(`${backendOrigin}/${model}`).then(
+    //   res => {
+    //     console.log(res)
+    //     //res.json()
+    //     }
+    // )
     // .then(
     //   json => { return json; }
     // ).catch(
