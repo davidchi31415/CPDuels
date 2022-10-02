@@ -17,7 +17,6 @@ const HomePageHero = () => {
       </div>
       <div className="home__hero__art">
         <img className="home__hero__art__image1" src={image1} />
-        <img className="home__hero__art__image2" src={image2} />
       </div>
     </div>
   )

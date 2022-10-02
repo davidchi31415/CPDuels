@@ -25,9 +25,11 @@
 }
 
 .home__hero__art {
+    display: flex;
+    align-items: center;
     overflow-x: visible;
 }
 
 .home__hero__art img {
-    width: 60vw;
+    width: 75vw;
 }
