@@ -4,7 +4,7 @@ import uuid from 'react-uuid';
 export default class Database {  
   static async _getModel(model) {
     const response = await fetch(`${backendOrigin}/${model}`,{
-      mode: "no-cors" // 'cors' by default
+      mode: "cors" // 'cors' by default
     }).then(
       res => res.json()
     ).then(
