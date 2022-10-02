@@ -3,7 +3,7 @@ import uuid from 'react-uuid';
 
 export default class Database {  
   static async _getModel(model) {
-    const response = await fetch(`${backendOrigin}/${model}`,{
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/${backendOrigin}/${model}`,{
       mode: "cors" // 'cors' by default
     }).then(
       res => res.json()
