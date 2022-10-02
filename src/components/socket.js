@@ -4,5 +4,5 @@ import { handleUID } from '../data';
 
 handleUID();
 let uid = localStorage.getItem('uid');
-let socket = io(backendOrigin, { transports: ["websocket"], query: uid });
+let socket = io(backendOrigin, { query: uid });
 export default socket;
