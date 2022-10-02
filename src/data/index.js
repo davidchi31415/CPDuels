@@ -25,7 +25,7 @@ export default class Database {
     //     console.log(err);
     //   }
     // );
-    return response;
+    return 0;
   }
 
   static async getProblemById(db_id) {
