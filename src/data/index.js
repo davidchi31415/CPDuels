@@ -6,15 +6,16 @@ export default class Database {
     const response = await fetch(`${backendOrigin}/${model}`).then(
       res => {
         console.log(res)
-        res.json()
+        //res.json()
         }
-    ).then(
-      json => { return json; }
-    ).catch(
-      err => {
-        console.log(err);
-      }
-    );
+    )
+    // .then(
+    //   json => { return json; }
+    // ).catch(
+    //   err => {
+    //     console.log(err);
+    //   }
+    // );
     return response;
   }
 
