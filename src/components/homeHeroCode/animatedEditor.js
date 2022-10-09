@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Editor, { useMonaco } from "@monaco-editor/react";
 
-const AnimatedEditor = ({ colorMode }) => {
+const AnimatedEditor = () => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
   const [editorReady, setEditorReady] = useState(false);
@@ -19,7 +19,9 @@ const AnimatedEditor = ({ colorMode }) => {
     "\tduel.setPlatform(\"codeforces\");\n",
     "\tduel.setProblemCount(5);\n",
     "\tduel.setTimeLimit(120);\n",
-    "\tduel.setUsername(\"tourist\");\n",
+    "\tduel.setRatingRange(1800, 2300);\n",
+    "\tduel.addPlayer(\"tourist\");\n",
+    "\tduel.addPlayer(\"apgpsoop\");\n",
     "\tduel.start();\n",
     "\n",
     "\twhile (duel.ongoing()) {\n",
@@ -42,10 +44,6 @@ const AnimatedEditor = ({ colorMode }) => {
     if (editorReady && !writing) {
       setWriting(true);
       let lineNumber = 1;
-      editorRef.current.trigger('keyboard', 'type');
-      editorRef.current.focus();
-      let position = editorRef.current.getPosition();
-      editorRef.current.setPosition(position);
       async function writeText() {
         for (let i = 0; i < script.length; i++) {
           for (let j = 0; j < script[i].length; j++) {
@@ -54,8 +52,7 @@ const AnimatedEditor = ({ colorMode }) => {
             const id = { major: 1, minor: 1};
             const op = { identifier: id, range: range, text: script[i][j], forceMoveMarkers: true};
             editorRef.current.executeEdits("editor", [op]);
-            editorRef.current.focus();
-            await sleep(100);
+            await sleep(80);
             if (script[i][j] === ' ') await sleep(150);
             if (script[i][j] === '\n') await sleep(100);
             if (script[i][j] === '(') await sleep(100);
@@ -68,7 +65,7 @@ const AnimatedEditor = ({ colorMode }) => {
   }, [editorReady]);
 
   const options = {
-    theme: (colorMode === 'light') ? 'vs-dark' : 'vs',
+    theme: 'vs-dark',
     padding: { top: '10px' },
     scrollbar: { handleMouseWheel: false, vertical: 'hidden', horizontal: 'hidden' },
     minimap: {
@@ -85,7 +82,7 @@ const AnimatedEditor = ({ colorMode }) => {
   return (
     <Editor
       width="500px"
-      height="400px"
+      height="420px"
       language="cpp"
       options={options}
       onMount={handleEditorMounted}

@@ -10,9 +10,10 @@ import {
   Text,
   useColorModeValue,
   VStack,
+  Skeleton
 } from '@chakra-ui/react';
 
-const ReactTable = ({ columns, data, rowProps }) => {
+const ReactTable = ({ loading, columns, data, rowProps }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -43,9 +44,9 @@ const ReactTable = ({ columns, data, rowProps }) => {
   const fillEmptyRows = (rows, total) => {
     const leftoverRows = [];
     for (let i = rows; i < total; i++) {
-      if (i === rows && rows != 0) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderY="solid 1px" borderColor="grey.500" bg="grey.100" fontWeight="bold">-</Td></Tr>);
-      else if (i === total-1) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" border="none" bg="grey.100"  fontWeight="bold">-</Td></Tr>);
-      else leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderBottom="solid 1px" borderColor="grey.500" bg="grey.100"  fontWeight="bold">-</Td></Tr>)
+      if (i === rows && rows != 0) leftoverRows.push(<Tr><Td colSpan={5} textAlign="center" borderY="solid 1px" borderColor="grey.500" bg="grey.300" fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
+      else if (i === total-1) leftoverRows.push(<Tr><Td colSpan={5} textAlign="center" border="none" bg="grey.300" fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
+      else leftoverRows.push(<Tr><Td colSpan={5} textAlign="center" borderBottom="solid 1px" borderColor="grey.500" bg="grey.300" fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>)
     }
     return (
       leftoverRows
@@ -69,13 +70,17 @@ const ReactTable = ({ columns, data, rowProps }) => {
   const rowBorderColor = useColorModeValue("grey.500", "gray.300");
   const buttonBgColor = useColorModeValue("primary.500", "primary.300");
   const buttonTextColor = useColorModeValue("white", "grey.900");
+  const rowTextColor = useColorModeValue("grey.900", "offWhite");
+  const tableBorderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
 
   return (
     <>
       <VStack width="fit-content">
       <TableContainer
-        width="36em"
+        width="38em"
         border="1px solid"
+        borderColor={tableBorderColor}
+        boxShadow='xl'
         rounded="md"
       >
         <Table {...getTableProps()} 
@@ -87,7 +92,7 @@ const ReactTable = ({ columns, data, rowProps }) => {
             {headerGroups.map(headerGroup => (
               <Tr {...headerGroup.getHeaderGroupProps()}
               >
-                {headerGroup.headers.map(column => (
+                {headerGroup.headers.map((column, index) => (
                   <Th {...column.getHeaderProps()}
                     style={{width: column.width, fontSize: "1em"}}
                     borderBottom="solid 1px"
@@ -97,7 +102,7 @@ const ReactTable = ({ columns, data, rowProps }) => {
                       {column.render("Header")}
                       {generateSortingIndicator(column)}
                     </Center>
-                    <Filter column={column} />
+                    {index !== 0 && <Filter column={column} />}
                   </Th>
                 ))}
               </Tr>
@@ -118,6 +123,7 @@ const ReactTable = ({ columns, data, rowProps }) => {
                         <Td {...cell.getCellProps()}
                           style={{ width: cell.width, textAlign: "center" }}
                           borderBottom="none"
+                          color={rowTextColor}
                         >
                           {cell.render("Cell")}
                         </Td>
@@ -128,6 +134,7 @@ const ReactTable = ({ columns, data, rowProps }) => {
                         style={{ width: cell.width, textAlign: "center" }}
                         borderBottom="solid 1px"
                         borderColor="grey.500"
+                        color={rowTextColor}
                       >
                         {cell.render("Cell")}
                       </Td>
@@ -147,15 +154,17 @@ const ReactTable = ({ columns, data, rowProps }) => {
           <Button 
             size="xs" fontSize="1.5rem" bg={buttonBgColor} color={buttonTextColor}
             onClick={() => gotoPage(0)} disabled={!canPreviousPage}
+            p={3} textAlign='center'
           >{"<<"}</Button>
           <Button 
             size="xs" fontSize="1.5rem" bg={buttonBgColor} color={buttonTextColor}
             onClick={previousPage} disabled={!canPreviousPage}
+            p={3} textAlign='center'
           >{"<"}</Button>
         </ButtonGroup>
         <HStack gap={1}>
           <Text>Go to Page:</Text>
-          <NumberInput defaultValue={pageIndex+1} min={1} max={pageCount}
+          <NumberInput defaultValue={pageIndex+1} min={1} max={pageCount ? pageCount : 1}
             size='sm' borderColor="grey.100"
             onChange={(pageNum) => gotoPage(pageNum-1)}
           >
@@ -170,10 +179,12 @@ const ReactTable = ({ columns, data, rowProps }) => {
           <Button 
             size="xs" fontSize="1.5rem" bg={buttonBgColor} color={buttonTextColor}
             onClick={nextPage} disabled={!canNextPage}
+            p={3} textAlign='center'
           >{">"}</Button>
           <Button 
             size="xs" fontSize="1.5rem" bg={buttonBgColor} color={buttonTextColor}
             onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}
+            p={3} textAlign='center'
           >{">>"}</Button>
         </ButtonGroup>
       </Flex>

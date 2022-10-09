@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Flex, VStack
+  Box, Flex, VStack,
+  useToast,
+  useColorModeValue
 } from '@chakra-ui/react';
 import BaseLayout from '../components/baseLayout';
 import ProblemsTable from '../components/problemsTable';
@@ -14,7 +16,7 @@ const DuelPage = () => {
   const navigate = useNavigate();
   const [duelStatus, setDuelStatus] = useState("");
   const [playerNum, setPlayerNum] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getDuelInfo = async () => {
@@ -27,6 +29,7 @@ const DuelPage = () => {
       } else if (duel.players[1] && uid === duel.players[1].uid) {
         setPlayerNum(2);
       }
+      if (duel) setLoading(false);
     }
     getDuelInfo();
     socket.on('connect', async () => {
@@ -48,13 +51,16 @@ const DuelPage = () => {
     };
   }, []);
 
+  const borderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
+
   return (
     <BaseLayout content={
       <Box>
         <Flex justify="space-between">
           <ProblemsTable id={id} duelStatus={duelStatus} playerNum={playerNum} />
-          <VStack border='1px solid' rounded='md'>
-            <TimeAndJoinDisplay id={id} duelStatus={duelStatus} playerNum={playerNum} />
+          <VStack rounded='md' border='1px solid' borderColor={borderColor} boxShadow='2xl'>
+
+            <TimeAndJoinDisplay loading={loading} id={id} duelStatus={duelStatus} playerNum={playerNum} />
           </VStack>
         </Flex>
       </Box>

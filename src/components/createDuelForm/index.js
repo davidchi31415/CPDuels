@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   FormControl, FormLabel, FormHelperText, FormErrorMessage,
   Input, Select, 
@@ -11,9 +11,8 @@ import {
   useColorModeValue,
   Switch,
   Grid, GridItem, Button, Center,
-  Text
+  Text, useToast
 } from '@chakra-ui/react';
-import AlertPop from "./alert.js";
 import Database, { handleUID } from '../../data';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +25,6 @@ const CreateDuelForm = () => {
   const [username, setUsername] = useState();
   const [isPrivate, setIsPrivate] = useState(false);
 
-  const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const problemCountError = Number.isNaN(problemCount) || problemCount < 1 || problemCount > 10;
@@ -37,10 +35,20 @@ const CreateDuelForm = () => {
   const sliderThumbColor = useColorModeValue("grey.500", "secondary.900");
 
   const navigate = useNavigate();
+  const toast = useToast();
+  const toastRef = useRef();
+
+  const makeToast = (toastParams) => {
+    if (toastRef.current) {
+      toast.close(toastRef.current);
+      toastRef.current = toast(toastParams);
+    } else {
+      toastRef.current = toast(toastParams);
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setServerErrorMessage("");
     setSubmitting(true);
     if (problemCountError || timeLimitError || ratingMinError || ratingMaxError) {
       return;
@@ -64,9 +72,22 @@ const CreateDuelForm = () => {
     ).then(
         res => {
             if (!res._id) {
-                setServerErrorMessage(res.message);
                 setSubmitting(false);
+                makeToast({
+                  title: "Server Error",
+                  description: res.message,
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true
+                });
             } else {
+                makeToast({
+                  title: "Success",
+                  description: "Duel created successfully. Navigating...",
+                  status: "success",
+                  duration: 2000,
+                  isClosable: true
+                });
                 duelID = res._id;
                 navigate(`/play/${duelID}`);
             }
@@ -74,9 +95,11 @@ const CreateDuelForm = () => {
     );
   }
 
+  const borderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
+
   return (
     <Grid templateColumns='repeat(2, 1fr)' rowGap={4} columnGap={3} width='30em' height='fit-content'
-      border='1px solid' rounded='md'
+      border='1px solid' borderColor={borderColor} rounded='md' boxShadow='2xl'
       px={4} py={3}
     >
       <GridItem colSpan={2}>
@@ -280,15 +303,13 @@ const CreateDuelForm = () => {
       </GridItem>
       <GridItem colSpan={2}>
       <Center>
-        <Button onClick={handleSubmit} size="md"
+        <Button onClick={handleSubmit} size="md" fontSize='lg'
           loadingText="Submitting" isLoading={submitting}
         >
           Submit
         </Button>
       </Center>
       </GridItem>
-      { serverErrorMessage ? 
-        <GridItem colSpan={2}><Center><AlertPop title={`Server: ${serverErrorMessage}`}/></Center></GridItem> : ""}
     </Grid>
   );
 }

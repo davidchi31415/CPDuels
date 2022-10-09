@@ -15,6 +15,7 @@ const ProblemsTable = ({ id, duelStatus, playerNum}) => {
     const getProblems = async () => {
       let duel = await Database.getDuelById(id);
       setProblems(duel.problems);
+      setLoading(false);
     }
     getProblems();
 
@@ -63,7 +64,7 @@ const ProblemsTable = ({ id, duelStatus, playerNum}) => {
 
 
   return (
-    <ReactTable 
+    <ReactTable loading={loading}
       data={problems ? problems : []} columns={columns} 
       rowProps={row => ({
         onClick: () => window.open(`https://www.codeforces.com/problemset/problem/${row.original.contestId}/${row.original.index}`)

@@ -4,14 +4,14 @@ import {
 } from '@chakra-ui/react';
 import BaseLayout from '../components/baseLayout';
 
-const TutorialPage = () => {
+const InfoPage = () => {
   return (
     <BaseLayout content={
       <Box>
-
+        Info
       </Box>
     } />
   );
 }
 
-export default TutorialPage;
+export default InfoPage;

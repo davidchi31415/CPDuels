@@ -24,6 +24,12 @@ const WaitingDuelsTable = () => {
   const columns = useMemo(
     () => [
       {
+        Header: "",
+        accessor: "platform",
+        disableSortBy: true,
+        width: "2em"
+      },
+      {
         Header: "Username",
         accessor: "players[0].handle",
         disableSortBy: true,

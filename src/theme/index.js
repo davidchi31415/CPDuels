@@ -20,17 +20,17 @@ const theme = extendTheme(
     transition: defaultTheme.transition,
     // breakpoints,
     zIndices: defaultTheme.zIndices,
-    components: {},
+    // components: {},
     styles: {
       global: props => ({
         'html, body': {
-          color: props.colorMode === 'light' ? 'gray.900' : 'offWhite',
-          bg: props.colorMode === 'light' ? 'offWhite' : 'gray.900',
-          transition: "background-color 1s"
+          color: props.colorMode === 'light' ? 'grey.900' : 'grey.100',
+          bg: props.colorMode === 'light' ? 'offWhite' : 'grey.900',
+          transition: "background-color 1s",
+          borderColor: props.colorMode === 'light' ? 'rgb(0, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5'
         }
       })
     },
-    borders: {},
     colors: {},
     // radii: {},
     // shadows: {},

@@ -4,7 +4,8 @@ import {
   Input, Button, 
   Text, 
   Center, VStack, 
-  TableContainer, Table, Thead, Tbody, Tr, Th, Td, 
+  TableContainer, Table, Thead, Tbody, Tr, Th, Td,
+  Skeleton
 } from '@chakra-ui/react';
 import Database, { handleUID } from '../../data';
 import socket from '../../socket';
@@ -12,12 +13,10 @@ import socket from '../../socket';
 const JoinDisplay = ({ id, playerNum }) => {
   const [username, setUsername] = useState();
   const [joining, setJoining] = useState(false);
-
-  const usernameError = username === "";
   
   const handleJoin = (e) => {
     e.preventDefault();
-    if (usernameError) return;
+    if (!username) setUsername("GUEST");
     setJoining(true);
     handleUID();
     let uid = localStorage.getItem('uid');
@@ -36,8 +35,8 @@ const JoinDisplay = ({ id, playerNum }) => {
 
   return (
     (playerNum !== null) ?
-      <Text>Wait for someone to join...</Text> :
-      <VStack>
+      <Text my={0} height='8em'>Wait for someone to join...</Text> :
+      <VStack height='8em'>
         <FormControl>
           <FormLabel my='auto'>Username (optional)</FormLabel>
           <Input
@@ -53,7 +52,7 @@ const JoinDisplay = ({ id, playerNum }) => {
           />
           <FormHelperText mt={1}>For problem filtering.</FormHelperText>
         </FormControl>
-        <Button onClick={handleJoin} size='sm'
+        <Button onClick={handleJoin} size='md' 
           loadingText="Joining" isLoading={joining}
         >
           Join
@@ -75,12 +74,14 @@ const StartDisplay = ({ id, playerNum }) => {
 
   return (
     (playerNum !== null) ? 
-    <Button onClick={handleStart} size='md'
-      loadingText="Starting" isLoading={starting}
-    >
-      Start Duel
-    </Button>
-    : <Text>Duel is full.</Text>
+    <Center height='8em'>
+      <Button onClick={handleStart} size='md'
+        loadingText="Starting" isLoading={starting}
+      >
+        Start Duel
+      </Button>
+    </Center>
+    : <Text height='8em'>Duel is full.</Text>
   ); 
 }
 
@@ -104,7 +105,7 @@ const TimeDisplay = ({ id }) => {
   }, []);
   
   return (
-    <Text textStyle="display2" m={0}>
+    <Text textStyle="display2" m={0} height='8em'>
       {`${`${hours}`.padStart(2, '0') + ':' + `${minutes}`.padStart(2, '0') + ':' + `${seconds}`.padStart(2, '0')}`}
     </Text>
   );
@@ -126,15 +127,15 @@ const ResultDisplay = ({ id }) => {
   }, []);
 
   return (
-    <Text>{result}</Text>
+    <Text height='8em'>{result}</Text>
   );
 }
 
 const TimeAndJoinDisplay = ({ id, duelStatus, playerNum }) => {
   const [title, setTitle] = useState("");
   const [currentDisplay, setCurrentDisplay] = useState();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log(duelStatus);
     if (duelStatus === "READY") {
       setTitle((playerNum !== null) ? "Ready to Start?" : "Duel Full");
       setCurrentDisplay(<StartDisplay id={id} playerNum={playerNum} />);
@@ -148,20 +149,23 @@ const TimeAndJoinDisplay = ({ id, duelStatus, playerNum }) => {
       setTitle((playerNum !== null) ? "Wait" : "Join");
       setCurrentDisplay(<JoinDisplay id={id} playerNum={playerNum} />);
     }
+    if (duelStatus !== "") setLoading(false);
   }, [duelStatus, playerNum]);
 
   return (
     <TableContainer borderBottom='1px solid' width='22em'>
       <Table>
         <Thead>
-          <Tr><Th textAlign='center' fontSize='1.2rem' borderColor='grey.500'>{title}</Th></Tr>
+          <Tr><Th textAlign='center' fontSize='1.2rem' borderColor='grey.500' py={2}>{title}</Th></Tr>
         </Thead>
         <Tbody>
-          <Tr><Td px={1}><Center>{currentDisplay}</Center></Td></Tr>
+          { loading ?
+            <Tr><Skeleton><Td px={1} height='8em'>{currentDisplay}</Td></Skeleton></Tr>
+            : <Tr><Td px={1} height='8em'><Center>{currentDisplay}</Center></Td></Tr> }
         </Tbody>
       </Table>
     </TableContainer>
-  )
+  );
 }
 
 export default TimeAndJoinDisplay;

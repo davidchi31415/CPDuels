@@ -3,6 +3,7 @@ import {
   TableContainer, Table, TableCaption, Thead, Tbody, Tfoot, Th, Tr, Td,
   Center,
   useColorModeValue,
+  Skeleton
 } from '@chakra-ui/react';
 
 const ReactTable = ({ loading, columns, data, rowProps }) => {
@@ -21,9 +22,9 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
   const fillEmptyRows = (rows, total) => {
     const leftoverRows = [];
     for (let i = rows; i < total; i++) {
-      if (i === rows && rows != 0) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderY="solid 1px" borderColor="grey.500" bg="grey.100" fontWeight="bold">-</Td></Tr>);
-      else if (i === total-1) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" border="none" bg="grey.100"  fontWeight="bold">-</Td></Tr>);
-      else leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderBottom="solid 1px" borderColor="grey.500" bg="grey.100"  fontWeight="bold">-</Td></Tr>)
+      if (i === rows && rows != 0) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderY="solid 1px" borderColor="grey.500" bg='grey.300' fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
+      else if (i === total-1) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" border="none" bg='grey.300' fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
+      else leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderBottom="solid 1px" borderColor="grey.500" bg='grey.300' fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
     }
     return (
       leftoverRows
@@ -31,11 +32,14 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
   }
 
   const rowHoverColor = useColorModeValue("secondary.300", "secondary.900");
+  const borderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
 
   return (
     <TableContainer
       width="45em"
       border="1px solid"
+      borderColor={borderColor}
+      boxShadow='2xl'
       rounded="md"
     >
       <Table {...getTableProps()} 
