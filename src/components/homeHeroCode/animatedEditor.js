@@ -54,6 +54,7 @@ const AnimatedEditor = ({ colorMode }) => {
             const id = { major: 1, minor: 1};
             const op = { identifier: id, range: range, text: script[i][j], forceMoveMarkers: true};
             editorRef.current.executeEdits("editor", [op]);
+            editorRef.current.focus();
             await sleep(100);
             if (script[i][j] === ' ') await sleep(150);
             if (script[i][j] === '\n') await sleep(100);
@@ -71,13 +72,14 @@ const AnimatedEditor = ({ colorMode }) => {
     padding: { top: '10px' },
     scrollbar: { handleMouseWheel: false, vertical: 'hidden', horizontal: 'hidden' },
     minimap: {
-        enabled: false
+      enabled: false
     },
     highlightActiveIndentGuide: false,
     cursorStyle: 'block-outline',
     overviewRulerBorder: false,
     wordWrap: 'on',
-    renderLineHighlight: 'none'
+    renderLineHighlight: 'none',
+    domReadOnly: true
   };
   
   return (

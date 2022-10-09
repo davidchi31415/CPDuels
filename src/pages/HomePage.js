@@ -11,7 +11,7 @@ import HomeHeroCode from '../components/homeHeroCode';
 const HomePage = () => {
   return (
     <BaseLayout content={
-      <Flex align="center">
+      <Flex align="center" pt={5}>
         <Stack width="40vw" mt="7vh" spacing="2">
           <Text textStyle="display2" mb={0}>
             A better way to practice coding
