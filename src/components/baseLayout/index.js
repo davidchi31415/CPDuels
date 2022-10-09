@@ -10,7 +10,8 @@ import {
   Link,
   useColorMode,
 } from '@chakra-ui/react';
-import { WiDaySunny, WiMoonAltWaningCrescent1 } from 'react-icons/wi';
+import { WiDaySunny } from 'react-icons/wi';
+import { IoMoon } from 'react-icons/io5';
 import LightLogo from '../../images/logo_light.png';
 import DarkLogo from '../../images/logo_dark.png';
 
@@ -40,7 +41,7 @@ const BaseNavbar = () => {
 
 const BaseContainer = ({ content }) => {
   return (
-    <Box>
+    <Box mt={2}>
       {content}
     </Box>
   );
@@ -72,7 +73,7 @@ const ToggleColorMode = () => {
         colorScheme={(colorMode==='dark') ? 'orange' : 'white'}
         boxSize={["2rem", "3rem", "4rem"]}
         size={["2rem", "3rem", "4rem"]}
-        icon={(colorMode==='dark') ? <WiDaySunny size={50}/> : <WiMoonAltWaningCrescent1 size={50}/>}
+        icon={(colorMode==='dark') ? <WiDaySunny size={50}/> : <IoMoon size={50} style={{ transform: 'rotate(270deg)' }}/>}
         onClick={() => toggleColorMode()}
         isRound
       />

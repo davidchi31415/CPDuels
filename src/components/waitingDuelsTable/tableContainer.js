@@ -12,7 +12,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-const ReactTable = ({ columns, data }) => {
+const ReactTable = ({ columns, data, rowProps }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -43,9 +43,9 @@ const ReactTable = ({ columns, data }) => {
   const fillEmptyRows = (rows, total) => {
     const leftoverRows = [];
     for (let i = rows; i < total; i++) {
-      if (i === rows && rows != 0) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderY="solid 1px" borderColor="grey.500" fontWeight="bold">-</Td></Tr>);
-      else if (i === total-1) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" border="none" fontWeight="bold">-</Td></Tr>);
-      else leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderBottom="solid 1px" borderColor="grey.500" fontWeight="bold">-</Td></Tr>)
+      if (i === rows && rows != 0) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderY="solid 1px" borderColor="grey.500" bg="grey.100" fontWeight="bold">-</Td></Tr>);
+      else if (i === total-1) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" border="none" bg="grey.100"  fontWeight="bold">-</Td></Tr>);
+      else leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderBottom="solid 1px" borderColor="grey.500" bg="grey.100"  fontWeight="bold">-</Td></Tr>)
     }
     return (
       leftoverRows
@@ -73,16 +73,12 @@ const ReactTable = ({ columns, data }) => {
   return (
     <>
       <VStack width="fit-content">
-      <Center>
-        <Text my={0}>Showing Page {`${pageIndex+1} out of ${pageCount}`} of Waiting Duels</Text>
-      </Center>
       <TableContainer
-        maxW="fit-content"
+        width="36em"
         border="1px solid"
         rounded="md"
       >
         <Table {...getTableProps()} 
-          maxW="fit-content"
           size="sm"
           mt={1}
           style={{ borderCollapse:"collapse" }}
@@ -93,7 +89,7 @@ const ReactTable = ({ columns, data }) => {
               >
                 {headerGroup.headers.map(column => (
                   <Th {...column.getHeaderProps()}
-                    style={{maxWidth: column.maxWidth, fontSize: "1em"}}
+                    style={{width: column.width, fontSize: "1em"}}
                     borderBottom="solid 1px"
                     borderColor="grey.500"
                   >
@@ -112,7 +108,7 @@ const ReactTable = ({ columns, data }) => {
               prepareRow(row);
               return (
                 <Tr 
-                  {...row.getRowProps()}
+                  {...row.getRowProps(rowProps(row))}
                   style={{cursor: "pointer"}}
                   _hover={{ bg: rowHoverColor }}
                 >
@@ -120,7 +116,7 @@ const ReactTable = ({ columns, data }) => {
                     if (rowIndex === page.length-1) {
                       return (
                         <Td {...cell.getCellProps()}
-                          style={{ maxWidth: cell.maxWidth, textAlign: "center" }}
+                          style={{ width: cell.width, textAlign: "center" }}
                           borderBottom="none"
                         >
                           {cell.render("Cell")}
@@ -129,7 +125,7 @@ const ReactTable = ({ columns, data }) => {
                     }
                     return (
                       <Td {...cell.getCellProps()}
-                        style={{ maxWidth: cell.maxWidth, textAlign: "center" }}
+                        style={{ width: cell.width, textAlign: "center" }}
                         borderBottom="solid 1px"
                         borderColor="grey.500"
                       >
@@ -160,7 +156,7 @@ const ReactTable = ({ columns, data }) => {
         <HStack gap={1}>
           <Text>Go to Page:</Text>
           <NumberInput defaultValue={pageIndex+1} min={1} max={pageCount}
-            size='sm' borderColor="grey.500"
+            size='sm' borderColor="grey.100"
             onChange={(pageNum) => gotoPage(pageNum-1)}
           >
             <NumberInputField maxW={5}/>

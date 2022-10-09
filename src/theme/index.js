@@ -24,7 +24,7 @@ const theme = extendTheme(
     styles: {
       global: props => ({
         'html, body': {
-          color: props.colorMode === 'light' ? 'gray.900' : 'white',
+          color: props.colorMode === 'light' ? 'gray.900' : 'offWhite',
           bg: props.colorMode === 'light' ? 'offWhite' : 'gray.900',
           transition: "background-color 1s"
         }
