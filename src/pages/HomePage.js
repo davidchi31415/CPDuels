@@ -1,16 +1,17 @@
 import React from 'react';
 import { 
-  Box,
+  Center,
   Flex, Spacer,
   Stack,
   Text
 } from '@chakra-ui/react';
 import BaseLayout from '../components/baseLayout';
+import HomeHeroCode from '../components/homeHeroCode';
 
 const HomePage = () => {
   return (
     <BaseLayout content={
-      <Flex>
+      <Flex align="center">
         <Stack width="40vw" mt="7vh" spacing="2">
           <Text textStyle="display2" mb={0}>
             A better way to practice coding
@@ -21,9 +22,9 @@ const HomePage = () => {
           </Text>
         </Stack>
         <Spacer/>
-        <Box>
-          Art Picture
-        </Box>
+        <Center>
+          <HomeHeroCode />
+        </Center>
       </Flex>
     } />
   );
