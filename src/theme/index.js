@@ -6,7 +6,7 @@ import typography from './typography';
 
 const theme = extendTheme(
   {
-    components,
+    // components,
     ...typography,
     ...foundations,
   },
@@ -20,14 +20,14 @@ const theme = extendTheme(
     transition: defaultTheme.transition,
     // breakpoints,
     zIndices: defaultTheme.zIndices,
-    // components: {},
+    components: defaultTheme.components,
     styles: {
       global: props => ({
         'html, body': {
-          color: props.colorMode === 'light' ? 'grey.900' : 'grey.100',
+          color: props.colorMode === 'light' ? 'grey.900' : 'primary.100',
           bg: props.colorMode === 'light' ? 'offWhite' : 'grey.900',
           transition: "background-color 1s",
-          borderColor: props.colorMode === 'light' ? 'rgb(0, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5'
+          borderColor: props.colorMode === 'light' ? 'rgb(0, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)'
         }
       })
     },

@@ -152,12 +152,14 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
       <Flex width="100%" align="center" justifyContent="space-between">
         <ButtonGroup>
           <Button 
-            size="xs" fontSize="1.5rem" bg={buttonBgColor} color={buttonTextColor}
+            size="xs" fontSize="1.5rem"
+            variant='solid' colorScheme='primary'
             onClick={() => gotoPage(0)} disabled={!canPreviousPage}
             p={3} textAlign='center'
           >{"<<"}</Button>
           <Button 
-            size="xs" fontSize="1.5rem" bg={buttonBgColor} color={buttonTextColor}
+            size="xs" fontSize="1.5rem"
+            variant='solid' colorScheme='primary'
             onClick={previousPage} disabled={!canPreviousPage}
             p={3} textAlign='center'
           >{"<"}</Button>
@@ -168,7 +170,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
             size='sm' borderColor="grey.100"
             onChange={(pageNum) => gotoPage(pageNum-1)}
           >
-            <NumberInputField maxW={5}/>
+            <NumberInputField width='5em'/>
             <NumberInputStepper borderColor="grey.500">
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -177,12 +179,14 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
         </HStack>
         <ButtonGroup>
           <Button 
-            size="xs" fontSize="1.5rem" bg={buttonBgColor} color={buttonTextColor}
+            size="xs" fontSize="1.5rem" 
+            colorScheme='primary' variant='solid'
             onClick={nextPage} disabled={!canNextPage}
             p={3} textAlign='center'
           >{">"}</Button>
           <Button 
-            size="xs" fontSize="1.5rem" bg={buttonBgColor} color={buttonTextColor}
+            size="xs" fontSize="1.5rem"
+            colorScheme='primary' variant='solid'
             onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}
             p={3} textAlign='center'
           >{">>"}</Button>

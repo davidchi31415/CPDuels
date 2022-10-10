@@ -59,11 +59,11 @@ const WaitingDuelsTable = () => {
     <VStack>
       <FormControl>
         <HStack spacing={0}>
-          <FormLabel my='auto'>Duel Platform: </FormLabel>
+          <FormLabel my='auto'>Duel Platform:</FormLabel>
           <Select value={platform} onChange={(e) => setPlatform(e.target.value)}
-            borderColor='grey.100' maxW='10em'
+            borderColor='grey.100' width='11em' textAlign='center'
           >
-            <option value="All">All</option>
+            <option value="All">All Platforms</option>
             <option value="CF">Codeforces</option>
             <option value="AT">AtCoder</option>
             <option value="LC">LeetCode</option>

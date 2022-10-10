@@ -125,12 +125,12 @@ const CreateDuelForm = () => {
       <Center>
       <FormControl isInvalid={problemCountError} isRequired>
         <Flex justify="space-between">
-          <FormLabel my="auto"># Problems</FormLabel>
+          <FormLabel my="auto" mr={0}># Problems</FormLabel>
           <NumberInput value={problemCount} min={1} max={10} size='sm' width='fit-content' height='fit-content'
             onChange={(value) => setProblemCount(value)}
             borderColor='grey.100'
           >
-            <NumberInputField maxW={5} />
+            <NumberInputField width='5em' />
             <NumberInputStepper borderColor='grey.100'>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -161,12 +161,12 @@ const CreateDuelForm = () => {
       <Center>
       <FormControl isInvalid={timeLimitError} isRequired>
         <Flex justify="space-between">
-          <FormLabel my="auto">Time Limit (min)</FormLabel>
+          <FormLabel my="auto" mr={0}>Time Limit (min)</FormLabel>
           <NumberInput value={timeLimit} min={5} max={180} step={5} size='sm' width='fit-content' height='fit-content'
             onChange={(value) => setTimeLimit(value)}
             borderColor='grey.100'
           >
-            <NumberInputField maxW={6} />
+            <NumberInputField width='5em' />
             <NumberInputStepper borderColor='grey.100'>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -197,13 +197,13 @@ const CreateDuelForm = () => {
       <Center>
       <FormControl isInvalid={ratingMinError} isRequired>
         <Flex justify="space-between">
-          <FormLabel my="auto">Difficulty Min</FormLabel>
+          <FormLabel my="auto" mr={0}>Difficulty Min</FormLabel>
           <NumberInput value={ratingMin} min={800} max={3000} step={100} size='sm' width='fit-content' height='fit-content'
             onChange={(value) => setRatingMin(value)}
             onBlur={(e) => setRatingMin(Math.floor(e.target.value/100)*100)}
             borderColor='grey.100'
           >
-            <NumberInputField maxW={8} />
+            <NumberInputField width='6em' />
             <NumberInputStepper borderColor='grey.100'>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -234,13 +234,13 @@ const CreateDuelForm = () => {
       <Center>
       <FormControl isInvalid={ratingMaxError} isRequired>
         <Flex justify="space-between">
-          <FormLabel my="auto">Difficulty Max</FormLabel>
+          <FormLabel my="auto" mr={0}>Difficulty Max</FormLabel>
           <NumberInput value={ratingMax} min={800} max={3000} step={100} size='sm' width='fit-content' height='fit-content'
             onChange={(value) => setRatingMax(value)}
             onBlur={(e) => setRatingMax(Math.floor(e.target.value/100)*100)}
             borderColor='grey.100'
           >
-            <NumberInputField maxW={8} />
+            <NumberInputField width='6em' />
             <NumberInputStepper borderColor='grey.100'>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -280,7 +280,7 @@ const CreateDuelForm = () => {
             if (e.key === 'Enter') handleSubmit(e)
           }}
           borderColor='grey.100'
-          width="10em"
+          width="12em"
         />
         <FormHelperText mt={1}>
           For problem filtering.
@@ -305,6 +305,7 @@ const CreateDuelForm = () => {
       <Center>
         <Button onClick={handleSubmit} size="md" fontSize='lg'
           loadingText="Submitting" isLoading={submitting}
+          variant='solid' colorScheme='primary'
         >
           Submit
         </Button>

@@ -20,17 +20,17 @@ const BaseNavbar = () => {
   const { colorMode, toggleColorMode } =  useColorMode();
 
   return (
-    <Flex mt="1"> 
+    <Flex mt="1" justify='space-between'> 
       <Image 
           aria-label="CPDuels logo" 
           src={(colorMode == "light") ? LightLogo : DarkLogo} 
-          w={["10vw", "12vw"]} 
+          w="10em" 
           h="auto" 
           cursor="pointer"
           onClick={() => navigate("/")} 
       />
       <Spacer/>
-      <HStack fontSize="1.5rem" fontWeight="bold" spacing="2vw">
+      <HStack fontSize="1.5rem" fontWeight="bold" spacing="1.5em" width='fit-content'>
         <Link as={ReactLink} _hover={{textDecoration: "none"}} to="/play">Play</Link>
         <Link as={ReactLink} _hover={{textDecoration: "none"}} to="/tutorial">Tutorial</Link>
         <Link as={ReactLink} _hover={{textDecoration: "none"}} to="/contact">Contact</Link>

@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   FormControl, FormLabel, FormHelperText, 
-  Input, Button, 
+  Input, InputRightElement, InputGroup,
+  Button, IconButton,
   Text, 
-  Center, VStack, 
+  Center, VStack,  HStack,
   TableContainer, Table, Thead, Tbody, Tr, Th, Td,
-  Skeleton
+  Skeleton,
+  useToast
 } from '@chakra-ui/react';
 import Database, { handleUID } from '../../data';
 import socket from '../../socket';
+import { MdContentCopy } from 'react-icons/md';
 
 const JoinDisplay = ({ id, playerNum }) => {
   const [username, setUsername] = useState();
   const [joining, setJoining] = useState(false);
+  const toastRef = useRef();
+  const toast = useToast();
+  const link = `https://www.cpduels.com/play/${id}`;
   
   const handleJoin = (e) => {
     e.preventDefault();
@@ -33,10 +39,42 @@ const JoinDisplay = ({ id, playerNum }) => {
     }
   }, []);
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(link);
+    makeToast({
+      title: 'Copied!',
+      description: 'The link is now in your clipboard.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true
+    });
+  }
+
+  const makeToast = (toastParams) => {
+    if (toastRef.current) {
+      toast.close(toastRef.current);
+    }
+    toastRef.current = toast(toastParams);
+  }
+
   return (
     (playerNum !== null) ?
-      <Text my={0} height='8em'>Wait for someone to join...</Text> :
-      <VStack height='8em'>
+      <VStack>
+        <Text my={0} height='100%'>Wait for someone to join, or invite them:</Text>
+        <InputGroup>
+          <Input type='text' value={`https://www.cpduels.com/play/${id}`} 
+            size='md' textOverflow='ellipsis' readOnly borderColor='grey.100'
+            variant='outline'
+          />
+          <InputRightElement>
+            <IconButton variant='outline' borderColor='grey.100' icon={<MdContentCopy />}
+              onClick={copyToClipboard}
+            />
+          </InputRightElement>
+        </InputGroup>
+      </VStack>
+       :
+      <VStack height='100%'>
         <FormControl>
           <FormLabel my='auto'>Username (optional)</FormLabel>
           <Input
@@ -54,6 +92,7 @@ const JoinDisplay = ({ id, playerNum }) => {
         </FormControl>
         <Button onClick={handleJoin} size='md' 
           loadingText="Joining" isLoading={joining}
+          colorScheme='primary' variant='solid'
         >
           Join
         </Button>
@@ -74,14 +113,15 @@ const StartDisplay = ({ id, playerNum }) => {
 
   return (
     (playerNum !== null) ? 
-    <Center height='8em'>
+    <Center height='100%'>
       <Button onClick={handleStart} size='md'
         loadingText="Starting" isLoading={starting}
+        colorScheme='primary' variant='solid'
       >
         Start Duel
       </Button>
     </Center>
-    : <Text height='8em'>Duel is full.</Text>
+    : <Text height='100%'>Duel is full.</Text>
   ); 
 }
 
@@ -105,7 +145,7 @@ const TimeDisplay = ({ id }) => {
   }, []);
   
   return (
-    <Text textStyle="display2" m={0} height='8em'>
+    <Text textAlign='center' textStyle='display1' py={0} height='100%'>
       {`${`${hours}`.padStart(2, '0') + ':' + `${minutes}`.padStart(2, '0') + ':' + `${seconds}`.padStart(2, '0')}`}
     </Text>
   );
@@ -127,7 +167,7 @@ const ResultDisplay = ({ id }) => {
   }, []);
 
   return (
-    <Text height='8em'>{result}</Text>
+    <Text height='100%'>{result}</Text>
   );
 }
 
@@ -160,8 +200,8 @@ const TimeAndJoinDisplay = ({ id, duelStatus, playerNum }) => {
         </Thead>
         <Tbody>
           { loading ?
-            <Tr><Skeleton><Td px={1} height='8em'>{currentDisplay}</Td></Skeleton></Tr>
-            : <Tr><Td px={1} height='8em'><Center>{currentDisplay}</Center></Td></Tr> }
+            <Tr><Skeleton height='fit-content'><Td px={1} py={1} height='8em'>{currentDisplay}</Td></Skeleton></Tr>
+            : <Tr><Td px={1} py={1} height='8em'><Center>{currentDisplay}</Center></Td></Tr> }
         </Tbody>
       </Table>
     </TableContainer>

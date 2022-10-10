@@ -25,10 +25,14 @@ const HomePage = () => {
             with problems drawn from Leetcode, Codeforces, and more.
           </Text>
           <ButtonGroup pt={1}>
-            <Button fontSize='lg' onClick={() => navigate('/play')} _hover={{bg: 'primary.300'}}>
+            <Button fontSize='lg' onClick={() => navigate('/play')} width='12em'
+              variant='solid' colorScheme='primary'
+            >
               Play for Free
             </Button>
-            <Button variant="outline" fontSize='lg' onClick={() => navigate('/info')}>
+            <Button fontSize='lg' onClick={() => navigate('/info')} width='12em'
+              variant='outline' colorScheme='primary'
+            >
               More Info
             </Button>
           </ButtonGroup>
