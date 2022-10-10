@@ -27,13 +27,13 @@ const WaitingDuelsTable = () => {
         Header: "",
         accessor: "platform",
         disableSortBy: true,
-        width: "2em"
+        width: "3em"
       },
       {
         Header: "Username",
         accessor: "players[0].handle",
         disableSortBy: true,
-        width: "25em"
+        width: "22em"
       },
       {
         Header: "Difficulty",
@@ -59,7 +59,7 @@ const WaitingDuelsTable = () => {
     <VStack>
       <FormControl>
         <HStack spacing={0}>
-          <FormLabel my='auto'>Duel Platform:</FormLabel>
+          <FormLabel my='auto'>Showing:</FormLabel>
           <Select value={platform} onChange={(e) => setPlatform(e.target.value)}
             borderColor='grey.100' width='11em' textAlign='center'
           >

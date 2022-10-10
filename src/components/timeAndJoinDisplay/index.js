@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   FormControl, FormLabel, FormHelperText, 
   Input, InputRightElement, InputGroup,
-  Button, IconButton,
+  Button, IconButton, ButtonGroup,
   Text, 
   Center, VStack,  HStack,
   TableContainer, Table, Thead, Tbody, Tr, Th, Td,
   Skeleton,
-  useToast
+  useToast, useColorModeValue
 } from '@chakra-ui/react';
 import Database, { handleUID } from '../../data';
 import socket from '../../socket';
@@ -16,17 +16,25 @@ import { MdContentCopy } from 'react-icons/md';
 const JoinDisplay = ({ id, playerNum }) => {
   const [username, setUsername] = useState();
   const [joining, setJoining] = useState(false);
+  const [joiningGuest, setJoiningGuest] = useState(false);
   const toastRef = useRef();
   const toast = useToast();
   const link = `https://www.cpduels.com/play/${id}`;
   
   const handleJoin = (e) => {
     e.preventDefault();
-    if (!username) setUsername("GUEST");
     setJoining(true);
     handleUID();
     let uid = localStorage.getItem('uid');
-    socket.emit('join-duel', {roomId: id, handle: username, uid: uid});
+    socket.emit('join-duel', {roomId: id, handle: username ? username : "GUEST", uid: uid});
+  }
+
+  const handleJoinGuest = (e) => {
+    e.preventDefault();
+    setJoiningGuest(true);
+    handleUID();
+    let uid = localStorage.getItem('uid');
+    socket.emit('join-duel', {roomId: id, handle: "GUEST", uid: uid});
   }
 
   useEffect(() => {
@@ -78,24 +86,30 @@ const JoinDisplay = ({ id, playerNum }) => {
         <FormControl>
           <FormLabel my='auto'>Username (optional)</FormLabel>
           <Input
-            mt={1}
-            type='text'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleJoin(e);
-            }}
-            borderColor='grey.100'
-            width='10em'
-          />
-          <FormHelperText mt={1}>For problem filtering.</FormHelperText>
+              type='text'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleJoin(e);
+              }}
+              borderColor='grey.100'
+              width='16em' mt={1}
+            />
         </FormControl>
-        <Button onClick={handleJoin} size='md' 
-          loadingText="Joining" isLoading={joining}
-          colorScheme='primary' variant='solid'
-        >
-          Join
-        </Button>
+        <ButtonGroup>
+          <Button onClick={handleJoin} size='md'
+            loadingText="Joining" isLoading={joining}
+            colorScheme='primary' variant='solid'
+          >
+            Join
+          </Button>
+          <Button onClick={handleJoinGuest} size='md'
+            loadingText="Joining" isLoading={joiningGuest}
+            colorScheme='primary' variant='outline'
+          >
+            Join as Guest
+          </Button>
+        </ButtonGroup>
       </VStack>
   );
 }
@@ -113,14 +127,12 @@ const StartDisplay = ({ id, playerNum }) => {
 
   return (
     (playerNum !== null) ? 
-    <Center height='100%'>
       <Button onClick={handleStart} size='md'
         loadingText="Starting" isLoading={starting}
         colorScheme='primary' variant='solid'
       >
         Start Duel
       </Button>
-    </Center>
     : <Text height='100%'>Duel is full.</Text>
   ); 
 }
@@ -192,16 +204,22 @@ const TimeAndJoinDisplay = ({ id, duelStatus, playerNum }) => {
     if (duelStatus !== "") setLoading(false);
   }, [duelStatus, playerNum]);
 
+  const borderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
+
   return (
-    <TableContainer borderBottom='1px solid' width='22em'>
+    <TableContainer 
+      border='1px solid' borderColor={borderColor} 
+      borderTopLeftRadius='md' borderTopRightRadius='md' width='22em'
+      boxShadow='2xl'
+    >
       <Table>
         <Thead>
           <Tr><Th textAlign='center' fontSize='1.2rem' borderColor='grey.500' py={2}>{title}</Th></Tr>
         </Thead>
         <Tbody>
           { loading ?
-            <Tr><Skeleton height='fit-content'><Td px={1} py={1} height='8em'>{currentDisplay}</Td></Skeleton></Tr>
-            : <Tr><Td px={1} py={1} height='8em'><Center>{currentDisplay}</Center></Td></Tr> }
+            <Tr><Skeleton height='8em'><Td px={1} py={1} height='8em'>{currentDisplay}</Td></Skeleton></Tr>
+            : <Tr><Td px={1} py={1} height='8em'><Center height='100%'>{currentDisplay}</Center></Td></Tr> }
         </Tbody>
       </Table>
     </TableContainer>

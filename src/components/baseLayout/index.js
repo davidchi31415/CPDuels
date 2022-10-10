@@ -51,7 +51,7 @@ const BaseFooter = () => {
   const { colorMode, toggleColorMode } =  useColorMode();
 
   return (  
-    <Box width={["100%", "85%"]} position="absolute" bottom={0}>
+    <Box width='1150px' position="absolute" bottom={0}>
       <Text fontSize="md" align="center">
         2022 CPDuels.com<br/>
         Developed by <Text as="span" fontWeight="bold" color={(colorMode === "light") ? "primary.500" : "primary.300"}>David Chi</Text> and <Text as="span" fontWeight="bold" color={(colorMode === "light") ? "primary.500" : "primary.300"}>Jeffrey Li</Text>
@@ -83,8 +83,8 @@ const ToggleColorMode = () => {
 
 const BaseLayout = ({ content }) => {
   return (
-    <Flex minHeight="120vh" position="relative" justifyContent="center" pb="6em">
-      <Box width={["100%", "85%"]}>
+    <Flex minHeight="1000px" position="relative" justifyContent="center" pb="6em">
+      <Box width="1150px" m={0} p={0}>
         <BaseNavbar />
         <BaseContainer content={content} />
         <BaseFooter />

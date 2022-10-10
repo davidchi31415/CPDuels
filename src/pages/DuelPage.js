@@ -58,8 +58,7 @@ const DuelPage = () => {
       <Box>
         <Flex justify="space-between">
           <ProblemsTable id={id} duelStatus={duelStatus} playerNum={playerNum} />
-          <VStack rounded='md' border='1px solid' borderColor={borderColor} boxShadow='2xl'>
-
+          <VStack>
             <TimeAndJoinDisplay loading={loading} id={id} duelStatus={duelStatus} playerNum={playerNum} />
           </VStack>
         </Flex>

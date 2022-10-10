@@ -22,9 +22,9 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
   const fillEmptyRows = (rows, total) => {
     const leftoverRows = [];
     for (let i = rows; i < total; i++) {
-      if (i === rows && rows != 0) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderY="solid 1px" borderColor="grey.500" bg='grey.300' fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
-      else if (i === total-1) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" border="none" bg='grey.300' fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
-      else leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderBottom="solid 1px" borderColor="grey.500" bg='grey.300' fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
+      if (i === rows && rows != 0) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderY="solid 1px" borderColor="grey.500" fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
+      else if (i === total-1) leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" border="none" fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
+      else leftoverRows.push(<Tr><Td colSpan={4} textAlign="center" borderBottom="solid 1px" borderColor="grey.500" fontWeight="bold"><Skeleton isLoaded={!loading}>-</Skeleton></Td></Tr>);
     }
     return (
       leftoverRows
