@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box, Flex, VStack,
-  useToast,
-  useColorModeValue
 } from '@chakra-ui/react';
 import BaseLayout from '../components/baseLayout';
 import ProblemsTable from '../components/problemsTable';
 import TimeAndJoinDisplay from '../components/timeAndJoinDisplay';
+import ScoreDisplay from '../components/scoreDisplay';
+import SubmitCodeEditor from '../components/submitCodeEditor';
 import Database, { handleUID } from '../data';
 import socket from '../socket';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -16,7 +16,6 @@ const DuelPage = () => {
   const navigate = useNavigate();
   const [duelStatus, setDuelStatus] = useState("");
   const [playerNum, setPlayerNum] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getDuelInfo = async () => {
@@ -29,7 +28,6 @@ const DuelPage = () => {
       } else if (duel.players[1] && uid === duel.players[1].uid) {
         setPlayerNum(2);
       }
-      if (duel) setLoading(false);
     }
     getDuelInfo();
     socket.on('connect', async () => {
@@ -44,22 +42,28 @@ const DuelPage = () => {
         getDuelInfo();
       }
     });
+    socket.on('time-left', ({roomId, timeLeft}) => {
+      if (roomId === id) getDuelInfo();  
+    });
     return () => {
       socket.off('connect');
       socket.off('error-message');
       socket.off('status-change');
+      socket.off('time-left');
     };
   }, []);
-
-  const borderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
 
   return (
     <BaseLayout content={
       <Box>
-        <Flex justify="space-between">
-          <ProblemsTable id={id} duelStatus={duelStatus} playerNum={playerNum} />
-          <VStack>
-            <TimeAndJoinDisplay loading={loading} id={id} duelStatus={duelStatus} playerNum={playerNum} />
+        <Flex justify="space-between" align='flex-start'>
+          <VStack spacing={5}>
+            <ProblemsTable id={id} duelStatus={duelStatus} playerNum={playerNum} />
+            <SubmitCodeEditor />
+          </VStack>
+          <VStack spacing={5}>
+            <TimeAndJoinDisplay id={id} duelStatus={duelStatus} playerNum={playerNum} />
+            <ScoreDisplay id={id} duelStatus={duelStatus} playerNum={playerNum} />
           </VStack>
         </Flex>
       </Box>
