@@ -1,6 +1,7 @@
 import { useTable } from 'react-table';
 import {
   TableContainer, Table, TableCaption, Thead, Tbody, Tfoot, Th, Tr, Td,
+  Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionProps,
   Center,
   useColorModeValue,
   Skeleton
@@ -75,6 +76,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
                 _hover={{ bg: rowHoverColor }}
               >
                 {row.cells.map(cell => {
+                  console.log(cell);
                   if (rowIndex === rows.length-1) {
                     return (
                       <Td {...cell.getCellProps()}
