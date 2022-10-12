@@ -113,6 +113,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
               prepareRow(row);
               return (
                 <Tr 
+                  key={`row ${rowIndex}`}
                   {...row.getRowProps(rowProps(row))}
                   style={{cursor: "pointer"}}
                   _hover={{ bg: rowHoverColor }}

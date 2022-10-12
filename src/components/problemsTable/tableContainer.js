@@ -1,7 +1,6 @@
 import { useTable } from 'react-table';
 import {
   TableContainer, Table, TableCaption, Thead, Tbody, Tfoot, Th, Tr, Td,
-  Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionProps,
   Center,
   useColorModeValue,
   Skeleton

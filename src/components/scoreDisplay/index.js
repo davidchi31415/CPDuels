@@ -56,7 +56,7 @@ const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
       <>
         <Tr>
           <Td height='15em' borderColor='grey.100'>
-            <Grid templateColumns='repeat(2, 1fr)' rowGap={1} columnGap={3}>
+            <Grid templateColumns='repeat(2, 1fr)' rowGap={1} columnGap={0}>
               <GridItem>
                 <Text textStyle='body3' textAlign='center'>Player 1</Text>
               </GridItem>
@@ -69,7 +69,7 @@ const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
               <GridItem>
                 <Text textAlign='center' fontWeight='bold'>{playerScores[0]}</Text>
               </GridItem>
-              <GridItem colSpan={2} mt={0}>
+              <GridItem colSpan={2} mt={2}>
                 <Flex justify='center' gap={1} flexWrap='wrap'>
                   {
                     problemScores.map(
@@ -91,7 +91,7 @@ const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
         </Tr>
         <Tr>
           <Td height='15em'>
-            <Grid templateColumns='repeat(2, 1fr)' rowGap={1} columnGap={3}>
+            <Grid templateColumns='repeat(2, 1fr)' rowGap={1} columnGap={0}>
               <GridItem>
                 <Text textStyle='body3' textAlign='center'>Player 2</Text>
               </GridItem>
@@ -104,7 +104,7 @@ const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
               <GridItem>
                 <Text textAlign='center' fontWeight='bold'>{(players.length === 2) ? playerScores[1] : 0}</Text>
               </GridItem>
-              <GridItem colSpan={2} mt={0}>
+              <GridItem colSpan={2} mt={2}>
                 <Flex justify='center' flexWrap='wrap' gap={1}>
                   {
                     problemScores.map(

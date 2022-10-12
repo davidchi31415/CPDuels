@@ -144,7 +144,7 @@ const TimeDisplay = ({ id }) => {
 
   useEffect(() => {
     socket.on('time-left', ({roomId, timeLeft}) => {
-      if (roomId === id) {
+      if (roomId === id && !Number.isNaN(timeLeft)) {
         setHours(Math.floor(timeLeft/3600));
         setMinutes(Math.floor(timeLeft/60)%60);
         setSeconds(timeLeft%60);
@@ -179,7 +179,7 @@ const ResultDisplay = ({ id }) => {
   }, []);
 
   return (
-    <Text height='100%'>{result}</Text>
+    <Text textAlign='center' textStyle='display1' py={0} height='100%'>{result}</Text>
   );
 }
 

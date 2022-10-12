@@ -11,16 +11,16 @@ import { MdDelete } from 'react-icons/md';
 import languages from './languages';
 import Editor from './editor';
 
-const SubmitCodeEditor = () => {
+const SubmitCodeEditor = ({ isPopup, problemChosen, numProblems }) => {
   const borderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
   const [chosenLanguage, setChosenLanguage] = useState('C++');
-  const [problemNum, setProblemNum] = useState(0);
+  const [problemNum, setProblemNum] = useState(problemChosen ? problemChosen : 0);
   const [problemNumError, setProblemNumError] = useState(false);
   const [fileUploaded, setFileUploaded] = useState(false);
   const [fileName, setFileName] = useState();
   const [fileContent, setFileContent] = useState();
   const [submitting, setSubmitting] = useState(false);
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -47,9 +47,9 @@ const SubmitCodeEditor = () => {
   }
 
   return (
-    <Box border='1px solid' borderColor={borderColor} 
-      boxShadow='2xl' rounded='md'
-      px={4} py={3} width='100%'
+    <Box border={!isPopup ? '1px solid' : 'none'} borderColor={borderColor} 
+      boxShadow={!isPopup ? '2xl' : 'none'} rounded='md'
+      px={!isPopup ? 4 : 0} py={!isPopup ? 3 : 0} width='100%'
     >
       <Flex pb={3} gap={1} justify='center' align='flex-end'>
         <FormControl isRequired>
@@ -74,9 +74,12 @@ const SubmitCodeEditor = () => {
               if (e.target.value !== 0) setProblemNumError(false);
             }}
           >
-            <option value={0} disabled selected></option>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
+            <option value={0} disabled></option>
+            {
+              [...Array(numProblems).keys()].map(num => 
+                <option value={num+1}>{num+1}</option>  
+              )
+            }
           </Select>
           <FormErrorMessage>Pick a problem.</FormErrorMessage>
         </FormControl>
@@ -112,14 +115,18 @@ const SubmitCodeEditor = () => {
           <Editor language={chosenLanguage} />
         </Box>
       </FormControl>
-      <Center mt={3}>
-        <Button onClick={handleSubmit} size="md" fontSize='lg'
-          loadingText="Submitting" isLoading={submitting}
-          variant='solid' colorScheme='primary'
-        >
-          Submit
-        </Button>
-      </Center>
+      {
+        !isPopup ?
+        <Center mt={3}>
+          <Button onClick={handleSubmit} size="md" fontSize='lg'
+            loadingText="Submitting" isLoading={submitting}
+            variant='solid' colorScheme='primary'
+          >
+            Submit
+          </Button>
+        </Center>
+        : ""
+      }
     </Box>
   );
 }

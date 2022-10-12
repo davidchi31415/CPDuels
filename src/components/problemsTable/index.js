@@ -5,32 +5,25 @@ import ReactTable from './tableContainer';
 import socket from '../../socket';
 import { useNavigate } from 'react-router-dom';
 
-const ProblemsTable = ({ id, duelStatus, playerNum}) => {
-  const [loading, setLoading] = useState(true);
-  const [problems, setProblems] = useState([]);
+const SubmissionsTable = ({ id, duelStatus, playerNum}) => {
+  const [submissions, setSubmissions] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getProblems = async () => {
+    const getSubmissions = async () => {
       let duel = await Database.getDuelById(id);
-      setProblems(duel.problems);
-      setLoading(false);
+      // setSubmissions(duel.submissions); TODO
     }
-    getProblems();
-
-    socket.on('time-left', async () => {
-      await getProblems();
-    })
+    getSubmissions();
     
     socket.on('problem-change', async ({ roomId }) => {
       if (roomId === id) {
-        await getProblems();
+        await getSubmissions();
       }
     });
 
     return () => {
-      socket.off('time-left');
       socket.off('problem-change');
     }
   }, []);
@@ -38,23 +31,21 @@ const ProblemsTable = ({ id, duelStatus, playerNum}) => {
   const columns = useMemo(
     () => [
       {
-        Header: "",
-        accessor: (row, index) => index+1,
-        id: row => row._id,
-        maxWidth: "5em",
+        Header: "Time",
+        
       },
       {
-        Header: "Problem",
-        accessor: "name",
+        Header: "Submission Id",
+        accessor: "cf_id", // TODO
+        maxWidth: "10em",
+      },
+      {
+        Header: "Name",
+        accessor: "name", // TODO
         maxWidth: "15em",
       },
       {
-        Header: "Difficulty",
-        accessor: "rating",
-        maxWidth: "5em",
-      },
-      {
-        Header: "Duel Points",
+        Header: "Verdict",
         accessor: "points",
         maxWidth: "10em",
       },
@@ -64,13 +55,15 @@ const ProblemsTable = ({ id, duelStatus, playerNum}) => {
 
 
   return (
-    <ReactTable loading={loading}
-      data={problems ? problems : []} columns={columns} 
+    submissions ?
+    <ReactTable
+      data={submissions ? submissions : []} columns={columns} 
       rowProps={row => ({
         onClick: () => window.open(`https://www.codeforces.com/problemset/problem/${row.original.contestId}/${row.original.index}`)
       })} 
     />
+    : <p>No submissions yet.</p>
   );
 }
 
-export default ProblemsTable;
+export default SubmissionsTable;
