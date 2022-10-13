@@ -6,7 +6,7 @@ import {
   Input, InputGroup, InputRightAddon,
   useColorModeValue, useToast
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MdDelete } from 'react-icons/md';
 import languages from './languages';
 import Editor from './editor';
@@ -19,6 +19,7 @@ const SubmitCodeEditor = ({ isPopup, problemChosen, numProblems }) => {
   const [fileUploaded, setFileUploaded] = useState(false);
   const [fileName, setFileName] = useState();
   const [fileContent, setFileContent] = useState();
+  const code = useRef();
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = (e) => {
@@ -35,6 +36,7 @@ const SubmitCodeEditor = ({ isPopup, problemChosen, numProblems }) => {
   const handleUpload = (e) => {
     setFileUploaded(true);
     setFileContent(e.target.files[0]);
+    console.log(e.target.files[0]);
     setFileName(e.target.files[0].name);
   }
 
@@ -44,6 +46,11 @@ const SubmitCodeEditor = ({ isPopup, problemChosen, numProblems }) => {
     setFileContent();
     setFileName();
     console.log(fileName);
+  }
+
+  const handleCode = (newCode) => {
+    code.current = newCode;
+    console.log(newCode);
   }
 
   return (
@@ -112,7 +119,7 @@ const SubmitCodeEditor = ({ isPopup, problemChosen, numProblems }) => {
       <FormControl pt={2}>
         <FormLabel my='auto'>or Enter Your Submission:</FormLabel>
         <Box border='1px solid' borderColor='grey.100'>
-          <Editor language={chosenLanguage} />
+          <Editor language={chosenLanguage} onSetCode={handleCode} />
         </Box>
       </FormControl>
       {

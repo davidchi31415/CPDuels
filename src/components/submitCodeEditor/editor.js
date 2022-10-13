@@ -24,13 +24,12 @@ import "ace-builds/src-noconflict/theme-iplastic"
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 
-function onChange(newValue) {
-  console.log("change", newValue);
-}
-
-
-const Editor = ({ language }) => {
+const Editor = ({ language, onSetCode }) => {
   const theme = useColorModeValue("iplastic", "monokai");
+
+  function onChange(newValue) {
+    onSetCode(newValue);
+  }
 
   return (
     <AceEditor

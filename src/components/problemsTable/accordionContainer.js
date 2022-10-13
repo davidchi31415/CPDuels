@@ -66,8 +66,31 @@ const AccordionContainer = ({ id, duelStatus, playerNum }) => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
-              Problem content...
-              <Center pt={3}>
+            <Center>
+              {problem.content ? problem.content.problemConstraints : 
+                <>
+                  <div class="time-limit">
+                    <div class="property-title">time limit per test</div>2 seconds
+                  </div><div class="memory-limit">
+                  <div class="property-title">memory limit per test</div>256 megabytes</div>
+                  <div class="input-file"><div class="property-title">input</div>standard input</div>
+                  <div class="output-file"><div class="property-title">output</div>standard output</div>              }
+                </>
+              }
+            </Center>
+            <Box>
+              {problem.content ? problem.content.problemStatement : ""}
+            </Box>
+            <Box>
+              {problem.content ? problem.content.problemInput : ""}
+            </Box>
+            <Box>
+              {problem.content ? problem.content.problemOutput : ""}
+            </Box>
+            <Box>
+              {problem.content ? problem.content.samples : ""}
+            </Box>
+            <Center pt={3}>
                 <Button onClick={onOpen} size="md" fontSize='lg'
                   variant='solid' colorScheme='primary'
                 >
