@@ -11,7 +11,6 @@ import Database, { handleUID } from '../../data';
 import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import './cfStyles.css';
-import { MathJax } from 'better-react-mathjax';
 
 const AccordionContainer = ({ id, duelStatus, playerNum }) => {
   const [problems, setProblems] = useState([]);
@@ -47,8 +46,7 @@ const AccordionContainer = ({ id, duelStatus, playerNum }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <MathJax>
-      { problems?.length ?
+    problems?.length ?
       <Accordion onChange={(index) => setSelectedProblem(index+1)} allowToggle
         boxShadow='2xl'
       >
@@ -121,8 +119,7 @@ const AccordionContainer = ({ id, duelStatus, playerNum }) => {
           </ModalContent>
         </Modal>
       </Accordion>
-      : <p>Problems will be generated when the duel starts.</p>}
-    </MathJax>
+      : <p>Problems will be generated when the duel starts.</p>
   );
 }
 
