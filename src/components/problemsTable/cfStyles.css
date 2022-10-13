@@ -1,0 +1,14 @@
+.property-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.problem-statement p, .problem-input-specifications p, .problem-output-specifications p, .problem-sample-test-cases p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+li {
+  margin-left: 1em;
+}

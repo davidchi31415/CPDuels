@@ -3,12 +3,15 @@ import {
   Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, AccordionProps,
   Box, Center, Button,
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter,
-  useColorModeValue, useDisclosure, ButtonGroup
+  useColorModeValue, useDisclosure, ButtonGroup, Flex, Text
 } from '@chakra-ui/react';
 import SubmitCodeEditor from '../submitCodeEditor';
 import socket from '../../socket';
 import Database, { handleUID } from '../../data';
 import { useNavigate } from 'react-router-dom';
+import parse from 'html-react-parser';
+import './cfStyles.css';
+import { MathJax } from 'better-react-mathjax';
 
 const AccordionContainer = ({ id, duelStatus, playerNum }) => {
   const [problems, setProblems] = useState([]);
@@ -65,30 +68,26 @@ const AccordionContainer = ({ id, duelStatus, playerNum }) => {
                 <AccordionIcon/>
               </AccordionButton>
             </h2>
-            <AccordionPanel pb={4}>
-            <Center>
-              {problem.content ? problem.content.problemConstraints : 
-                <>
-                  <div class="time-limit">
-                    <div class="property-title">time limit per test</div>2 seconds
-                  </div><div class="memory-limit">
-                  <div class="property-title">memory limit per test</div>256 megabytes</div>
-                  <div class="input-file"><div class="property-title">input</div>standard input</div>
-                  <div class="output-file"><div class="property-title">output</div>standard output</div>              }
-                </>
+            <AccordionPanel p={4}>
+              {
+                console.log(problem.content)
               }
-            </Center>
-            <Box>
-              {problem.content ? problem.content.problemStatement : ""}
+              {problem.content.problemConstraints ? <Flex justify='space-between'>{parse(problem.content.problemConstraints)}</Flex> : ""}
+            <Box mt={2} className='problem-statement'>
+              <Text fontWeight='bold' fontSize='1.2rem'>Problem Statement</Text>
+              {problem.content.problemStatement ? <MathJax>{parse(problem.content.problemStatement)}</MathJax> : ""}
             </Box>
-            <Box>
-              {problem.content ? problem.content.problemInput : ""}
+            <Box mt={2} className='problem-input-specifications'>
+              <Text fontWeight='bold' fontSize='1.2rem'>Input</Text>
+              {problem.content.problemInput ? <MathJax>{parse(problem.content.problemInput)}</MathJax> : ""}
             </Box>
-            <Box>
-              {problem.content ? problem.content.problemOutput : ""}
+            <Box mt={2} className='problem-output-specifications'>
+              <Text fontWeight='bold' fontSize='1.2rem'>Output</Text>
+              {problem.content.problemOutput ? <MathJax>{parse(problem.content.problemOutput)}</MathJax> : ""}
             </Box>
-            <Box>
-              {problem.content ? problem.content.samples : ""}
+            <Box mt={2} className='problem-sample-test-cases'>
+              <Text fontWeight='bold' fontSize='1.2rem'>Sample Test Cases</Text>
+              {problem.content.samples ? parse(problem.content.samples) : ""}
             </Box>
             <Center pt={3}>
                 <Button onClick={onOpen} size="md" fontSize='lg'
