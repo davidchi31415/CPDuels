@@ -66,7 +66,7 @@ const JoinDisplay = ({ id, playerNum }) => {
   }
 
   return (
-    (playerNum !== null) ?
+    (playerNum) ?
       <VStack>
         <Text my={0} height='100%'>Wait for someone to join, or invite them:</Text>
         <InputGroup>

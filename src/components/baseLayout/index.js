@@ -14,7 +14,6 @@ import { WiDaySunny } from 'react-icons/wi';
 import { IoMoon } from 'react-icons/io5';
 import LightLogo from '../../images/logo_light.png';
 import DarkLogo from '../../images/logo_dark.png';
-import { MathJax } from 'better-react-mathjax';
 
 const BaseNavbar = () => {
   const navigate = useNavigate();
@@ -87,7 +86,7 @@ const BaseLayout = ({ content }) => {
     <Flex minHeight="1000px" position="relative" justifyContent="center" pb="6em">
       <Box width="1150px" m={0} p={0}>
         <BaseNavbar />
-        <MathJax><BaseContainer content={content} /></MathJax>
+        <BaseContainer content={content} />
         <BaseFooter />
         <ToggleColorMode />
       </Box>

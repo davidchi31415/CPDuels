@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
-  Tabs, TabList, TabPanels, TabPanel, Tab,
+  Tabs,
+  TabList,
+  TabPanels,
+  TabPanel,
+  Tab,
   Flex,
-  useColorModeValue
-} from '@chakra-ui/react';
-import AccordionContainer from './accordionContainer';
-import SubmitCodeEditor from '../submitCodeEditor';
-import Database from '../../data';
+  useColorModeValue,
+} from "@chakra-ui/react";
+import AccordionContainer from "./accordionContainer";
+import SubmitCodeEditor from "../submitCodeEditor";
+import Database from "../../data";
 
-const TabContainer = ({ id, duelStatus, playerNum}) => {
-  const borderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
+const TabContainer = ({ id, duelStatus, playerNum, onMathJaxRendered }) => {
+  const borderColor = useColorModeValue(
+    "rgb(0, 0, 0, 0.5)",
+    "rgb(255, 255, 255, 0.5)"
+  );
   const [index, setIndex] = useState(0);
   const [numProblems, setNumProblems] = useState(0);
 
@@ -17,33 +24,50 @@ const TabContainer = ({ id, duelStatus, playerNum}) => {
     const getNumProblems = async () => {
       let duel = await Database.getDuelById(id);
       setNumProblems(duel.problems.length);
-    }
-    getNumProblems();
-    if (duelStatus === 'ONGOING') {
-      setIndex(1); // Go to problems tab
     };
+    getNumProblems();
+    if (duelStatus === "ONGOING") {
+      setIndex(1); // Go to problems tab
+    }
   }, [duelStatus]);
 
   return (
-    <Tabs variant='line' borderColor={borderColor} width='47em'
-      index={index} onChange={(index) => setIndex(index)}
-      colorScheme='primary'
+    <Tabs
+      variant="line"
+      borderColor={borderColor}
+      width="47em"
+      index={index}
+      onChange={(index) => setIndex(index)}
+      colorScheme="primary"
     >
       <TabList>
-        <Flex width='100%'>
-          <Tab borderColor={borderColor} fontSize='1.2rem' flex='1'>Duel Info</Tab>
-          <Tab borderColor={borderColor} fontSize='1.2rem' flex='1'>Problems</Tab>
-          <Tab borderColor={borderColor} fontSize='1.2rem' flex='1'>Submit</Tab>
-          <Tab borderColor={borderColor} fontSize='1.2rem' flex='1'>Submissions</Tab>
+        <Flex width="100%">
+          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+            Duel Info
+          </Tab>
+          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+            Problems
+          </Tab>
+          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+            Submit
+          </Tab>
+          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+            Submissions
+          </Tab>
         </Flex>
       </TabList>
 
-      <TabPanels border='none'>
+      <TabPanels border="none">
         <TabPanel px={0}>
           <p>Some info...</p>
         </TabPanel>
         <TabPanel px={0}>
-          <AccordionContainer id={id} duelStatus={duelStatus} playerNum={playerNum} />
+          <AccordionContainer
+            id={id}
+            duelStatus={duelStatus}
+            playerNum={playerNum}
+            onMathJaxRendered={onMathJaxRendered}
+          />
         </TabPanel>
         <TabPanel px={0}>
           <SubmitCodeEditor numProblems={numProblems} />
@@ -54,6 +78,6 @@ const TabContainer = ({ id, duelStatus, playerNum}) => {
       </TabPanels>
     </Tabs>
   );
-}
+};
 
 export default TabContainer;
