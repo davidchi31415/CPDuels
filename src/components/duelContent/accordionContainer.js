@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -25,21 +25,16 @@ import {
 import SubmitCodeEditor from "../submitCodeEditor";
 import socket from "../../socket";
 import Database, { handleUID } from "../../data";
-import { useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
 import "./cfStyles.css";
 
 const AccordionContainer = ({
   id,
-  duelStatus,
-  playerNum,
   onMathJaxRendered,
 }) => {
   const [problems, setProblems] = useState([]);
   const [selectedProblem, setSelectedProblem] = useState(0);
-  const [rendered, setRendered] = useState(false); 
-
-  const navigate = useNavigate();
+  const [rendered, setRendered] = useState(false);
 
   useEffect(() => {
     const getProblems = async () => {
@@ -178,30 +173,23 @@ const AccordionContainer = ({
           </AccordionPanel>
         </AccordionItem>
       ))}
-      <Modal key={selectedProblem ? problems[selectedProblem-1]._id  : ""} 
+      <Modal
         isOpen={isOpen} onClose={onClose} size="2xl" motionPreset='slideInBottom'
       >
         <ModalOverlay />
         <ModalContent top='0'>
-          <ModalHeader>Submit Your Answer</ModalHeader>
+          <ModalHeader pb={0}>Submit Your Answer</ModalHeader>
           <ModalCloseButton />
-          <ModalBody width="675px">
+          <ModalBody width="675px" pb={3}>
             <SubmitCodeEditor
+              key="floating-editor"
+              editorId="floating-editor"
               isPopup={true}
               problemChosen={selectedProblem}
               numProblems={problems.length}
+              duelId={id} 
             />
           </ModalBody>
-          <ModalFooter justifyContent="center">
-            <ButtonGroup spacing={0}>
-              <Button colorScheme="primary" mr={3}>
-                Submit
-              </Button>
-              <Button variant="outline" colorScheme="primary" onClick={onClose}>
-                Close
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </Accordion>

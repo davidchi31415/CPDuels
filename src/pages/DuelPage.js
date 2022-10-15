@@ -19,14 +19,14 @@ import ScoreDisplay from "../components/scoreDisplay";
 import Database, { handleUID } from "../data";
 import socket from "../socket";
 import { useParams, useNavigate } from "react-router-dom";
-import TabContainer from "../components/problemsTable/tabContainer";
+import TabContainer from "../components/duelContent/tabContainer.js";
 import { MathJax } from 'better-react-mathjax';
 
 const DuelPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const duelStatus = useRef("");
-  const playerNum = useRef();
+  const [duelStatus, setDuelStatus] = useState("");
+  const [playerNum, setPlayerNum] = useState();
   const [renderedMathJax, setRenderedMathJax] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,20 +41,14 @@ const DuelPage = () => {
   useEffect(() => {
     const getDuelInfo = async () => {
       const duel = await Database.getDuelById(id);
-      let needsUpdate = false;
-      if (duelStatus.current !== duel.status) needsUpdate = true;
-      duelStatus.current = duel.status;
+      if (duelStatus !== duel.status) setDuelStatus(duel.status);
       handleUID();
       let uid = localStorage.getItem("uid");
       if (uid === duel.players[0].uid) {
-        if (playerNum.current !== 1) needsUpdate = true;
-        playerNum.current = 1;
+        if (playerNum !== 1) setPlayerNum(1);
       } else if (duel.players[1] && uid === duel.players[1].uid) {
-        if (playerNum.current !== 2) needsUpdate = true;
-        playerNum.current = 2;
+        if (playerNum !== 2) setPlayerNum(2);
       }
-
-      if (needsUpdate) forceUpdate();
     };
     getDuelInfo();
     socket.on("connect", async () => {
@@ -85,31 +79,32 @@ const DuelPage = () => {
   }, []);
 
   useEffect(() => {
-    if (duelStatus.current === "FINISHED") onOpen();
-  }, [duelStatus.current]);
+    if (duelStatus === "FINISHED") onOpen();
+  }, [duelStatus]);
 
   return (
     <MathJax>
+      {console.count('counter')}
       <BaseLayout
         content={
           <Box>
             <Flex justify="space-between" align="flex-start">
               <TabContainer
                 id={id}
-                duelStatus={duelStatus.current}
-                playerNum={playerNum.current}
+                duelStatus={duelStatus}
+                playerNum={playerNum}
                 onMathJaxRendered={() => setRenderedMathJax(true)}
               />
               <VStack spacing={5}>
                 <TimeAndJoinDisplay
                   id={id}
-                  duelStatus={duelStatus.current}
-                  playerNum={playerNum.current}
+                  duelStatus={duelStatus}
+                  playerNum={playerNum}
                 />
                 <ScoreDisplay
                   id={id}
-                  duelStatus={duelStatus.current}
-                  playerNum={playerNum.current}
+                  duelStatus={duelStatus}
+                  playerNum={playerNum}
                 />
               </VStack>
             </Flex>

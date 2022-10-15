@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Tabs,
   TabList,
@@ -11,6 +11,7 @@ import {
 import AccordionContainer from "./accordionContainer";
 import SubmitCodeEditor from "../submitCodeEditor";
 import Database from "../../data";
+import socket from '../../socket';
 
 const TabContainer = ({ id, duelStatus, playerNum, onMathJaxRendered }) => {
   const borderColor = useColorModeValue(
@@ -19,6 +20,7 @@ const TabContainer = ({ id, duelStatus, playerNum, onMathJaxRendered }) => {
   );
   const [index, setIndex] = useState(0);
   const [numProblems, setNumProblems] = useState(0);
+  const [codeSubmitted, setCodeSubmitted] = useState(false);
 
   useEffect(() => {
     const getNumProblems = async () => {
@@ -70,7 +72,7 @@ const TabContainer = ({ id, duelStatus, playerNum, onMathJaxRendered }) => {
           />
         </TabPanel>
         <TabPanel px={0}>
-          <SubmitCodeEditor numProblems={numProblems} />
+          <SubmitCodeEditor key="stuck-editor" editorId="stuck-editor" duelId={id} numProblems={numProblems} />
         </TabPanel>
         <TabPanel px={0}>
           <p>Submissions...</p>
