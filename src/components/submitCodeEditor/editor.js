@@ -24,16 +24,21 @@ import "ace-builds/src-noconflict/theme-iplastic"
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 
-const Editor = ({ language, onSetCode }) => {
+const Editor = ({ duelPlatform, language, onSetCode }) => {
   const theme = useColorModeValue("iplastic", "monokai");
 
   function onChange(newValue) {
     onSetCode(newValue);
   }
 
+  const platform = (duelPlatform && duelPlatform in languages) ?
+                   duelPlatform : 'CF';
+  const selection = (language && language in languages[duelPlatform]) ? 
+                    languages[platform][language] : languages[platform][languages.defaults[platform]];
+
   return (
     <AceEditor
-      mode={languages[language]}
+      mode={selection}
       theme={theme}
       onChange={onChange}
       name="editor"

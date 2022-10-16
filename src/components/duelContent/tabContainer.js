@@ -13,7 +13,7 @@ import SubmitCodeEditor from "../submitCodeEditor";
 import Database from "../../data";
 import socket from '../../socket';
 
-const TabContainer = ({ id, duelStatus, playerNum, onMathJaxRendered }) => {
+const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRendered }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
     "rgb(255, 255, 255, 0.5)"
@@ -66,13 +66,17 @@ const TabContainer = ({ id, duelStatus, playerNum, onMathJaxRendered }) => {
         <TabPanel px={0}>
           <AccordionContainer
             id={id}
+            duelPlatform={duelPlatform}
             duelStatus={duelStatus}
             playerNum={playerNum}
             onMathJaxRendered={onMathJaxRendered}
           />
         </TabPanel>
         <TabPanel px={0}>
-          <SubmitCodeEditor key="stuck-editor" editorId="stuck-editor" duelId={id} numProblems={numProblems} />
+          <SubmitCodeEditor key="stuck-editor" editorId="stuck-editor" 
+            duelPlatform={duelPlatform} 
+            duelId={id} numProblems={numProblems} 
+          />
         </TabPanel>
         <TabPanel px={0}>
           <p>Submissions...</p>

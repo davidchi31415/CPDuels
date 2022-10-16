@@ -25,6 +25,7 @@ import { MathJax } from 'better-react-mathjax';
 const DuelPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [duelPlatform, setDuelPlatform] = useState("CF");
   const [duelStatus, setDuelStatus] = useState("");
   const [playerNum, setPlayerNum] = useState();
   const [renderedMathJax, setRenderedMathJax] = useState(false);
@@ -42,6 +43,8 @@ const DuelPage = () => {
     const getDuelInfo = async () => {
       const duel = await Database.getDuelById(id);
       if (duelStatus !== duel.status) setDuelStatus(duel.status);
+      console.log(duel.platform);
+      if (duelPlatform !== duel.platform) setDuelPlatform(duel.platform);
       handleUID();
       let uid = localStorage.getItem("uid");
       if (uid === duel.players[0].uid) {
@@ -91,6 +94,7 @@ const DuelPage = () => {
             <Flex justify="space-between" align="flex-start">
               <TabContainer
                 id={id}
+                duelPlatform={duelPlatform}
                 duelStatus={duelStatus}
                 playerNum={playerNum}
                 onMathJaxRendered={() => setRenderedMathJax(true)}

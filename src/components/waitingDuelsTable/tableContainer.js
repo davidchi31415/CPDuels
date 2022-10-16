@@ -54,7 +54,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
   }
 
   const generateSortingIndicator = column => {
-    return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""
+    return column.isSorted ? (column.isSortedDesc ? " ↑" : " ↓") : ""
   }
 
   const onChangeInSelect = event => {
@@ -77,7 +77,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
     <>
       <VStack width="fit-content">
       <TableContainer
-        width="40em"
+        width="41em"
         border="1px solid"
         borderColor={tableBorderColor}
         boxShadow='xl'

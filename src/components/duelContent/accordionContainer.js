@@ -30,6 +30,7 @@ import "./cfStyles.css";
 
 const AccordionContainer = ({
   id,
+  duelPlatform,
   onMathJaxRendered,
 }) => {
   const [problems, setProblems] = useState([]);
@@ -183,6 +184,7 @@ const AccordionContainer = ({
           <ModalBody width="675px" pb={3}>
             <SubmitCodeEditor
               key="floating-editor"
+              duelPlatform={duelPlatform}
               editorId="floating-editor"
               isPopup={true}
               problemChosen={selectedProblem}

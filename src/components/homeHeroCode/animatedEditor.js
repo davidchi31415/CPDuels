@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
-import Editor, { useMonaco } from "@monaco-editor/react";
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/ext-language_tools";
 
 const AnimatedEditor = () => {
-  const editorRef = useRef(null);
-  const monaco = useMonaco();
-  const [editorReady, setEditorReady] = useState(false);
   const [writing, setWriting] = useState(false);
+  const [editor, setEditor] = useState();
 
   const script = [
     "#include <codeforces>\n",
@@ -31,61 +33,53 @@ const AnimatedEditor = () => {
     "}"
   ];
 
-  const handleEditorMounted = (editor) => {
-    editorRef.current = editor;
-    setEditorReady(true);
-  }
-
   const sleep = ms => new Promise(
     resolve => setTimeout(resolve, ms)
   );
 
   useEffect(() => {
-    if (editorReady && !writing) {
+    if (editor && !writing) {
       setWriting(true);
-      let lineNumber = 1;
       async function writeText() {
         for (let i = 0; i < script.length; i++) {
           for (let j = 0; j < script[i].length; j++) {
             if (script[i][j] === '\n') await sleep(100);
-            const range = new monaco.Range(lineNumber+i, 1+j, lineNumber+i, 1+j);
-            const id = { major: 1, minor: 1};
-            const op = { identifier: id, range: range, text: script[i][j], forceMoveMarkers: true};
-            editorRef.current.executeEdits("editor", [op]);
-            await sleep(70);
-            if (script[i][j] === ' ') await sleep(150);
+            editor.session.insert(editor.getCursorPosition(), script[i][j]);
+            await sleep(50);
+            if (script[i][j] === ' ') await sleep(70);
             if (script[i][j] === '\n') await sleep(100);
-            if (script[i][j] === '(' || script[i] === ')') await sleep(100);
+            if (script[i][j] === '(' || script[i] === ')') await sleep(80);
             if (script[i][j] === '{' || script[i] === '}') await sleep(150);
           }
         }
       }
       writeText();
     }  
-  }, [editorReady]);
+  }, [editor, writing]);
 
-  const options = {
-    theme: 'vs-dark',
-    padding: { top: '10px' },
-    scrollbar: { handleMouseWheel: false, vertical: 'hidden', horizontal: 'hidden' },
-    minimap: {
-      enabled: false
-    },
-    highlightActiveIndentGuide: false,
-    cursorStyle: 'block-outline',
-    overviewRulerBorder: false,
-    wordWrap: 'on',
-    renderLineHighlight: 'none',
-    domReadOnly: true
-  };
+  useEffect(() => {
+    if (editor) {
+      editor.removeAllListeners("mousedown");
+    }
+  }, [editor]);
   
   return (
-    <Editor
-      width="500px"
-      height="420px"
-      language="cpp"
-      options={options}
-      onMount={handleEditorMounted}
+    <AceEditor
+      onLoad={setEditor}
+      mode='c_cpp'
+      theme='monokai'
+      name="editor"
+      width='500px'
+      height='400px'
+      fontSize={14}
+      readOnly={true}
+      showGutter={true}
+      highlightActiveLine={false}
+      setOptions={{
+        showFoldWidgets: false,
+        useWorker: false,
+        cursorStyle:'smooth',
+      }}
     />
   );
 }

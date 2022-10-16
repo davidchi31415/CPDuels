@@ -37,10 +37,10 @@ const WaitingDuelsTable = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "",
+        Header: "⚔",
         accessor: "platform",
         disableSortBy: true,
-        width: "3em"
+        width: "4em"
       },
       {
         Header: "Username",

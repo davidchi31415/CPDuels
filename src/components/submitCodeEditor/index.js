@@ -22,6 +22,7 @@ import socket from "../../socket";
 import { handleUID } from '../../data';
 
 const SubmitCodeEditor = ({
+  duelPlatform,
   editorId,
   duelId,
   isPopup,
@@ -32,10 +33,11 @@ const SubmitCodeEditor = ({
     "rgb(0, 0, 0, 0.5)",
     "rgb(255, 255, 255, 0.5)"
   );
-  const [chosenLanguage, setChosenLanguage] = useState("C++");
+  const [chosenLanguage, setChosenLanguage] = useState(0);
   const [problemNum, setProblemNum] = useState(
     problemChosen ? problemChosen : 0
   );
+  const [chosenLanguageError, setChosenLanguageError] = useState(false);
   const [problemNumError, setProblemNumError] = useState(false);
   const [fileUploaded, setFileUploaded] = useState(false);
   const fileName = useRef("");
@@ -58,8 +60,13 @@ const SubmitCodeEditor = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
-    if (problemNum === 0) {
+    if (!chosenLanguage) {
+      setChosenLanguageError(true);
+    }
+    if (!problemNum) {
       setProblemNumError(true);
+    }
+    if (!chosenLanguage || !problemNum) {
       setSubmitting(false);
       makeToast({
         title: "Submission Error",
@@ -78,6 +85,7 @@ const SubmitCodeEditor = ({
         roomId: duelId,
         uid: uid,
         submission: {
+          language: chosenLanguage,
           number: problemNum,
           content: fileContent.current,
         },
@@ -178,31 +186,36 @@ const SubmitCodeEditor = ({
     >
       {isPopup ? console.count("counter") : ""}
       <Flex pb={3} gap={1} justify="center" align="flex-end">
-        <FormControl minHeight='5.5em' isRequired>
+        <FormControl minHeight='5.5em' isInvalid={chosenLanguageError} isRequired>
           <FormLabel my="auto">Language:</FormLabel>
           <Select
             borderColor="grey.100"
-            w="10em"
+            w={isPopup ? "10em" : "12em"}
             value={chosenLanguage}
-            onChange={(e) => setChosenLanguage(e.target.value)}
+            onChange={(e) => {
+              setChosenLanguage(e.target.value);
+              if (e.target.value) setChosenLanguageError(false);
+            }}
           >
-            {Object.keys(languages).map((languageName) => (
-              <option value={languageName}>{languageName}</option>
-            ))}
+            <option value={0}></option>
+            {(duelPlatform && duelPlatform in languages) ? Object.keys(languages[duelPlatform]).map((language) => (
+              <option value={language}>{language}</option>
+            )) : ""}
           </Select>
+          <FormErrorMessage mt={1}>Pick a language.</FormErrorMessage>
         </FormControl>
         <FormControl minHeight='5.5em' isInvalid={problemNumError} isRequired>
           <FormLabel my="auto">Problem #:</FormLabel>
           <Select
             borderColor="grey.100"
-            w="6em"
-            value={problemNum}
+            w="7em"
+            value={problemChosen}
             onChange={(e) => {
               setProblemNum(e.target.value);
               if (e.target.value !== 0) setProblemNumError(false);
             }}
           >
-            <option value={0} disabled></option>
+            <option value={0}></option>
             {[...Array(numProblems).keys()].map((num) => (
               <option value={num + 1}>{num + 1}</option>
             ))}
@@ -255,7 +268,7 @@ const SubmitCodeEditor = ({
       <FormControl pt={0}>
         <FormLabel my="auto">or Enter Your Submission:</FormLabel>
         <Box border="1px solid" borderColor="grey.100">
-          <Editor key={editorId} language={chosenLanguage} onSetCode={handleCode} />
+          <Editor key={editorId} duelPlatform={duelPlatform ? duelPlatform : ""} language={chosenLanguage} onSetCode={handleCode} />
         </Box>
       </FormControl>
 
