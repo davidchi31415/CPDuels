@@ -59,7 +59,8 @@ const AnimatedEditor = () => {
 
   useEffect(() => {
     if (editor) {
-      editor.removeAllListeners("mousedown");
+      editor.renderer.$cursorLayer.showCursor();
+      editor.renderer.$cursorLayer.setBlinking(true);
     }
   }, [editor]);
   
@@ -77,7 +78,7 @@ const AnimatedEditor = () => {
       highlightActiveLine={false}
       setOptions={{
         showFoldWidgets: false,
-        useWorker: false,
+        useWorker: true,
         cursorStyle:'smooth',
       }}
     />

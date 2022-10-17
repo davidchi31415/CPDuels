@@ -4,13 +4,13 @@ import AnimatedEditor from './animatedEditor';
 import './styles.css';
 
 const HomeHeroCode = () => {
-  const borderColor = useColorModeValue('grey.900', 'grey.100');
+  const borderColor = useColorModeValue('grey.900', 'grey.500');
   const { colorMode } = useColorMode();
 
   return (
     <Center p={0} border='5px solid' rounded="md"
       borderColor={borderColor}
-      boxShadow={`0.5em 0.3em 0.3em ${(colorMode === 'light') ? 'grey' : 'none'}`}
+      boxShadow={`1em 1em 0.8em ${(colorMode === 'light') ? 'grey' : 'none'}`}
       pointerEvents='none'
       id="home__hero__code"
     >

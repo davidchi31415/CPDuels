@@ -39,6 +39,7 @@ const SubmitCodeEditor = ({
   );
   const [chosenLanguageError, setChosenLanguageError] = useState(false);
   const [problemNumError, setProblemNumError] = useState(false);
+  const [editorFileError, setEditorFileError] = useState(false); // when neither editor nor file are filled
   const [fileUploaded, setFileUploaded] = useState(false);
   const fileName = useRef("");
   const fileContent = useRef("");
@@ -101,6 +102,7 @@ const SubmitCodeEditor = ({
       });
     } else {
       setSubmitting(false);
+      setEditorFileError(true);
       makeToast({
         title: "Submission Error",
         description: "Either upload a file or write your code in the editor",
@@ -150,6 +152,7 @@ const SubmitCodeEditor = ({
 
   const handleUpload = (e) => {
     setFileUploaded(true);
+    setEditorFileError(false);
     let file = e.target.files[0];
     console.log(file);
     let fileReader = new FileReader();
@@ -172,6 +175,7 @@ const SubmitCodeEditor = ({
 
   const handleCode = (newCode) => {
     code.current = newCode;
+    setEditorFileError(false);
   };
 
   return (
@@ -181,7 +185,7 @@ const SubmitCodeEditor = ({
       boxShadow={!isPopup ? "2xl" : "none"}
       rounded="md"
       px={!isPopup ? 4 : 0}
-      py={!isPopup ? 3 : 0}
+      py={!isPopup ? 5 : 2}
       width="100%"
     >
       {isPopup ? console.count("counter") : ""}
@@ -222,7 +226,7 @@ const SubmitCodeEditor = ({
           </Select>
           <FormErrorMessage mt={1}>Pick a problem.</FormErrorMessage>
         </FormControl>
-        <FormControl minHeight='5.5em' pt='1.5rem'>
+        <FormControl minHeight='5.5em' pt='1.5rem' isInvalid={editorFileError}>
           <InputGroup>
             <FormLabel
               as="label"
@@ -265,14 +269,15 @@ const SubmitCodeEditor = ({
           </InputGroup>
         </FormControl>
       </Flex>
-      <FormControl pt={0}>
+      <FormControl pt={0} minHeight='28.5em' isInvalid={editorFileError}>
         <FormLabel my="auto">or Enter Your Submission:</FormLabel>
         <Box border="1px solid" borderColor="grey.100">
           <Editor key={editorId} duelPlatform={duelPlatform ? duelPlatform : ""} language={chosenLanguage} onSetCode={handleCode} />
         </Box>
+        <FormErrorMessage mt={1}>Enter code in the box or upload a file.</FormErrorMessage>
       </FormControl>
 
-      <Center mt={3}>
+      <Center mt={1}>
         <Button
           id={editorId}
           onClick={handleSubmit}
