@@ -48,9 +48,9 @@ export default class Database {
     const duel = await this._getModel(`duels/${db_id}`);
     return duel;
   }
-  static async getDuelsWaiting() {
+  static async getDuelsWaiting() { // Only gets the public waiting duels
     const duels = await this._getModel('duels').then(
-      result => result.filter(duel => duel.status === "WAITING")
+      result => result.filter(duel => (duel.status === "WAITING" && !duel.private))
     );
     return duels;
   }
