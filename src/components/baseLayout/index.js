@@ -83,7 +83,7 @@ const ToggleColorMode = () => {
 
 const BaseLayout = ({ content }) => {
   return (
-    <Flex minHeight="1000px" position="relative" justifyContent="center" pb="6em">
+    <Flex minHeight="1000px" position="relative" justifyContent="center" pb="6em" overflowX="hidden">
       <Box width="1150px" m={0} p={0}>
         <BaseNavbar />
         <BaseContainer content={content} />
