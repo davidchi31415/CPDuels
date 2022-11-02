@@ -85,6 +85,10 @@ const DuelPage = () => {
     if (duelStatus === "FINISHED") onOpen();
   }, [duelStatus]);
 
+  useEffect(() => {
+    if (renderedMathJax) forceUpdate();
+  }, [renderedMathJax]);
+
   return (
     <MathJax>
       {console.count('counter')}
