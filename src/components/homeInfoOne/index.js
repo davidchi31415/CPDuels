@@ -10,7 +10,7 @@ import {
 import FakeCreateDuelForm from "../fakeCreateDuelForm";
 import handleViewport from 'react-in-viewport';
 
-const HomePlatformsSection = () => {
+const HomeInfoOne = () => {
   const backgroundColor = useColorModeValue("offWhite", "grey.900");
   const borderThickness = useColorModeValue("none", "solid 2px");
 
@@ -73,4 +73,4 @@ const HomePlatformsSection = () => {
   );
 };
 
-export default HomePlatformsSection;
+export default HomeInfoOne;

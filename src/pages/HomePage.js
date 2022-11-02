@@ -15,8 +15,7 @@ import {
 import TextTransition from "react-text-transition";
 import BaseLayout from "../components/baseLayout";
 import HomeHeroCode from "../components/homeHeroCode";
-// import HomeFeaturesSection from "../components/homeFeaturesSection";
-import HomePlatformsSection from "../components/homePlatformsSection";
+import HomeInfoOne from "../components/homeInfoOne";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -127,7 +126,7 @@ const HomePage = () => {
               Whatever your goals, CPDuels was built for you.
             </Text>
             <Flex justify="flex-start" pt="5em">
-              <HomePlatformsSection />
+              <HomeInfoOne />
             </Flex>
             {/* <Flex justify="center" pt="2em">
               <HomeFeaturesSection />

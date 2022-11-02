@@ -24,7 +24,7 @@ const Feature = ({ title, text, icon }) => {
   );
 };
 
-const HomeFeaturesSection = () => {
+const HomeInfoTwo = () => {
   return (
     <Box
       bg="primary.100"
@@ -65,4 +65,4 @@ const HomeFeaturesSection = () => {
   );
 };
 
-export default HomeFeaturesSection;
+export default HomeInfoTwo;
