@@ -61,7 +61,7 @@ const AccordionContainer = ({
       setRendered(true);
       onMathJaxRendered();
     }
-  }, [problems]);
+  }, [problems, rendered]);
 
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
