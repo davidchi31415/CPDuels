@@ -66,7 +66,7 @@ const ToggleColorMode = () => {
     <Box position='fixed'
       bottom={['1', '2', '3', '4', '5']}
       right={['1', '2', '3', '4', '5']}
-      zIndex={2}
+      zIndex={1000}
     >
       <IconButton 
         variant='outline'
@@ -81,7 +81,7 @@ const ToggleColorMode = () => {
   );
 }
 
-const BaseLayout = ({ content }) => {
+const BaseLayout = ({ isHomePage, content }) => {
   return (
     <Flex minHeight="1000px" position="relative" justifyContent="center" pb="6em" overflowX="hidden">
       <Box width="1150px" m={0} p={0}>

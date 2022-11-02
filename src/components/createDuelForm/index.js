@@ -4,6 +4,7 @@ import {
   Input, Select, 
   NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, 
   Flex,
+  Stack,
   Slider,
   SliderTrack,
   SliderFilledTrack,
@@ -11,7 +12,7 @@ import {
   useColorModeValue,
   Switch,
   Grid, GridItem, Button, Center,
-  Text, useToast
+  Text, useToast, Checkbox
 } from '@chakra-ui/react';
 import Database, { handleUID } from '../../data';
 import { useNavigate } from 'react-router-dom';
@@ -282,9 +283,6 @@ const CreateDuelForm = () => {
           borderColor='grey.100'
           width="12em"
         />
-        <FormHelperText mt={1}>
-          For problem filtering.
-        </FormHelperText>
       </FormControl>
       </Center>
       </GridItem>
@@ -300,6 +298,19 @@ const CreateDuelForm = () => {
         </FormHelperText>
       </FormControl>
       </Center>
+      </GridItem>
+      <GridItem colSpan={2}>
+      <FormControl>
+        <Checkbox size="md" borderColor="grey.100"
+          defaultChecked={true}
+        >
+          Exclude attempted problems
+        </Checkbox>
+        <FormHelperText mt={1}>
+          This uses your username (must be valid) on the selected platform.
+          Otherwise, you can use any username you'd like.
+        </FormHelperText>
+      </FormControl>
       </GridItem>
       <GridItem colSpan={2}>
       <Center>

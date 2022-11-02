@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, SimpleGrid, Icon, Text, Stack, Flex } from '@chakra-ui/react';
-import { FcAssistant, FcDonate, FcInTransit } from 'react-icons/fc';
+import { Box, SimpleGrid, Icon, Text, Stack, Flex } from "@chakra-ui/react";
+import { FcAssistant, FcDonate, FcInTransit } from "react-icons/fc";
 
 const Feature = ({ title, text, icon }) => {
   return (
@@ -16,16 +16,24 @@ const Feature = ({ title, text, icon }) => {
       >
         {icon}
       </Flex>
-      <Text fontWeight={600} fontSize="1.2rem" color="offWhite">{title}</Text>
-      <Text color="offWhite">{text}</Text>
+      <Text fontWeight={600} fontSize="1.2rem">
+        {title}
+      </Text>
+      <Text>{text}</Text>
     </Stack>
   );
 };
 
 const HomeFeaturesSection = () => {
   return (
-    <Box bg="primary.400" borderRightRadius="3rem" marginLeft="-10em" paddingLeft="10em"pt={5}>
-      <Text color="offWhite" textStyle="body2" align="center" position="relative">
+    <Box
+      bg="primary.100"
+      borderLeftRadius="3rem"
+      marginRight="-10em"
+      paddingRight="10em"
+      pt={5}
+    >
+      <Text textStyle="body2" align="center">
         Whatever your goals, CPDuels was built for you.
       </Text>
       <Box p={4} pt={6}>
