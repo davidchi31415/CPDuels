@@ -1,7 +1,7 @@
 import React from 'react';
 import AceEditor from "react-ace";
 import { useColorModeValue } from '@chakra-ui/react';
-import languages from './languages';
+import languages, { codes_to_languages } from './languages';
 
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-csharp";
@@ -24,7 +24,7 @@ import "ace-builds/src-noconflict/theme-iplastic"
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 
-const Editor = ({ duelPlatform, language, onSetCode }) => {
+const Editor = ({ duelPlatform, languageCode, onSetCode }) => {
   const theme = useColorModeValue("iplastic", "monokai");
 
   function onChange(newValue) {
@@ -33,8 +33,9 @@ const Editor = ({ duelPlatform, language, onSetCode }) => {
 
   const platform = (duelPlatform && duelPlatform in languages) ?
                    duelPlatform : 'CF';
-  const selection = (language && language in languages[duelPlatform]) ? 
-                    languages[platform][language] : languages[platform][languages.defaults[platform]];
+  const selection = (languageCode && languageCode in codes_to_languages[platform]) ? 
+                    languages[platform][codes_to_languages[platform][languageCode]] 
+                    : languages[platform][languages.defaults[platform]];
 
   return (
     <AceEditor
