@@ -198,8 +198,9 @@ const SubmitCodeEditor = ({
             w={isPopup ? "10em" : "12em"}
             value={chosenLanguage}
             onChange={(e) => {
-              setChosenLanguage(e.target.value);
-              if (e.target.value) setChosenLanguageError(false);
+              setChosenLanguage(parseInt(e.target.value));
+              console.log(typeof(parseInt(e.target.value)));
+              if (parseInt(e.target.value)) setChosenLanguageError(false);
             }}
           >
             <option value={0}></option>
