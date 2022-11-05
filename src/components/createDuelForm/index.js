@@ -315,10 +315,10 @@ const CreateDuelForm = () => {
       <GridItem colSpan={2}>
       <Center>
         <Button onClick={handleSubmit} size="md" fontSize='lg'
-          loadingText="Submitting" isLoading={submitting}
+          loadingText="Creating" isLoading={submitting}
           variant='solid' colorScheme='primary'
         >
-          Submit
+          Create
         </Button>
       </Center>
       </GridItem>

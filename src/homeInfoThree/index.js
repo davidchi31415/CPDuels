@@ -11,7 +11,7 @@ import {
 import FakeCreateDuelForm from "../fakeCreateDuelForm";
 import handleViewport from 'react-in-viewport';
 
-const HomeInfoOne = () => {
+const HomeInfoThree = () => {
   const backgroundColor = useColorModeValue("offWhite", "grey.900");
   const borderThickness = useColorModeValue("none", "solid 2px");
   const boldColor = useColorModeValue("primary.500", "primary.300");
@@ -75,4 +75,4 @@ const HomeInfoOne = () => {
   );
 };
 
-export default HomeInfoOne;
+export default HomeInfoThree;

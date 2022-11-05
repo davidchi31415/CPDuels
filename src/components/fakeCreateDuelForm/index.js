@@ -56,6 +56,7 @@ const FakeCreateDuelForm = ({ inViewport, forwardedRef }) => {
   
   const exampleUsername = "davidchi";
   const [animationIndex, setAnimationIndex] = useState(0);
+  const [animating, setAnimating] = useState(false);
 
   const sleep = ms => new Promise(
     resolve => setTimeout(resolve, ms)
@@ -63,46 +64,63 @@ const FakeCreateDuelForm = ({ inViewport, forwardedRef }) => {
 
   useEffect(() => {
     const animateProblemCount = async () => {
+      setAnimating(true);
+      setAnimationIndex(i => i+1);
       await sleep(250);
       for (let i = 2; i < 6; i++) {
         setProblemCount(i);
-        await sleep(5);
+        await sleep(10);
       }
-      setAnimationIndex(i => i+1);
+      setAnimating(false);
     }
     const animateTimeLimit = async () => {
+      setAnimating(true);
+      setAnimationIndex(i => i+1);
       await sleep(250);
       for (let i = 2; i < 13; i++) {
         setTimeLimit(i*5);
         await sleep(50);
       }
-      setAnimationIndex(i => i+1);
+      setAnimating(false);
     }
     const animateRatingMin = async () => {
+      setAnimating(true);
+      setAnimationIndex(i => i+1);
       await sleep(250);
       for (let i = 1; i < 11; i++) {
         setRatingMin(800+i*100);
         await sleep(50);
       }
-      setAnimationIndex(i => i+1);
+      setAnimating(false);
     }
     const animateRatingMax = async () => {
+      setAnimating(true);
+      setAnimationIndex(i => i+1);
       await sleep(250);
       for (let i = 1; i < 11; i++) {
         setRatingMax(1200+i*100);
         await sleep(50);
       }
-      setAnimationIndex(i => i+1);
+      setAnimating(false);
     }
     const animateUsername = async () => {
+      setAnimating(true);
+      setAnimationIndex(i => i+1);
       await sleep(250);
       for (let i = 0; i < exampleUsername.length; i++) {
         setUsername(exampleUsername.substring(0, i+1));
         await sleep(50);
       }
-      setAnimationIndex(i => i+1);
+      setAnimating(false);
     }
-    if (inViewport && animationIndex < 6) {
+    const animatePrivate = async () => {
+      setAnimating(true);
+      setAnimationIndex(i => i+1);
+      await sleep(250);
+      setIsPrivate(true);
+      setAnimating(false);
+    }
+    if (inViewport && animationIndex < 6 && !animating) {
       switch (animationIndex) {
         case 0:
           animateProblemCount();
@@ -120,12 +138,11 @@ const FakeCreateDuelForm = ({ inViewport, forwardedRef }) => {
           animateUsername();
           break;
         case 5:
-          setIsPrivate(true);
-          setAnimationIndex(i => i+1);
+          animatePrivate();
           break;
       }
     }
-  }, [inViewport, animationIndex]);
+  }, [inViewport, animationIndex, animating]);
 
   return (
     <div ref={forwardedRef}>
@@ -430,7 +447,7 @@ const FakeCreateDuelForm = ({ inViewport, forwardedRef }) => {
               variant="solid"
               colorScheme="primary"
             >
-              Submit
+              Create
             </Button>
           </Center>
         </GridItem>

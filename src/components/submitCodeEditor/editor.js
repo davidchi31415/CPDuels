@@ -24,7 +24,7 @@ import "ace-builds/src-noconflict/theme-iplastic"
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 
-const Editor = ({ duelPlatform, language, onSetCode }) => {
+const Editor = ({ duelPlatform, language, onSetCode, providedValue, readOnly }) => {
   const theme = useColorModeValue("iplastic", "monokai");
 
   function onChange(newValue) {
@@ -41,6 +41,7 @@ const Editor = ({ duelPlatform, language, onSetCode }) => {
       mode={selection}
       theme={theme}
       onChange={onChange}
+      readOnly={readOnly ? readOnly : false}
       name="editor"
       width='100%'
       height='400px'
@@ -48,6 +49,7 @@ const Editor = ({ duelPlatform, language, onSetCode }) => {
       showPrintMargin={true}
       showGutter={true}
       highlightActiveLine={true}
+      value={providedValue ? providedValue : ""}
     />
   );
 }
