@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useRef } from "react";
 import { MdDelete } from "react-icons/md";
-import languages from "./languages";
+import languages, { languages_to_codes } from "./languages";
 import Editor from "./editor";
 import socket from "../../socket";
 import { handleUID } from '../../data';
@@ -86,7 +86,7 @@ const SubmitCodeEditor = ({
         roomId: duelId,
         uid: uid,
         submission: {
-          language: chosenLanguage,
+          languageCode: chosenLanguage,
           number: problemNum,
           content: fileContent.current,
         },
@@ -96,6 +96,7 @@ const SubmitCodeEditor = ({
         roomId: duelId,
         uid: uid,
         submission: {
+          languageCode: chosenLanguage,
           number: problemNum,
           content: code.current,
         },
@@ -197,13 +198,15 @@ const SubmitCodeEditor = ({
             w={isPopup ? "10em" : "12em"}
             value={chosenLanguage}
             onChange={(e) => {
-              setChosenLanguage(e.target.value);
-              if (e.target.value) setChosenLanguageError(false);
+              setChosenLanguage(parseInt(e.target.value));
+              console.log(typeof(parseInt(e.target.value)));
+              if (parseInt(e.target.value)) setChosenLanguageError(false);
             }}
           >
             <option value={0}></option>
-            {(duelPlatform && duelPlatform in languages) ? Object.keys(languages[duelPlatform]).map((language) => (
-              <option value={language}>{language}</option>
+            {(duelPlatform && duelPlatform in languages) ? Object.keys(languages_to_codes[duelPlatform]).map(
+              (languageName) => (
+              <option value={languages_to_codes[duelPlatform][languageName]}>{languageName}</option>
             )) : ""}
           </Select>
           <FormErrorMessage mt={1}>Pick a language.</FormErrorMessage>
@@ -272,7 +275,7 @@ const SubmitCodeEditor = ({
       <FormControl pt={0} minHeight='28.5em' isInvalid={editorFileError}>
         <FormLabel my="auto">or Enter Your Submission:</FormLabel>
         <Box border="1px solid" borderColor="grey.100">
-          <Editor key={editorId} duelPlatform={duelPlatform ? duelPlatform : ""} language={chosenLanguage} onSetCode={handleCode} />
+          <Editor key={editorId} duelPlatform={duelPlatform ? duelPlatform : ""} languageCode={chosenLanguage} onSetCode={handleCode} />
         </Box>
         <FormErrorMessage mt={1}>Enter code in the box or upload a file.</FormErrorMessage>
       </FormControl>

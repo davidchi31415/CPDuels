@@ -19,7 +19,7 @@ import { MdDelete } from "react-icons/md";
 import languages from "../submitCodeEditor/languages";
 import Editor from "../submitCodeEditor/editor";
 
-const FakeSubmitCodeEditor = ({ inViewport, forwardedRef }) => {
+const FakeSubmitCodeEditor = () => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
     "rgb(255, 255, 255, 0.5)"

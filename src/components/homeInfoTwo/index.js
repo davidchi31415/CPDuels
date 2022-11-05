@@ -9,14 +9,11 @@ import {
   Box,
 } from "@chakra-ui/react";
 import FakeSubmitCodeEditor from "../fakeSubmitCodeEditor";
-import handleViewport from 'react-in-viewport';
 
 const HomeInfoTwo = () => {
   const backgroundColor = useColorModeValue("offWhite", "grey.900");
   const borderThickness = useColorModeValue("none", "solid 2px");
   const boldColor = useColorModeValue("primary.500", "primary.300");
-
-  const AnimatedCreateDuelForm = handleViewport(FakeSubmitCodeEditor, { threshold: 0.5 });
 
   return (
     <Flex
@@ -30,7 +27,7 @@ const HomeInfoTwo = () => {
       py={0}
       gap={0}
     >
-      <AnimatedCreateDuelForm />
+      <FakeSubmitCodeEditor />
       <Stack>
         <Text pt="5em" textStyle="body1" fontWeight="bold">
           Do it all on one website.
