@@ -32,7 +32,6 @@ const BaseNavbar = () => {
       <Spacer/>
       <HStack fontSize="1.5rem" fontWeight="bold" spacing="1.5em" width='fit-content'>
         <Link as={ReactLink} _hover={{textDecoration: "none"}} to="/play">Play</Link>
-        <Link as={ReactLink} _hover={{textDecoration: "none"}} to="/tutorial">Tutorial</Link>
         <Link as={ReactLink} _hover={{textDecoration: "none"}} to="/contact">Contact</Link>
       </HStack>
     </Flex>

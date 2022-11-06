@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from "./pages/HomePage";
 import PlayPage from "./pages/PlayPage";
-import InfoPage from "./pages/InfoPage";
 import ContactPage from "./pages/ContactPage";
 import DuelPage from "./pages/DuelPage";
 import Error404Page from "./pages/Error404Page";
@@ -13,7 +12,6 @@ function App() {
         <Routes>
           <Route path="/" exact element={<HomePage />} />
           <Route path="/play" exact element={<PlayPage />} />
-          <Route path="/info" exact element={<InfoPage />} />
           <Route path="/contact" exact element={<ContactPage />} />
           <Route path="/play/:id" element={<DuelPage />} />
           <Route path='*' exact element={<Error404Page />} />

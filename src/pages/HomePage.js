@@ -28,35 +28,6 @@ const HomePage = () => {
   const infoSectionBorder = useColorModeValue("none", "solid 4px");
   const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
 
-  // const ref1 = useRef(null);
-  // const isInViewport1 = useIsInViewport(ref1);
-  // const ref2 = useRef(null);
-  // const isInViewport2 = useIsInViewport(ref2);
-
-  // function useIsInViewport(ref) {
-  //   const [isIntersecting, setIsIntersecting] = useState(false);
-
-  //   const observer = useMemo(
-  //     () =>
-  //       new IntersectionObserver(([entry]) => {
-  //         if (entry.isIntersecting) setIsIntersecting(entry.isIntersecting); // toggle
-  //       }),
-  //     []
-  //   );
-
-  //   useEffect(() => {
-  //     observer.observe(ref.current);
-
-  //     return () => {
-  //       observer.disconnect();
-  //     };
-  //   }, [ref, observer]);
-
-  //   return isIntersecting;
-  // }
-
-  // const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   return (
     <BaseLayout
       isHomePage={true}
@@ -75,20 +46,11 @@ const HomePage = () => {
                 <Button
                   fontSize="lg"
                   onClick={() => navigate("/play")}
-                  width="12em"
+                  width="100%"
                   variant="solid"
                   colorScheme="primary"
                 >
                   Play for Free
-                </Button>
-                <Button
-                  fontSize="lg"
-                  onClick={() => navigate("/info")}
-                  width="12em"
-                  variant="outline"
-                  colorScheme="primary"
-                >
-                  More Info
                 </Button>
               </ButtonGroup>
             </Stack>
