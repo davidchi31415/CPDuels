@@ -17,6 +17,7 @@ import BaseLayout from "../components/baseLayout";
 import HomeHeroCode from "../components/homeHeroCode";
 import HomeInfoOne from "../components/homeInfoOne";
 import HomeInfoTwo from "../components/homeInfoTwo";
+import HomeInfoThree from "../components/homeInfoThree";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -132,6 +133,9 @@ const HomePage = () => {
             </Flex>
             <Flex justify="flex-end" pt="2em">
               <HomeInfoTwo />
+            </Flex>
+            <Flex justify="flex-start" pt="2em">
+              <HomeInfoThree />
             </Flex>
           </Box>
           <Box

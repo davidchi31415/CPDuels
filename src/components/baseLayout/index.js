@@ -23,7 +23,7 @@ const BaseNavbar = () => {
     <Flex mt="1" justify='space-between'> 
       <Image 
           aria-label="CPDuels logo" 
-          src={(colorMode == "light") ? LightLogo : DarkLogo} 
+          src={(colorMode === "light") ? LightLogo : DarkLogo} 
           w="10em" 
           h="auto" 
           cursor="pointer"
@@ -52,9 +52,9 @@ const BaseFooter = () => {
 
   return (  
     <Box width='1150px' position="absolute" bottom={0}>
-      <Text fontSize="md" mb={1} align="center">
-        2022 CPDuels.com<br/>
+      <Text fontSize="md" mb={5} align="center">
         Developed by <Text as="span" fontWeight="bold" color={(colorMode === "light") ? "primary.500" : "primary.300"}>David Chi</Text> and <Text as="span" fontWeight="bold" color={(colorMode === "light") ? "primary.500" : "primary.300"}>Jeffrey Li</Text>
+        <br/>2022 ChiLi Studios
       </Text>
     </Box>
   );
