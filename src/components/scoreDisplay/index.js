@@ -64,7 +64,7 @@ const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
                 <Text textStyle='body3' textAlign='center'>Score</Text>
               </GridItem>
               <GridItem>
-                <Text textAlign='center' fontWeight='bold'>{players[0].handle}</Text>
+                <Text textAlign='center' fontWeight='bold'>{players[0].username}</Text>
               </GridItem>
               <GridItem>
                 <Text textAlign='center' fontWeight='bold'>{playerScores[0]}</Text>
@@ -99,7 +99,7 @@ const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
                 <Text textStyle='body3' textAlign='center'>Score</Text>
               </GridItem>
               <GridItem >
-                <Text textAlign='center' fontWeight='bold'>{(players.length === 2) ? players[1].handle : "N/A"}</Text>
+                <Text textAlign='center' fontWeight='bold'>{(players.length === 2) ? players[1].username : "N/A"}</Text>
               </GridItem>
               <GridItem>
                 <Text textAlign='center' fontWeight='bold'>{(players.length === 2) ? playerScores[1] : 0}</Text>

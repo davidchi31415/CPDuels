@@ -33,9 +33,9 @@ export default class Database {
     const user = await this._getModel(`users/${db_id}`);
     return user;
   }
-  static async getUserByHandle(handle) {
+  static async getUserByUsername(username) {
     const user = await this._getModel('user').then(
-      result => result.filter(user => user.handle === handle)
+      result => result.filter(user => user.username === username)
     );
     return user;
   }

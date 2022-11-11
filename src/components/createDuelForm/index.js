@@ -63,7 +63,7 @@ const CreateDuelForm = () => {
       timeLimit: timeLimit,
       ratingMin: ratingMin,
       ratingMax, ratingMax,
-      players: [{handle: `${username ? username : "GUEST"}`, uid: uid}],
+      players: [{username: `${username ? username : "GUEST"}`, uid: uid}],
       private: isPrivate
     };
     console.log(duelData);

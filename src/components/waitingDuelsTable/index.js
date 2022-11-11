@@ -44,7 +44,7 @@ const WaitingDuelsTable = () => {
       },
       {
         Header: "Username",
-        accessor: "players[0].handle",
+        accessor: "players[0].username",
         disableSortBy: true,
         width: "22em"
       },

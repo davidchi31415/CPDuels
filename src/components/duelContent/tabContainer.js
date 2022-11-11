@@ -20,14 +20,23 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
   );
   const [index, setIndex] = useState(0);
   const [numProblems, setNumProblems] = useState(0);
-  const [codeSubmitted, setCodeSubmitted] = useState(false);
+  const [duelInfo, setDuelInfo] = useState(null);
 
   useEffect(() => {
-    const getNumProblems = async () => {
+    const getDuelInfo = async () => {
       let duel = await Database.getDuelById(id);
       setNumProblems(duel.problems.length);
+      setDuelInfo({
+        players: duel.players, // list of player objects (needs .username)
+        platform: duel.platform,
+        timeLimit: duel.timeLimit,
+        ratingMin: duel.ratingMin,
+        ratingMax: duel.ratingMax,
+        private: duel.private,
+        status: duel.status
+      });
     };
-    getNumProblems();
+    getDuelInfo();
     if (duelStatus === "ONGOING") {
       setIndex(1); // Go to problems tab
     }
@@ -61,7 +70,7 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
 
       <TabPanels border="none">
         <TabPanel px={0}>
-          <p>Some info...</p>
+          
         </TabPanel>
         <TabPanel px={0}>
           <AccordionContainer
