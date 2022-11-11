@@ -7,6 +7,8 @@ import {
   Tab,
   Flex,
   useColorModeValue,
+  TableContainer,
+  Grid, GridItem
 } from "@chakra-ui/react";
 import AccordionContainer from "./accordionContainer";
 import SubmitCodeEditor from "../submitCodeEditor";
@@ -21,6 +23,7 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
   const [index, setIndex] = useState(0);
   const [numProblems, setNumProblems] = useState(0);
   const [duelInfo, setDuelInfo] = useState(null);
+  const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
     const getDuelInfo = async () => {
@@ -33,9 +36,13 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
         ratingMin: duel.ratingMin,
         ratingMax: duel.ratingMax,
         private: duel.private,
-        status: duel.status
+        status: duel.status,
+        problemCount: duel.problemCount
       });
     };
+    const getSubmissions = async () => {
+      
+    }
     getDuelInfo();
     if (duelStatus === "ONGOING") {
       setIndex(1); // Go to problems tab
@@ -69,8 +76,28 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
       </TabList>
 
       <TabPanels border="none">
-        <TabPanel px={0}>
-          
+        <TabPanel px='auto'>
+          <Grid
+            templateColumns="repeat(4, 1fr)"
+            rowGap={2}
+            width="40em"
+            height="fit-content"
+            py={0}
+            fontSize='1.2rem'
+          >
+            <GridItem colSpan={1} fontWeight='bold'>Platform:</GridItem>
+            <GridItem>{duelInfo ? duelInfo.platform : "N/A"}</GridItem>
+            <GridItem colSpan={1} fontWeight='bold'>Time Limit: </GridItem>
+            <GridItem>{duelInfo ? `${duelInfo.timeLimit} min` : "N/A"}</GridItem>
+            <GridItem colSpan={1} fontWeight='bold'>Difficulty:</GridItem>
+            <GridItem>{duelInfo ? `${duelInfo.ratingMin} - ${duelInfo.ratingMax}` : "N/A"}</GridItem>
+            <GridItem colSpan={1} fontWeight='bold'>Private:</GridItem>
+            <GridItem>{duelInfo ? `${duelInfo.private ? "Yes" : "No"}` : "N/A"}</GridItem>
+            <GridItem colSpan={1} fontWeight='bold'>Status:</GridItem>
+            <GridItem>{duelInfo ? duelInfo.status : "N/A"}</GridItem>
+            <GridItem colSpan={1} fontWeight='bold'>Problem Count:</GridItem>
+            <GridItem>{duelInfo ? duelInfo.problemCount : "N/A"}</GridItem>
+          </Grid>
         </TabPanel>
         <TabPanel px={0}>
           <AccordionContainer
