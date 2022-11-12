@@ -45,7 +45,7 @@ const SubmissionsTable = ({ duelId }) => {
       // },
       {
         Header: "Problem",
-        accessor: "submissionsId",
+        accessor: "submissionId",
         width: "3em"
       },
       {
