@@ -14,6 +14,7 @@ import AccordionContainer from "./accordionContainer";
 import SubmitCodeEditor from "../submitCodeEditor";
 import Database from "../../data";
 import socket from '../../socket';
+import SubmissionsTable from "../submissionsTable";
 
 const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRendered }) => {
   const borderColor = useColorModeValue(
@@ -23,7 +24,6 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
   const [index, setIndex] = useState(0);
   const [numProblems, setNumProblems] = useState(0);
   const [duelInfo, setDuelInfo] = useState(null);
-  const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
     const getDuelInfo = async () => {
@@ -40,9 +40,6 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
         problemCount: duel.problemCount
       });
     };
-    const getSubmissions = async () => {
-      
-    }
     getDuelInfo();
     if (duelStatus === "ONGOING") {
       setIndex(1); // Go to problems tab
@@ -115,7 +112,7 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
           />
         </TabPanel>
         <TabPanel px={0}>
-          <p>Submissions...</p>
+          <SubmissionsTable duelId={id} />
         </TabPanel>
       </TabPanels>
     </Tabs>

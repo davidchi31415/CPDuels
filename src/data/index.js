@@ -71,6 +71,23 @@ export default class Database {
     return duels;
   }
 
+  static async getSubmissionsByDuelId(id) {
+    const filteredSubmissions = await this.getSubmissions().then(
+      result => result?.filter(submission => submission.duelId === id)
+    );
+    return filteredSubmissions;
+  }
+  static async getSubmissionsByDuelIdAndUid(id, uid) {
+    const filteredSubmissions = await this.getSubmissions().then(
+      result => result?.filter(submission => submission.duelId.toString() === id && submission.uid === uid)
+    );
+    return filteredSubmissions;
+  }
+  static async getSubmissions() {
+    const submissions = await this._getModel('submissions');
+    return submissions;
+  }
+
   static async addDuel(params) {
     const duel = await fetch(`${backendOrigin}/duels/add`, {
       method: "POST",
