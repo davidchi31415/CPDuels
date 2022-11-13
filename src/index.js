@@ -8,12 +8,10 @@ import { MathJaxContext } from 'better-react-mathjax';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <>
-    <ChakraProvider theme={theme} resetCSS={true}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <MathJaxContext><App /></MathJaxContext>
-    </ChakraProvider>
-  </>
+  <ChakraProvider theme={theme} resetCSS={true}>
+    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+    <MathJaxContext><App /></MathJaxContext>
+  </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React from "react";
 import {
   Center,
   Flex,
@@ -11,8 +11,8 @@ import {
   useColorModeValue,
   Box,
   ScaleFade,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import TextTransition from "react-text-transition";
 import BaseLayout from "../components/baseLayout";
 import HomeHeroCode from "../components/homeHeroCode";
 import HomeInfoOne from "../components/homeInfoOne";
@@ -32,9 +32,9 @@ const HomePage = () => {
     <BaseLayout
       isHomePage={true}
       content={
-        <Flex direction="column" pt="3em">
-          <Flex align="center">
-            <Stack width="35em" spacing="2" alignSelf="flex-end">
+        <Flex direction="column" width="100%" pt="3em">
+          <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={5}>
+            <Stack width={["30em", "35em"]} spacing="2" alignSelf="flex-end">
               <Text textStyle="display2" mb={0}>
                 A better way to practice coding
               </Text>
@@ -54,11 +54,10 @@ const HomePage = () => {
                 </Button>
               </ButtonGroup>
             </Stack>
-            <Spacer />
             <Center>
               <HomeHeroCode />
             </Center>
-          </Flex>
+          </SimpleGrid>
           <Box
             bg={infoSectionBackground}
             border={infoSectionBorder}
