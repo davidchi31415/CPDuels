@@ -32,10 +32,14 @@ const HomePage = () => {
     <BaseLayout
       isHomePage={true}
       content={
-        <Flex direction="column" width="100%" pt="3em">
-          <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={5}>
-            <Stack width={["30em", "35em"]} spacing="2" alignSelf="flex-end">
-              <Text textStyle="display2" mb={0}>
+        <Flex direction="column" width="100%" pt={["0.5em", "1em", "2em", "3em"]}>
+          <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={[2, 5]}>
+            <Stack width={["22em", "30em", "35em"]} spacing="2" alignSelf="flex-end"
+              mx="auto"
+            >
+              <Text textStyle="display2" mb={0} ml={[0, null, 4]}
+                fontSize={["3rem", "4rem"]}
+              >
                 A better way to practice coding
               </Text>
               <Text textStyle="body2" mt={0}>
@@ -54,7 +58,9 @@ const HomePage = () => {
                 </Button>
               </ButtonGroup>
             </Stack>
-            <Center>
+            <Center transform={["scale(0.65)", "none"]} 
+              mt={[-6, -4, -2, 0]} mb={[-14, -10, -6, 0]}
+            >
               <HomeHeroCode />
             </Center>
           </SimpleGrid>
