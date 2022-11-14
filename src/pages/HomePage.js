@@ -34,15 +34,17 @@ const HomePage = () => {
       content={
         <Flex direction="column" width="100%" pt={["0.5em", "1em", "2em", "3em"]}>
           <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={[2, 5]}>
-            <Stack width={["22em", "30em", "35em"]} spacing="2" alignSelf="flex-end"
+            <Stack width={["19em", "30em", "35em"]} spacing="2" alignSelf="flex-end"
               mx="auto"
             >
               <Text textStyle="display2" mb={0} ml={[0, null, 4]}
-                fontSize={["3rem", "4rem"]}
+                fontSize={["3rem", "4rem"]} lineHeight={["3.6rem", "4.8rem"]}
               >
                 A better way to practice coding
               </Text>
-              <Text textStyle="body2" mt={0}>
+              <Text textStyle="body2" mt={0}
+                fontSize={["1.1rem", "1.6rem"]} lineHeight={["1.6rem", "2.4rem"]}
+              >
                 Sharpen your programming skills by playing one-on-one live
                 duels, with problems drawn from Leetcode, Codeforces, and more.
               </Text>
@@ -51,6 +53,7 @@ const HomePage = () => {
                   fontSize="lg"
                   onClick={() => navigate("/play")}
                   width="100%"
+                  height={["3.5em", "3.2em", "3em"]}
                   variant="solid"
                   colorScheme="primary"
                 >
@@ -58,8 +61,8 @@ const HomePage = () => {
                 </Button>
               </ButtonGroup>
             </Stack>
-            <Center transform={["scale(0.65)", "none"]} 
-              mt={[-6, -4, -2, 0]} mb={[-14, -10, -6, 0]}
+            <Center transform={["scale(0.6)", "none"]} 
+              mt={[-6, 0]} mb={[-14, -6, null, 0]}
             >
               <HomeHeroCode />
             </Center>
@@ -92,6 +95,7 @@ const HomePage = () => {
               align="center"
               pt={0}
               color={colorMode === "light" ? "offWhite" : "primary.100"}
+              width={["8em", "13em", "fit-content"]} mx="auto" mt={[-8, -6, 0]} mb={[-6, -4, 0]}
             >
               Whatever your goals, CPDuels was built for you.
             </Text>
@@ -129,7 +133,9 @@ const HomePage = () => {
             pb="5em"
             zIndex={12}
           >
-            <Text textStyle="body1" align="center" pt={0}>
+            <Text textStyle="body1" align="center" pt={0}
+              width={["7em", "fit-content"]} mx="auto" mt={[-8, 0]} mb={[6, 4]}
+            >
               What are you waiting for?
             </Text>
             <Center mt={2}>
@@ -137,6 +143,7 @@ const HomePage = () => {
                 fontSize="lg"
                 onClick={() => navigate("/play")}
                 width="12em"
+                height={["3.5em", "3.2em", "3em"]}
                 variant="solid"
                 colorScheme="primary"
               >
