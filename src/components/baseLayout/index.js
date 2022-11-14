@@ -96,7 +96,7 @@ const HamburgerMenu = () => {
               <Switch
                 size="lg"
                 colorScheme="primary"
-                defaultChecked={false}
+                defaultChecked={colorMode === 'dark'}
                 onChange={toggleColorMode}
               />
             </Box>

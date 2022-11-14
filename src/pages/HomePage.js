@@ -37,7 +37,7 @@ const HomePage = () => {
               mx="auto"
             >
               <Text textStyle="display2" mb={0} ml={[0, null, 4, null, 0]}
-                fontSize={["3rem", "4rem"]} lineHeight={["3.6rem", "4.8rem"]}
+                fontSize={["2.8rem", "3rem", "4rem"]} lineHeight={["3.6rem", "4.8rem"]}
               >
                 A better way to practice coding
               </Text>
