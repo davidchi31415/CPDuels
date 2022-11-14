@@ -1,6 +1,6 @@
 const typography = {
   fonts: {
-     body: 'rubik, sans-serif',
+     body: 'Rubik, sans-serif',
   }
 };
 

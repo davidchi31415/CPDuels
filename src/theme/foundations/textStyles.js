@@ -1,6 +1,6 @@
 export const FONT_WEIGHT = {
     BOLD: 'bold',
-    SEMI: 600,
+    SEMI: 800,
     NORMAL: 'normal',
 };
 
