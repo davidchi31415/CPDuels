@@ -30,14 +30,13 @@ const HomePage = () => {
 
   return (
     <BaseLayout
-      isHomePage={true}
       content={
         <Flex direction="column" width="100%" pt={["0.5em", "1em", "2em", "3em"]}>
           <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={[2, 5]}>
             <Stack width={["19em", "30em", "35em"]} spacing="2" alignSelf="flex-end"
               mx="auto"
             >
-              <Text textStyle="display2" mb={0} ml={[0, null, 4]}
+              <Text textStyle="display2" mb={0} ml={[0, null, 4, null, 0]}
                 fontSize={["3rem", "4rem"]} lineHeight={["3.6rem", "4.8rem"]}
               >
                 A better way to practice coding

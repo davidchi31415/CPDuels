@@ -19,19 +19,22 @@ import {
   DrawerBody,
   List,
   ListItem,
+  Switch,
 } from "@chakra-ui/react";
 import { WiDaySunny } from "react-icons/wi";
-import { IoMoon } from "react-icons/io5";
+import { IoMoon, IoClose } from "react-icons/io5";
 import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
 import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const HamburgerMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
       <IconButton
+        variant="unstyled"
         icon={<GiHamburgerMenu size={45} />}
         onClick={onOpen}
         boxSize={["4rem"]}
@@ -41,15 +44,33 @@ const HamburgerMenu = () => {
       <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">Menu</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px">
+            <Flex justify="space-between">
+              <Text textAlign='center' textStyle='body1Semi'>Menu</Text>
+              <IconButton
+                my='auto'
+                variant="unstyled"
+                icon={<IoClose size={36} />}
+                onClick={onClose}
+              />
+            </Flex>
+          </DrawerHeader>
           <DrawerBody>
-            <List fontSize="1.4rem" spacing={2}>
-              <ListItem>
+            <List
+              fontSize="1.4rem"
+              listStylePos="inside"
+              pl={0}
+              pb={2}
+              spacing={2}
+              borderBottom="1px solid"
+              borderColor="gray"
+            >
+              <ListItem mx={0}>
                 <Link as={ReactLink} _hover={{ textDecoration: "none" }} to="/">
                   Home
                 </Link>
               </ListItem>
-              <ListItem>
+              <ListItem mx={0}>
                 <Link
                   as={ReactLink}
                   _hover={{ textDecoration: "none" }}
@@ -58,7 +79,7 @@ const HamburgerMenu = () => {
                   Play
                 </Link>
               </ListItem>
-              <ListItem>
+              <ListItem mx={0}>
                 <Link
                   as={ReactLink}
                   _hover={{ textDecoration: "none" }}
@@ -68,6 +89,17 @@ const HamburgerMenu = () => {
                 </Link>
               </ListItem>
             </List>
+            <Box mt={3}>
+              <Text fontSize="1.4rem" as="span" mr={3}>
+                {colorMode[0].toUpperCase() + colorMode.substring(1)} Mode
+              </Text>
+              <Switch
+                size="lg"
+                colorScheme="primary"
+                defaultChecked={false}
+                onChange={toggleColorMode}
+              />
+            </Box>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
@@ -75,11 +107,10 @@ const HamburgerMenu = () => {
   );
 };
 
-const BaseNavbar = () => {
+const BaseNavbar = ({ isMobile }) => {
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigateHome = () => navigate("/");
-  const [isMobile] = useMediaQuery("(max-width: 480px)");
 
   if (!isMobile) {
     return (
@@ -113,10 +144,7 @@ const BaseNavbar = () => {
     );
   } else {
     return (
-      <Flex
-        mt="1"
-        justify="space-between"
-      >
+      <Flex mt="1" justify="space-between">
         <Image
           aria-label="CPDuels logo"
           src={colorMode === "light" ? LightLogo : DarkLogo}
@@ -139,12 +167,8 @@ const BaseFooter = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Box
-      width={["320px", "500px", "800px", "1000px", "1150px"]}
-      position="absolute"
-      bottom={0}
-    >
-      <Text fontSize={["sm", "md"]} mb={4} align="center">
+    <Flex width="100%" justify="center" pt={5} pb={1}>
+      <Text fontSize={["sm", "md"]} mb={4} align="center" mx="auto">
         Developed by{" "}
         <Text
           as="span"
@@ -164,7 +188,7 @@ const BaseFooter = () => {
         <br />
         2022 ChiLi Studios
       </Text>
-    </Box>
+    </Flex>
   );
 };
 
@@ -180,8 +204,8 @@ const ToggleColorMode = () => {
       <IconButton
         variant="outline"
         colorScheme={colorMode === "dark" ? "orange" : "white"}
-        boxSize={["2rem", "3rem", "4rem"]}
-        size={["2rem", "3rem", "4rem"]}
+        boxSize={["3rem", "4rem"]}
+        size={["3rem", "4rem"]}
         icon={
           colorMode === "dark" ? (
             <WiDaySunny size={50} />
@@ -196,20 +220,15 @@ const ToggleColorMode = () => {
   );
 };
 
-const BaseLayout = ({ isHomePage, content }) => {
+const BaseLayout = ({ content }) => {
+  const [isMobile] = useMediaQuery("(max-width: 480px)");
   return (
-    <Flex
-      minHeight="1000px"
-      position="relative"
-      justifyContent="center"
-      pb="6em"
-      overflowX="hidden"
-    >
-      <Box width={["320px", "500px", "800px", "1000px", "1150px"]} m={0} p={0}>
-        <BaseNavbar />
+    <Flex minHeight="1000px" justifyContent="center" overflowX="hidden">
+      <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
+        <BaseNavbar isMobile={isMobile} />
         <BaseContainer content={content} />
         <BaseFooter />
-        <ToggleColorMode />
+        {!isMobile ? <ToggleColorMode /> : ""}
       </Box>
     </Flex>
   );
