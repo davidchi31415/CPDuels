@@ -57,7 +57,7 @@ const BaseFooter = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Box width={["350px", "600px", "800px", "1000px", "1150px"]} position="absolute" bottom={0}>
+    <Box width={["320px", "500px", "800px", "1000px", "1150px"]} position="absolute" bottom={0}>
       <Text fontSize="md" mb={5} align="center">
         Developed by{" "}
         <Text
@@ -119,7 +119,7 @@ const BaseLayout = ({ isHomePage, content }) => {
       pb="6em"
       overflowX="hidden"
     >
-      <Box width={["350px", "600px", "800px", "1000px", "1150px"]} m={0} p={0}>
+      <Box width={["320px", "500px", "800px", "1000px", "1150px"]} m={0} p={0}>
         <BaseNavbar />
         <BaseContainer content={content} />
         <BaseFooter />
