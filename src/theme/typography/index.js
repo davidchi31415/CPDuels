@@ -1,8 +1,6 @@
-import './centuryGothic.css';
-
 const typography = {
   fonts: {
-     body: 'century-gothic, sans-serif',
+     body: 'rubik, sans-serif',
   }
 };
 

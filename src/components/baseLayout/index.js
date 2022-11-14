@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { WiDaySunny } from "react-icons/wi";
 import { IoMoon } from "react-icons/io5";
-import LightLogo from "../../images/logo_light.png";
-import DarkLogo from "../../images/logo_dark.png";
+import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
+import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
 
 const BaseNavbar = () => {
   const navigate = useNavigate();
