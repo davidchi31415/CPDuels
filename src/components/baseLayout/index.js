@@ -41,9 +41,6 @@ const HamburgerMenu = ({ setMenuRefs }) => {
         variant="unstyled"
         icon={<GiHamburgerMenu size={45} />}
         onClick={onOpen}
-        boxSize={["4rem"]}
-        size={["4rem"]}
-        mr={0}
       />
       <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
@@ -150,7 +147,8 @@ const BaseNavbar = ({ isMobile, setMenuRefs }) => {
     );
   } else {
     return (
-      <Flex mt="1" justify="space-between">
+      <Flex justify="space-between" align="center" mt={1} mx={1}>
+        <HamburgerMenu setMenuRefs={setMenuRefs} />   
         <Image
           aria-label="CPDuels logo"
           src={colorMode === "light" ? LightLogo : DarkLogo}
@@ -159,7 +157,6 @@ const BaseNavbar = ({ isMobile, setMenuRefs }) => {
           cursor="pointer"
           onClick={navigateHome}
         />
-        <HamburgerMenu setMenuRefs={setMenuRefs} />
       </Flex>
     );
   }
@@ -243,7 +240,7 @@ const BaseLayout = ({ content }) => {
 
   const onTouchMove = (e) => {
     touchEnd.current = e.targetTouches[0].clientX;
-  }
+  };
 
   const onTouchEnd = () => {
     if (touchStart.current === null || touchEnd.current === null) return;
@@ -252,22 +249,29 @@ const BaseLayout = ({ content }) => {
     const isRightSwipe = distance < minSwipeDistance;
     if (isLeftSwipe) {
       if (mobileMenuOpen.current !== null) mobileMenuOpen.current();
-    }
-    else if (isRightSwipe) {
+    } else if (isRightSwipe) {
       console.log("Right Swipe");
       if (mobileMenuClose.current !== null) mobileMenuClose.current();
     }
   };
 
   return (
-    <Flex minHeight="1000px" justifyContent="center" overflowX="hidden"
-      onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onTouchMove={onTouchMove}
+    <Flex
+      minHeight="1000px"
+      justifyContent="center"
+      overflowX="hidden"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onTouchMove={onTouchMove}
     >
       <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
-        <BaseNavbar isMobile={isMobile} setMenuRefs={(onOpen, onClose) => {
-          mobileMenuOpen.current = onOpen;
-          mobileMenuClose.current = onClose;
-        }} />
+        <BaseNavbar
+          isMobile={isMobile}
+          setMenuRefs={(onOpen, onClose) => {
+            mobileMenuOpen.current = onOpen;
+            mobileMenuClose.current = onClose;
+          }}
+        />
         <BaseContainer content={content} />
         <BaseFooter />
         {!isMobile ? <ToggleColorMode /> : ""}

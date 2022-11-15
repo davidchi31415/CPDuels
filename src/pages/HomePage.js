@@ -36,22 +36,19 @@ const HomePage = () => {
           direction="column"
           width="100%"
         >
-          <SimpleGrid columns={1} mx="auto" spacing={[2, 5]}
-            mt={-3}
-          >
+          <SimpleGrid columns={1} mx="auto" spacing={[2, 5]}>
             <Center
               transform={[null, "scale(1.2)", "scale(1.3)", "scale(1.4)", "scale(1.5)"]}
-              my={[-14, -8, -6, -2]}
+              height="fit-content"
+              my={[2, 9, 10, 12, 14]}
             >
               <HomeHeroCode />
             </Center>
             <Stack
               width={["19em", "30em", "35em"]}
               spacing="2"
-              alignSelf="flex-end"
-              ml={[0, 8]}
               mb="2em"
-              mx="auto"
+              ml={[0, 4, 6]}
             >
               <Text
                 textStyle="display2"
