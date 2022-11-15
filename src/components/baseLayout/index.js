@@ -26,14 +26,13 @@ import { IoMoon, IoClose } from "react-icons/io5";
 import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
 import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useSwipeable } from "react-swipeable";
 
-const HamburgerMenu = ({ setMenuRef }) => {
+const HamburgerMenu = ({ setMenuRefs }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
-    setMenuRef(onOpen);
+    setMenuRefs(onOpen, onClose);
   }, []);
 
   return (
@@ -51,9 +50,11 @@ const HamburgerMenu = ({ setMenuRef }) => {
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">
             <Flex justify="space-between">
-              <Text textAlign='center' textStyle='body1Semi'>Menu</Text>
+              <Text textAlign="center" textStyle="body1Semi">
+                Menu
+              </Text>
               <IconButton
-                my='auto'
+                my="auto"
                 variant="unstyled"
                 icon={<IoClose size={36} />}
                 onClick={onClose}
@@ -101,7 +102,7 @@ const HamburgerMenu = ({ setMenuRef }) => {
               <Switch
                 size="lg"
                 colorScheme="primary"
-                defaultChecked={colorMode === 'dark'}
+                defaultChecked={colorMode === "dark"}
                 onChange={toggleColorMode}
               />
             </Box>
@@ -112,7 +113,7 @@ const HamburgerMenu = ({ setMenuRef }) => {
   );
 };
 
-const BaseNavbar = ({ isMobile, setMenuRef }) => {
+const BaseNavbar = ({ isMobile, setMenuRefs }) => {
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigateHome = () => navigate("/");
@@ -158,7 +159,7 @@ const BaseNavbar = ({ isMobile, setMenuRef }) => {
           cursor="pointer"
           onClick={navigateHome}
         />
-        <HamburgerMenu setMenuRef={setMenuRef} />
+        <HamburgerMenu setMenuRefs={setMenuRefs} />
       </Flex>
     );
   }
@@ -227,20 +228,45 @@ const ToggleColorMode = () => {
 
 const BaseLayout = ({ content }) => {
   const [isMobile] = useMediaQuery("(max-width: 480px)");
-  const openMenuRef = useRef(); // Ref for opening menu function
-  const swipeObserver = useSwipeable({
-    onSwipedLeft: () => {
-      if (openMenuRef.current) {
-        openMenuRef.current();
-      }
+  const mobileMenuOpen = useRef();
+  const mobileMenuClose = useRef();
+  const touchStart = useRef();
+  const touchEnd = useRef();
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    touchEnd.current = null;
+    touchStart.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e) => {
+    touchEnd.current = e.targetTouches[0].clientX;
+  }
+
+  const onTouchEnd = () => {
+    if (touchStart.current === null || touchEnd.current === null) return;
+    const distance = touchStart.current - touchEnd.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < minSwipeDistance;
+    if (isLeftSwipe) {
+      if (mobileMenuOpen.current !== null) mobileMenuOpen.current();
     }
-  });
+    else if (isRightSwipe) {
+      if (mobileMenuClose.current !== null) mobileMenuClose.current();
+    }
+  };
+
   return (
     <Flex minHeight="1000px" justifyContent="center" overflowX="hidden"
-      {...swipeObserver}
+      onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onTouchMove={onTouchMove}
     >
       <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
-        <BaseNavbar isMobile={isMobile} setMenuRef={(func) => { openMenuRef.current = func; }} />
+        <BaseNavbar isMobile={isMobile} setMenuRefs={(onOpen, onClose) => {
+          mobileMenuOpen.current = onOpen;
+          mobileMenuClose.current = onClose;
+        }} />
         <BaseContainer content={content} />
         <BaseFooter />
         {!isMobile ? <ToggleColorMode /> : ""}
