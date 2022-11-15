@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -26,10 +26,15 @@ import { IoMoon, IoClose } from "react-icons/io5";
 import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
 import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useSwipeable } from "react-swipeable";
 
-const HamburgerMenu = () => {
+const HamburgerMenu = ({ setMenuRef }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+
+  useEffect(() => {
+    setMenuRef(onOpen);
+  }, []);
 
   return (
     <>
@@ -107,7 +112,7 @@ const HamburgerMenu = () => {
   );
 };
 
-const BaseNavbar = ({ isMobile }) => {
+const BaseNavbar = ({ isMobile, setMenuRef }) => {
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigateHome = () => navigate("/");
@@ -125,7 +130,7 @@ const BaseNavbar = ({ isMobile }) => {
         />
         <HStack
           fontSize="1.5rem"
-          fontWeight="bold"
+          fontWeight="800"
           spacing="1.5em"
           width="fit-content"
         >
@@ -153,7 +158,7 @@ const BaseNavbar = ({ isMobile }) => {
           cursor="pointer"
           onClick={navigateHome}
         />
-        <HamburgerMenu />
+        <HamburgerMenu setMenuRef={setMenuRef} />
       </Flex>
     );
   }
@@ -222,10 +227,20 @@ const ToggleColorMode = () => {
 
 const BaseLayout = ({ content }) => {
   const [isMobile] = useMediaQuery("(max-width: 480px)");
+  const openMenuRef = useRef(); // Ref for opening menu function
+  const swipeObserver = useSwipeable({
+    onSwipedLeft: () => {
+      if (openMenuRef.current) {
+        openMenuRef.current();
+      }
+    }
+  });
   return (
-    <Flex minHeight="1000px" justifyContent="center" overflowX="hidden">
+    <Flex minHeight="1000px" justifyContent="center" overflowX="hidden"
+      {...swipeObserver}
+    >
       <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
-        <BaseNavbar isMobile={isMobile} />
+        <BaseNavbar isMobile={isMobile} setMenuRef={(func) => { openMenuRef.current = func; }} />
         <BaseContainer content={content} />
         <BaseFooter />
         {!isMobile ? <ToggleColorMode /> : ""}
