@@ -28,7 +28,6 @@ const HomePage = () => {
   const infoSectionBackground = useColorModeValue("primary.400", "none");
   const infoSectionBorder = useColorModeValue("none", "solid 4px");
   const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
-  const [heroIsOneColumn] = useMediaQuery("(max-width: 1279px)");
 
   return (
     <BaseLayout
@@ -37,30 +36,26 @@ const HomePage = () => {
           direction="column"
           width="100%"
         >
-          <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={[2, 5]}
+          <SimpleGrid columns={1} mx="auto" spacing={[2, 5]}
             mt={-3}
           >
-            {heroIsOneColumn ? (
-              <Center
-                transform={[null, "scale(1.2)", "scale(1.35)"]}
-                my={[-14, -8, -6]}
-              >
-                <HomeHeroCode />
-              </Center>
-            ) : (
-              ""
-            )}
+            <Center
+              transform={[null, "scale(1.2)", "scale(1.3)", "scale(1.4)", "scale(1.5)"]}
+              my={[-14, -8, -6, -2]}
+            >
+              <HomeHeroCode />
+            </Center>
             <Stack
               width={["19em", "30em", "35em"]}
               spacing="2"
               alignSelf="flex-end"
+              ml={[0, 8]}
               mb="2em"
               mx="auto"
             >
               <Text
                 textStyle="display2"
                 mb={0}
-                ml={[0, 4, null, null, 0]}
                 fontSize={["2.8rem", "3rem", "4rem"]}
                 lineHeight={["3.6rem", "4.8rem"]}
               >
@@ -69,7 +64,6 @@ const HomePage = () => {
               <Text
                 textStyle="body2"
                 mt={0}
-                pl={[0, 4, null, null, 0]}
                 fontSize={["1.1rem", "1.6rem"]}
                 lineHeight={["1.6rem", "2.4rem"]}
               >
@@ -80,7 +74,7 @@ const HomePage = () => {
                 <Button
                   fontSize="lg"
                   onClick={() => navigate("/play")}
-                  width="100%"
+                  width={["100%", "95%"]}
                   height={["3.5em", "3.2em", "3em"]}
                   variant="solid"
                   colorScheme="primary"
@@ -89,16 +83,6 @@ const HomePage = () => {
                 </Button>
               </ButtonGroup>
             </Stack>
-            {!heroIsOneColumn ? (
-              <Center
-                transform="scale(1.55)"
-                mb={-4}
-              >
-                <HomeHeroCode />
-              </Center>
-            ) : (
-              ""
-            )}
           </SimpleGrid>
           <Box
             bg={infoSectionBackground}
