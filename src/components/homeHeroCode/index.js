@@ -1,4 +1,4 @@
-import { Center, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Box, Center, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 import "./styles.css";
 import CPFavicon from "../../images/CPDuels Favicon (1).svg";
@@ -13,22 +13,20 @@ const HomeHeroCode = () => {
     "#include <codeforces>\n",
     "#include <atcoder>\n",
     "#include <leetcode>\n",
-    "#include \"1v1_duels.h\"\n",
+    '#include "1v1_duels.h"\n',
     "\n",
     "int main() {\n",
     "  CPDuels::Duel duel = CPDuels::createDuel(\n",
-    "    \"tourist\", \"apgpsoop\", 10, 180, 2400, 3000\n",
+    '    "tourist", "apgpsoop", 10, 180, 2400, 3000\n',
     "  );\n",
     "  duel.start();\n",
     "  duel.solveProblems();\n",
     "  duel.haveFun();\n",
     "  return 0;\n",
-    "}"
+    "}",
   ];
 
-  const sleep = ms => new Promise(
-    resolve => setTimeout(resolve, ms)
-  );
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   useEffect(() => {
     if (!writing) {
@@ -36,12 +34,16 @@ const HomeHeroCode = () => {
       async function writeText() {
         for (let i = 0; i < script.length; i++) {
           for (let j = 0; j < script[i].length; j++) {
-            if (script[i][j] === '\n') await sleep(100);
-            setCode(code => code.substring(0, code.length-1) + script[i][j] + '▮');
-            if (script[i][j] === ' ') await sleep(100);
-            else if (script[i][j] === '\n') await sleep(200);
-            else if (script[i][j] === '(' || script[i] === ')') await sleep(180);
-            else if (script[i][j] === '{' || script[i] === '}') await sleep(200);
+            if (script[i][j] === "\n") await sleep(100);
+            setCode(
+              (code) => code.substring(0, code.length - 1) + script[i][j] + "▮"
+            );
+            if (script[i][j] === " ") await sleep(100);
+            else if (script[i][j] === "\n") await sleep(200);
+            else if (script[i][j] === "(" || script[i] === ")")
+              await sleep(180);
+            else if (script[i][j] === "{" || script[i] === "}")
+              await sleep(200);
             else await sleep(50);
           }
         }
@@ -55,9 +57,9 @@ const HomeHeroCode = () => {
     async function blinkCursor() {
       while (true) {
         await sleep(500);
-        setCode(code => code.substring(0, code.length-1));
+        setCode((code) => code.substring(0, code.length - 1));
         await sleep(500);
-        setCode(code => code + '▮');
+        setCode((code) => code + "▮");
       }
     }
     if (doneWriting) {
@@ -67,7 +69,12 @@ const HomeHeroCode = () => {
   }, [doneWriting]);
 
   return (
-    <div class="macintosh">
+    <Box
+      className="macintosh"
+      boxShadow={
+        colorMode === "light" ? "0 80px 60px -60px rgba(0, 0, 0, 0.4)" : ""
+      }
+    >
       <div class="monitor-inner">
         <div class="screen-cutout">
           <div class="screen">
@@ -82,7 +89,7 @@ const HomeHeroCode = () => {
         </div>
         <div class="cpduels-label">CPDuels SE</div>
       </div>
-    </div>
+    </Box>
   );
 };
 
