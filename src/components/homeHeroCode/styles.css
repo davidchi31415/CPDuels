@@ -13,13 +13,13 @@
     #dfdac4
   ); /* Fallback background for conic gradient */
   background-image: conic-gradient(
-    #dddbc2 0 10.5%,
-    #ececd5 11% 11.5%,
-    #cecdaf 12% 38%,
+    #dddbc2 0 11.5%,
+    #ececd5 12% 13.5%,
+    #cecdaf 14% 38%,
     #c8c4a7 39% 61.5%,
-    #c7c3a6 62% 88%,
-    #dfdac4 88.5% 89%,
-    #dddbc2 89.25%
+    #c7c3a6 62% 87%,
+    #dfdac4 87.5% 88.5%,
+    #dddbc2 89%
   );
 }
 
