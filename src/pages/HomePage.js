@@ -36,14 +36,14 @@ const HomePage = () => {
         <Flex
           direction="column"
           width="100%"
-          pt={["0.5em", "1em", "2em", "3em"]}
         >
-          <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={[2, 5]}>
+          <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={[2, 5]}
+            mt={-3}
+          >
             {heroIsOneColumn ? (
               <Center
-                transform={["scale(0.6)", "scale(0.8)", "scale(0.9)"]}
-                mt={[-14, -8, -6]}
-                mb={[-10, -6, -4]}
+                transform={[null, "scale(1.2)", "scale(1.35)"]}
+                my={[-14, -8, -6]}
               >
                 <HomeHeroCode />
               </Center>
@@ -54,6 +54,7 @@ const HomePage = () => {
               width={["19em", "30em", "35em"]}
               spacing="2"
               alignSelf="flex-end"
+              mb="2em"
               mx="auto"
             >
               <Text
@@ -90,9 +91,8 @@ const HomePage = () => {
             </Stack>
             {!heroIsOneColumn ? (
               <Center
-                transform={["scale(0.6)", "none"]}
-                mt={[-6, 0]}
-                mb={[-14, -6, null, 0]}
+                transform="scale(1.55)"
+                mb={-4}
               >
                 <HomeHeroCode />
               </Center>
