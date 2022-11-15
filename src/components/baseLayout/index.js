@@ -254,6 +254,7 @@ const BaseLayout = ({ content }) => {
       if (mobileMenuOpen.current !== null) mobileMenuOpen.current();
     }
     else if (isRightSwipe) {
+      console.log("Right Swipe");
       if (mobileMenuClose.current !== null) mobileMenuClose.current();
     }
   };

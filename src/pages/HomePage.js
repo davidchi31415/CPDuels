@@ -12,6 +12,7 @@ import {
   Box,
   ScaleFade,
   SimpleGrid,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
 import HomeHeroCode from "../components/homeHeroCode";
@@ -27,22 +28,49 @@ const HomePage = () => {
   const infoSectionBackground = useColorModeValue("primary.400", "none");
   const infoSectionBorder = useColorModeValue("none", "solid 4px");
   const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
+  const [heroIsOneColumn] = useMediaQuery("(max-width: 1279px)");
 
   return (
     <BaseLayout
       content={
-        <Flex direction="column" width="100%" pt={["0.5em", "1em", "2em", "3em"]}>
+        <Flex
+          direction="column"
+          width="100%"
+          pt={["0.5em", "1em", "2em", "3em"]}
+        >
           <SimpleGrid columns={[1, 1, 1, 1, 2]} mx="auto" spacing={[2, 5]}>
-            <Stack width={["19em", "30em", "35em"]} spacing="2" alignSelf="flex-end"
+            {heroIsOneColumn ? (
+              <Center
+                transform={["scale(0.6)", "scale(0.8)", "scale(0.9)"]}
+                mt={[-14, -8, -6]}
+                mb={[-10, -6, -4]}
+              >
+                <HomeHeroCode />
+              </Center>
+            ) : (
+              ""
+            )}
+            <Stack
+              width={["19em", "30em", "35em"]}
+              spacing="2"
+              alignSelf="flex-end"
               mx="auto"
             >
-              <Text textStyle="display2" mb={0} ml={[0, null, 4, null, 0]}
-                fontSize={["2.8rem", "3rem", "4rem"]} lineHeight={["3.6rem", "4.8rem"]}
+              <Text
+                textStyle="display2"
+                mb={0}
+                ml={[0, 4, null, null, 0]}
+                fontSize={["2.8rem", "3rem", "4rem"]}
+                lineHeight={["3.6rem", "4.8rem"]}
               >
                 A better way to practice coding
               </Text>
-              <Text textStyle="body2" mt={0}
-                fontSize={["1.1rem", "1.6rem"]} lineHeight={["1.6rem", "2.4rem"]}
+              <Text
+                textStyle="body2"
+                mt={0}
+                pl={[0, 4, null, null, 0]}
+                fontSize={["1.1rem", "1.6rem"]}
+                lineHeight={["1.6rem", "2.4rem"]}
               >
                 Sharpen your programming skills by playing one-on-one live
                 duels, with problems drawn from Leetcode, Codeforces, and more.
@@ -60,11 +88,17 @@ const HomePage = () => {
                 </Button>
               </ButtonGroup>
             </Stack>
-            <Center transform={["scale(0.6)", "none"]} 
-              mt={[-6, 0]} mb={[-14, -6, null, 0]}
-            >
-              <HomeHeroCode />
-            </Center>
+            {!heroIsOneColumn ? (
+              <Center
+                transform={["scale(0.6)", "none"]}
+                mt={[-6, 0]}
+                mb={[-14, -6, null, 0]}
+              >
+                <HomeHeroCode />
+              </Center>
+            ) : (
+              ""
+            )}
           </SimpleGrid>
           <Box
             bg={infoSectionBackground}
@@ -94,7 +128,10 @@ const HomePage = () => {
               align="center"
               pt={0}
               color={colorMode === "light" ? "offWhite" : "primary.100"}
-              width={["8em", "13em", "fit-content"]} mx="auto" mt={[-8, -6, 0]} mb={[-6, -4, 0]}
+              width={["8em", "13em", "fit-content"]}
+              mx="auto"
+              mt={[-8, -6, 0]}
+              mb={[-6, -4, 0]}
             >
               Whatever your goals, CPDuels was built for you.
             </Text>
@@ -132,8 +169,14 @@ const HomePage = () => {
             pb="5em"
             zIndex={12}
           >
-            <Text textStyle="body1" align="center" pt={0}
-              width={["7em", "fit-content"]} mx="auto" mt={[-8, 0]} mb={[6, 4]}
+            <Text
+              textStyle="body1"
+              align="center"
+              pt={0}
+              width={["7em", "fit-content"]}
+              mx="auto"
+              mt={[-8, 0]}
+              mb={[6, 4]}
             >
               What are you waiting for?
             </Text>
