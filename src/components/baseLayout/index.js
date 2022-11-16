@@ -148,7 +148,6 @@ const BaseNavbar = ({ isMobile, setMenuRefs }) => {
   } else {
     return (
       <Flex justify="space-between" align="center" mt={1} mx={1}>
-        <HamburgerMenu setMenuRefs={setMenuRefs} />   
         <Image
           aria-label="CPDuels logo"
           src={colorMode === "light" ? LightLogo : DarkLogo}
@@ -157,6 +156,7 @@ const BaseNavbar = ({ isMobile, setMenuRefs }) => {
           cursor="pointer"
           onClick={navigateHome}
         />
+        <HamburgerMenu setMenuRefs={setMenuRefs} />   
       </Flex>
     );
   }

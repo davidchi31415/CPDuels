@@ -16,8 +16,8 @@ const HomeHeroCode = () => {
     '#include "1v1_duels.h"\n',
     "\n",
     "int main() {\n",
-    "  CPDuels::Duel duel = CPDuels::createDuel(\n",
-    '    "tourist", "apgpsoop", 10, 180, 2400, 3000\n',
+    "  CPDuels::Duel duel = new CPDuels::Duel(\n",
+    '    "CF", "tourist", "apgpsoop", 10, 180, 2400, 3000\n',
     "  );\n",
     "  duel.start();\n",
     "  duel.solveProblems();\n",
@@ -27,6 +27,7 @@ const HomeHeroCode = () => {
   ];
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const cursor="|";
 
   useEffect(() => {
     if (!writing) {
@@ -35,11 +36,20 @@ const HomeHeroCode = () => {
         for (let i = 0; i < script.length; i++) {
           for (let j = 0; j < script[i].length; j++) {
             if (script[i][j] === "\n") await sleep(100);
+            if (script[i][j] === " " && j < script[i].length && script[i][j+1] === " ") {
+              setCode(
+                (code) => code.substring(0, code.length - 1) + "  " + cursor
+              );
+              j++;
+              await sleep(100);
+              continue;
+            }
             setCode(
-              (code) => code.substring(0, code.length - 1) + script[i][j] + "▮"
+              (code) => code.substring(0, code.length - 1) + script[i][j] + cursor
             );
             if (script[i][j] === " ") await sleep(100);
             else if (script[i][j] === "\n") await sleep(200);
+            else if (script[i][j] === ",") await sleep(250);
             else if (script[i][j] === "(" || script[i] === ")")
               await sleep(180);
             else if (script[i][j] === "{" || script[i] === "}")
@@ -59,7 +69,7 @@ const HomeHeroCode = () => {
         await sleep(500);
         setCode((code) => code.substring(0, code.length - 1));
         await sleep(500);
-        setCode((code) => code + "▮");
+        setCode((code) => code + cursor);
       }
     }
     if (doneWriting) {
@@ -72,23 +82,25 @@ const HomeHeroCode = () => {
     <Box
       className="macintosh"
       boxShadow={
-        colorMode === "light" ? "0 80px 60px -60px rgba(0, 0, 0, 0.4)" : ""
+        colorMode === "light" ? "0 70px 44px -44px rgba(0, 0, 0, 0.4)" : ""
       }
     >
-      <div class="monitor-inner">
-        <div class="screen-cutout">
-          <div class="screen">
-            <pre class="code">{code}</pre>
-          </div>
-        </div>
-        <div class="logo">
+      <Box className="monitor-inner">
+        <Box className="screen-cutout">
+          <Box className="screen">
+            <pre className="code">{code}</pre>
+          </Box>
+        </Box>
+        <Box className="logo"
+          filter="opacity(50%)"
+        >
           <img src={CPFavicon} />
-        </div>
-        <div class="opening">
-          <div class="opening-inner"></div>
-        </div>
-        <div class="cpduels-label">CPDuels SE</div>
-      </div>
+        </Box>
+        <Box className="opening">
+          <Box className="opening-inner"></Box>
+        </Box>
+        <Box className="cpduels-label">CPDuels SE</Box>
+      </Box>
     </Box>
   );
 };
