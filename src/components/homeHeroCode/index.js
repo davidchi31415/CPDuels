@@ -88,7 +88,7 @@ const HomeHeroCode = () => {
       <Box className="monitor-inner">
         <Box className="screen-cutout">
           <Box className="screen">
-            <pre className="code">{code}</pre>
+            <pre className="code"><code>{code}</code></pre>
           </Box>
         </Box>
         <Box className="logo"

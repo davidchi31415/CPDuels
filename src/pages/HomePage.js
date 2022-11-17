@@ -28,6 +28,8 @@ const HomePage = () => {
   const infoSectionBackground = useColorModeValue("primary.400", "none");
   const infoSectionBorder = useColorModeValue("none", "solid 4px");
   const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
+  
+  const [isMobile] = useMediaQuery("(max-width: 480px)");
 
   return (
     <BaseLayout
