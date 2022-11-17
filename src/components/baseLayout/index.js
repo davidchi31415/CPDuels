@@ -263,7 +263,7 @@ const BaseLayout = ({ content }) => {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onTouchMove={onTouchMove}
-      sx={{ "-webkit-text-size-adjust": "100%",  }}
+      sx={{ "-webkit-text-size-adjust": "100%" }}
     >
       <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
         <BaseNavbar
