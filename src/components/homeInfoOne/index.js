@@ -233,7 +233,7 @@ const HomeInfoOne = () => {
         maxWidth={"95vw"}
       >
         With our easy-to-use duel creation system, you can be in your own coding battle within just a few clicks.<br />
-        You can also join someone else's, by choosing from a pool of public duels.
+        Or you can join someone else's — just choose from a pool of public duels.
       </Text>
       <FakePlayPage />
     </VStack>

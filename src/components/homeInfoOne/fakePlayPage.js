@@ -35,6 +35,8 @@ import FakeReactTable from "./fakeTableContainer.js";
 import { MdRefresh } from "react-icons/md";
 
 const FakeWaitingDuelsTable = ({ inViewport, forwardedRef, ready }) => {
+  const borderColor = useColorModeValue("rgb(0, 0, 0, 0.5)", "grey.100");
+
   const originalData = [
     {
       platform: "CF",
@@ -174,7 +176,7 @@ const FakeWaitingDuelsTable = ({ inViewport, forwardedRef, ready }) => {
               </FormLabel>
               <Select
                 value={platform}
-                borderColor="grey.100"
+                borderColor={borderColor}
                 width="11em"
                 textAlign="center"
               >
@@ -218,6 +220,8 @@ const FakeCreateDuelForm = ({
   const [submitting, setSubmitting] = useState(false);
 
   const sliderThumbColor = useColorModeValue("grey.500", "secondary.900");
+
+  const borderColor = useColorModeValue("rgb(0, 0, 0, 0.5)", "grey.100");
 
   const exampleUsername = "davidchi";
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -318,7 +322,7 @@ const FakeCreateDuelForm = ({
         width="30em"
         height="fit-content"
         border="1px solid"
-        borderColor="primary.300"
+        borderColor={borderColor}
         rounded="md"
         boxShadow="2xl"
         px={4}
@@ -570,14 +574,17 @@ const FakePlayPage = () => {
   });
   const [duelCreationAnimationFinished, setDuelCreationAnimationFinished] =
     useState(false);
-
+  const backgroundColor = useColorModeValue("offWhite", "grey.900");
+  const largeBorder = useColorModeValue("none", "solid 1px #7d7dff");
+  const largeShadow = useColorModeValue('2xl', "#7d7dff 0 8px 50px")
   return (
     <Flex
-      backgroundColor="offWhite"
+      backgroundColor={backgroundColor}
       p={5}
       gap={5}
       rounded='lg'
-      boxShadow='2xl'
+      boxShadow={largeShadow}
+      border={largeBorder}
       transform="scale(0.85)"
       pointerEvents='none'
     >
