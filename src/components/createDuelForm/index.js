@@ -113,7 +113,7 @@ const CreateDuelForm = () => {
           <Flex>
             <FormLabel my="auto">Platform</FormLabel>
             <Select value={platform} onChange={(e) => setPlatform(e.target.value)}
-              borderColor='grey.100'
+              borderColor='grey.100' pl={2}
             >
               <option value="CF">Codeforces</option>
               <option value="AT">AtCoder</option>
@@ -131,7 +131,7 @@ const CreateDuelForm = () => {
             onChange={(value) => setProblemCount(value)}
             borderColor='grey.100'
           >
-            <NumberInputField width='5em' />
+            <NumberInputField width='5em' pl={2} />
             <NumberInputStepper borderColor='grey.100'>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -163,11 +163,11 @@ const CreateDuelForm = () => {
       <FormControl isInvalid={timeLimitError} isRequired>
         <Flex justify="space-between">
           <FormLabel my="auto" mr={0}>Time Limit (min)</FormLabel>
-          <NumberInput value={timeLimit} min={5} max={180} step={5} size='sm' width='fit-content' height='fit-content'
+          <NumberInput value={timeLimit} min={5} max={180} step={5} size='sm'
             onChange={(value) => setTimeLimit(value)}
             borderColor='grey.100'
           >
-            <NumberInputField width='5em' />
+            <NumberInputField width='5em' pl={2} />
             <NumberInputStepper borderColor='grey.100'>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -204,7 +204,7 @@ const CreateDuelForm = () => {
             onBlur={(e) => setRatingMin(Math.floor(e.target.value/100)*100)}
             borderColor='grey.100'
           >
-            <NumberInputField width='6em' />
+            <NumberInputField width='6em' pl={2} />
             <NumberInputStepper borderColor='grey.100'>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -241,7 +241,7 @@ const CreateDuelForm = () => {
             onBlur={(e) => setRatingMax(Math.floor(e.target.value/100)*100)}
             borderColor='grey.100'
           >
-            <NumberInputField width='6em' />
+            <NumberInputField width='6em' pl={2} />
             <NumberInputStepper borderColor='grey.100'>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
@@ -282,6 +282,7 @@ const CreateDuelForm = () => {
           }}
           borderColor='grey.100'
           width="12em"
+          pl={2}
         />
       </FormControl>
       </Center>

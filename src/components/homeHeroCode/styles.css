@@ -21,6 +21,7 @@
     #dfdac4 87.25% 89%,
     #dddbc2 89.5%
   );
+  transition: box-shadow 4s ease; 
 }
 
 .monitor-inner {
@@ -80,6 +81,7 @@
   margin: 12px 12px;
   font-weight: 600;
   font-size: 0.5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 .logo {

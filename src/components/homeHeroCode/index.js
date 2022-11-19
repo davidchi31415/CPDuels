@@ -82,11 +82,13 @@ const HomeHeroCode = () => {
     <Box
       className="macintosh"
       boxShadow={
-        colorMode === "light" ? "0 70px 44px -44px rgba(0, 0, 0, 0.4)" : ""
+        colorMode === "light" ? "0 70px 44px -44px rgba(0, 0, 0, 0.4)" : "#a8a8ff 0 15px 42px"
       }
     >
       <Box className="monitor-inner">
-        <Box className="screen-cutout">
+        <Box className="screen-cutout" boxShadow={
+        colorMode === "light" ? "" : "#888888 0 10px 35px"
+      }>
           <Box className="screen">
             <pre className="code"><code>{code}</code></pre>
           </Box>

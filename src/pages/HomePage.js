@@ -28,19 +28,22 @@ const HomePage = () => {
   const infoSectionBackground = useColorModeValue("primary.400", "none");
   const infoSectionBorder = useColorModeValue("none", "solid 4px");
   const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
-  
+
   const [isMobile] = useMediaQuery("(max-width: 480px)");
 
   return (
     <BaseLayout
       content={
-        <Flex
-          direction="column"
-          width="100%"
-        >
+        <Flex direction="column">
           <SimpleGrid columns={1} mx="auto" spacing={[2, 5]}>
             <Center
-              transform={[null, "scale(1.2)", "scale(1.3)", "scale(1.4)", "scale(1.5)"]}
+              transform={[
+                null,
+                "scale(1.2)",
+                "scale(1.3)",
+                "scale(1.4)",
+                "scale(1.5)",
+              ]}
               height="fit-content"
               my={[2, 9, 10, 12, 14]}
             >
@@ -85,57 +88,35 @@ const HomePage = () => {
           </SimpleGrid>
           <Box
             bg={infoSectionBackground}
-            border={infoSectionBorder}
-            borderColor="primary.300"
+            borderTop="solid 4px"
+            borderTopColor="primary.400"
             mt="5em"
-            ml="-10em"
-            mr="-10em"
-            px="10em"
+            mx="calc(-50vw)"
             pb="5em"
             borderTopRadius="100%"
             borderBottom="none"
             height="15em"
             position="relative"
           ></Box>
-          <Box
+          <Flex
             bg={infoSectionBackground}
-            mt="-7.5em"
-            ml="-10em"
-            mr="-10em"
-            px="10em"
+            mt={["-11em", "-12em"]}
+            mx="calc(-50vw)"
             pb="10em"
             zIndex={10}
+            direction="column"
+            align="center"
           >
-            <Text
-              textStyle="body1"
-              align="center"
-              pt={0}
-              color={colorMode === "light" ? "offWhite" : "primary.100"}
-              width={["8em", "13em", "fit-content"]}
-              mx="auto"
-              mt={[-8, -6, 0]}
-              mb={[-6, -4, 0]}
-            >
-              Whatever your goals, CPDuels was built for you.
-            </Text>
-            <Flex justify="flex-start" pt="5em">
-              <HomeInfoOne />
-            </Flex>
-            <Flex justify="flex-end" pt="2em">
-              <HomeInfoTwo />
-            </Flex>
-            <Flex justify="flex-start" pt="2em">
-              <HomeInfoThree />
-            </Flex>
-          </Box>
+            <HomeInfoOne />
+            {/* <HomeInfoTwo />
+            <HomeInfoThree /> */}
+          </Flex>
           <Box
             bg={footerSectionBackground}
             borderTop="solid 4px"
             borderTopColor="primary.400"
             mt="-7.5em"
-            ml="-10em"
-            mr="-10em"
-            px="10em"
+            mx="calc(-50vw)"
             zIndex={11}
             pb={0}
             borderTopRadius="100%"
