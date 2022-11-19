@@ -240,7 +240,7 @@ const FakeCreateDuelForm = ({
       setAnimating(true);
       setAnimationIndex((i) => i + 1);
       await sleep(250);
-      for (let i = 2; i < 13; i++) {
+      for (let i = 2; i < 25; i++) {
         setTimeLimit(i * 5);
         await sleep(50);
       }
