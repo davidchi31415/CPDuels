@@ -40,7 +40,7 @@ const FakeDuelPage = () => {
         backgroundColor={backgroundColor}
         border={largeBorder}
         boxShadow={largeShadow}
-        transform={["scale(0.4)", "scale(0.6)"]}
+        transform={["scale(0.47)", "scale(0.6)"]}
         height="40em"
         overflowY="hidden"
         pointerEvents="none"
