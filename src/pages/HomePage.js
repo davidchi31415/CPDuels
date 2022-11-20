@@ -25,9 +25,9 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const { colorMode, toggle } = useColorMode();
-  const infoSection1Background = useColorModeValue("primary.400", "none");
+  const infoSection1Background = useColorModeValue("primary.100", "none");
   const infoSectionBorder = useColorModeValue("none", "solid 4px");
-  const infoSection2Background = useColorModeValue("secondary.300", "grey.900");
+  const infoSection2Background = useColorModeValue("primary.500", "grey.900");
   const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
 
   const [isMobile] = useMediaQuery("(max-width: 480px)");
@@ -54,7 +54,7 @@ const HomePage = () => {
               width={["19em", "30em", "35em"]}
               spacing="2"
               mb="2em"
-              ml={[0, 4, 6]}
+              ml={[1, 4, 6]}
             >
               <Text
                 textStyle="display2"
@@ -89,7 +89,7 @@ const HomePage = () => {
           </SimpleGrid>
           <Box
             bg={infoSection1Background}
-            borderTop="solid 4px"
+            borderTop={infoSectionBorder}
             borderTopColor="primary.400"
             mt="5em"
             mx="calc(-50vw)"
@@ -112,8 +112,8 @@ const HomePage = () => {
           </Flex>
           <Box
             bg={infoSection2Background}
-            borderTop="solid 4px"
-            borderTopColor="secondary.300"
+            borderTop={infoSectionBorder}
+            borderTopColor="secondary.500"
             mt="-8em"
             mx="calc(-50vw)"
             pb="5em"

@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Flex, VStack, Button, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  VStack,
+  Button,
+  useColorModeValue,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import FakeTimeAndJoinDisplay from "./fakeTimeAndJoinDisplay.js";
 import FakeScoreDisplay from "./fakeScoreDisplay.js";
 import FakeTabContainer from "./fakeTabContainer.js";
-import { MathJax } from "better-react-mathjax";
+import { handleViewport } from "react-in-viewport";
 
-const FakeDuelPage = ({ inViewport, forwardedRef }) => {
+const FakeDuelPage = () => {
   const [duelStatus, setDuelStatus] = useState("READY");
   const [playerNum, setPlayerNum] = useState();
 
@@ -17,40 +24,66 @@ const FakeDuelPage = ({ inViewport, forwardedRef }) => {
     useState(false);
   const [duelAnimationFinished, setDuelAnimationFinished] = useState(false);
 
-  useEffect(() => {});
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
-  return (
-    <div ref={forwardedRef}>
-      <Flex
-        justify="space-between"
-        gap={5}
-        p={5}
+  const AnimatedTabContainer = handleViewport(FakeTabContainer, {
+    threshold: 0.5,
+  });
+  const AnimatedTimeAndJoinDisplay = handleViewport(FakeTimeAndJoinDisplay, {
+    threshold: 0.5,
+  });
+
+  if (isMobile) {
+    return (
+      <Box
         rounded="md"
         backgroundColor={backgroundColor}
         border={largeBorder}
         boxShadow={largeShadow}
-        transform="scale(0.87)"
-        maxHeight='50em'
-        overflowY='hidden'
-        pointerEvents='none'
+        transform={["scale(0.4)", "scale(0.6)"]}
+        height="40em"
+        overflowY="hidden"
+        pointerEvents="none"
+        my={["-10em", "-6em"]}
       >
-        <FakeTabContainer
-          inViewport={inViewport}
+        <AnimatedTabContainer
+          ready={true}
+          finished={duelAnimationFinished}
+          onFinished={() => setDuelAnimationFinished(true)}
+        />
+      </Box>
+    );
+  } else {
+    return (
+      <Flex
+        justify="space-between"
+        gap={5}
+        p={5}
+        my={[null, null, "-7em", "-4em", 0]}
+        rounded="md"
+        backgroundColor={backgroundColor}
+        border={largeBorder}
+        boxShadow={largeShadow}
+        transform={[null, null, "scale(0.6)", "scale(0.75)", "scale(0.87)"]}
+        maxHeight="50em"
+        overflowY="hidden"
+        pointerEvents="none"
+      >
+        <AnimatedTabContainer
           ready={duelStartAnimationFinished}
           finished={duelAnimationFinished}
           onFinished={() => setDuelAnimationFinished(true)}
         />
         <VStack spacing={5}>
-          <FakeTimeAndJoinDisplay
-            inViewport={inViewport}
+          <AnimatedTimeAndJoinDisplay
             finished={duelStartAnimationFinished}
             onFinished={() => setDuelStartAnimationFinished(true)}
           />
           <FakeScoreDisplay duelStatus={duelStatus} playerNum={playerNum} />
         </VStack>
       </Flex>
-    </div>
-  );
+    );
+  }
 };
 
 export default FakeDuelPage;

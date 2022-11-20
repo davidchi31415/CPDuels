@@ -29,6 +29,9 @@ import {
   VStack,
   HStack,
   IconButton,
+  SimpleGrid,
+  useMediaQuery,
+  Box,
 } from "@chakra-ui/react";
 import handleViewport from "react-in-viewport";
 import FakeReactTable from "./fakeTableContainer.js";
@@ -327,6 +330,7 @@ const FakeCreateDuelForm = ({
         boxShadow="2xl"
         px={4}
         py={3}
+        mx={["auto", null, null, 0]}
       >
         <GridItem colSpan={2}>
           <Center>
@@ -576,25 +580,43 @@ const FakePlayPage = () => {
     useState(false);
   const backgroundColor = useColorModeValue("offWhite", "grey.900");
   const largeBorder = useColorModeValue("none", "solid 1px #7d7dff");
-  const largeShadow = useColorModeValue('2xl', "#7d7dff 0 8px 50px")
-  return (
-    <Flex
-      backgroundColor={backgroundColor}
-      p={5}
-      gap={5}
-      rounded='lg'
-      boxShadow={largeShadow}
-      border={largeBorder}
-      transform="scale(0.85)"
-      pointerEvents='none'
-    >
-      <AnimatedWaitingDuelsTable ready={duelCreationAnimationFinished} />
-      <AnimatedCreateDuelForm
-        finished={duelCreationAnimationFinished}
-        onFinished={() => setDuelCreationAnimationFinished(true)}
-      />
-    </Flex>
-  );
+  const largeShadow = useColorModeValue("2xl", "#7d7dff 0 8px 50px");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
+  if (isMobile) {
+    return (
+      <Box
+        backgroundColor={backgroundColor}
+        transform={["scale(0.6)", "scale(0.8)"]}
+        boxShadow={largeShadow}
+        my={["-5em", "-1em"]}
+      >
+        <AnimatedCreateDuelForm
+          finished={duelCreationAnimationFinished}
+          onFinished={() => setDuelCreationAnimationFinished(true)}
+        />
+      </Box>
+    );
+  } else {
+    return (
+      <Flex
+        backgroundColor={backgroundColor}
+        p={5}
+        gap={5}
+        rounded="lg"
+        boxShadow={largeShadow}
+        border={largeBorder}
+        pointerEvents="none"
+        transform={[null, null, "scale(0.6)", "scale(0.75)", "scale(0.85)"]}
+        my={[null, null, "-6em", "-3em", 0]}
+      >
+        <AnimatedWaitingDuelsTable ready={duelCreationAnimationFinished} />
+        <AnimatedCreateDuelForm
+          finished={duelCreationAnimationFinished}
+          onFinished={() => setDuelCreationAnimationFinished(true)}
+        />
+      </Flex>
+    );
+  }
 };
 
 export default FakePlayPage;

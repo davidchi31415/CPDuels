@@ -14,7 +14,13 @@ import {
 import FakeAccordionContainer from "./fakeAccordionContainer";
 import SubmitCodeEditor from "../submitCodeEditor";
 
-const FakeTabContainer = ({ inViewport, ready, finished, onFinished }) => {
+const FakeTabContainer = ({
+  inViewport,
+  forwardedRef,
+  ready,
+  finished,
+  onFinished,
+}) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
     "rgb(255, 255, 255, 0.5)"
@@ -61,86 +67,88 @@ const FakeTabContainer = ({ inViewport, ready, finished, onFinished }) => {
   }, [finished, inViewport, animating, animationIndex, ready]);
 
   return (
-    <Tabs
-      variant="line"
-      borderColor={borderColor}
-      width="47em"
-      index={index}
-      onChange={(index) => setIndex(index)}
-      colorScheme="primary"
-    >
-      <TabList>
-        <Flex width="100%">
-          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
-            Duel Info
-          </Tab>
-          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
-            Problems
-          </Tab>
-          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
-            Submit
-          </Tab>
-          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
-            Submissions
-          </Tab>
-        </Flex>
-      </TabList>
+    <div ref={forwardedRef}>
+      <Tabs
+        variant="line"
+        borderColor={borderColor}
+        width="47em"
+        index={index}
+        onChange={(index) => setIndex(index)}
+        colorScheme="primary"
+      >
+        <TabList>
+          <Flex width="100%">
+            <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+              Duel Info
+            </Tab>
+            <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+              Problems
+            </Tab>
+            <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+              Submit
+            </Tab>
+            <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+              Submissions
+            </Tab>
+          </Flex>
+        </TabList>
 
-      <TabPanels border="none">
-        <TabPanel px="auto">
-          <Grid
-            templateColumns="repeat(4, 1fr)"
-            rowGap={2}
-            width="40em"
-            height="fit-content"
-            py={0}
-            fontSize="1.2rem"
-          >
-            <GridItem colSpan={1} fontWeight="bold">
-              Platform:
-            </GridItem>
-            <GridItem>CF</GridItem>
-            <GridItem colSpan={1} fontWeight="bold">
-              Time Limit:{" "}
-            </GridItem>
-            <GridItem>120 min</GridItem>
-            <GridItem colSpan={1} fontWeight="bold">
-              Difficulty:
-            </GridItem>
-            <GridItem>1800 - 2200</GridItem>
-            <GridItem colSpan={1} fontWeight="bold">
-              Private:
-            </GridItem>
-            <GridItem>No</GridItem>
-            <GridItem colSpan={1} fontWeight="bold">
-              Status:
-            </GridItem>
-            <GridItem>{ready ? "ONGOING" : "READY"}</GridItem>
-            <GridItem colSpan={1} fontWeight="bold">
-              Problem Count:
-            </GridItem>
-            <GridItem>5</GridItem>
-          </Grid>
-        </TabPanel>
-        <TabPanel px={0}>
-          <FakeAccordionContainer
-            inViewport={inViewport}
-            ready={animatingProblems}
-            finished={problemsAnimated}
-            onFinished={() => setProblemsAnimated(true)}
-          />
-        </TabPanel>
-        <TabPanel px={0} pt={-3} pb={0} transform="scale(0.97)">
-          <SubmitCodeEditor
-            key="stuck-editor"
-            editorId="stuck-editor"
-            duelPlatform={"CF"}
-            numProblems={5}
-          />
-        </TabPanel>
-        <TabPanel px={0}>Submissions...</TabPanel>
-      </TabPanels>
-    </Tabs>
+        <TabPanels border="none">
+          <TabPanel px="auto">
+            <Grid
+              templateColumns="repeat(4, 1fr)"
+              rowGap={2}
+              width="40em"
+              height="fit-content"
+              py={0}
+              fontSize="1.2rem"
+            >
+              <GridItem colSpan={1} fontWeight="bold">
+                Platform:
+              </GridItem>
+              <GridItem>CF</GridItem>
+              <GridItem colSpan={1} fontWeight="bold">
+                Time Limit:{" "}
+              </GridItem>
+              <GridItem>120 min</GridItem>
+              <GridItem colSpan={1} fontWeight="bold">
+                Difficulty:
+              </GridItem>
+              <GridItem>1800 - 2200</GridItem>
+              <GridItem colSpan={1} fontWeight="bold">
+                Private:
+              </GridItem>
+              <GridItem>No</GridItem>
+              <GridItem colSpan={1} fontWeight="bold">
+                Status:
+              </GridItem>
+              <GridItem>{ready ? "ONGOING" : "READY"}</GridItem>
+              <GridItem colSpan={1} fontWeight="bold">
+                Problem Count:
+              </GridItem>
+              <GridItem>5</GridItem>
+            </Grid>
+          </TabPanel>
+          <TabPanel px={0}>
+            <FakeAccordionContainer
+              inViewport={inViewport}
+              ready={animatingProblems}
+              finished={problemsAnimated}
+              onFinished={() => setProblemsAnimated(true)}
+            />
+          </TabPanel>
+          <TabPanel px={0} pt={-3} pb={0} transform="scale(0.97)">
+            <SubmitCodeEditor
+              key="stuck-editor"
+              editorId="stuck-editor"
+              duelPlatform={"CF"}
+              numProblems={5}
+            />
+          </TabPanel>
+          <TabPanel px={0}>Submissions...</TabPanel>
+        </TabPanels>
+      </Tabs>
+    </div>
   );
 };
 

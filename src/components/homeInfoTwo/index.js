@@ -11,18 +11,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import FakeDuelPage from "./fakeDuelPage.js";
-import handleViewport from 'react-in-viewport';
 
 const HomeInfoTwo = () => {
-  const AnimatedDuelPage = handleViewport(FakeDuelPage, {
-    threshold: 0.5,
-  });
-
-  const sectionColoredTitle = useColorModeValue("secondary.900", "secondary.300");
-  const color = useColorModeValue("grey.900", "offWhite");
+  const sectionColoredTitle = useColorModeValue("primary.200", "secondary.300");
 
   return (
-    <VStack>
+    <>
       <Text
         fontSize={["1.2rem", "1.5rem"]}
         lineHeight={["1rem", "1.2rem"]}
@@ -35,7 +29,7 @@ const HomeInfoTwo = () => {
       <Text
         mt={0}
         fontWeight="bold"
-        color={color}
+        color="offWhite"
         fontSize={["1.4rem", "2rem"]}
         lineHeight={["2.5rem", "2.8rem"]}
       >
@@ -43,7 +37,7 @@ const HomeInfoTwo = () => {
       </Text>
       <Text
         align="center"
-        color={color}
+        color="offWhite"
         fontSize={["0.9rem", "1.2rem"]}
         maxWidth={"95vw"}
       >
@@ -51,8 +45,8 @@ const HomeInfoTwo = () => {
         leaving CPDuels.<br />
         May the best programmer win!
       </Text>
-      <AnimatedDuelPage />
-    </VStack>
+      <FakeDuelPage />
+    </>
   );
 };
 
