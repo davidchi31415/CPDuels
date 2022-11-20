@@ -44,7 +44,7 @@ const FakeDuelPage = () => {
         height="40em"
         overflowY="hidden"
         pointerEvents="none"
-        my={["-10em", "-6em"]}
+        my={["-8em", "-6em"]}
       >
         <AnimatedTabContainer
           ready={true}

@@ -126,7 +126,7 @@ const HomePage = () => {
           ></Box>
           <Flex
            bg={infoSection2Background}
-           mt={["-10em", "-11em"]}
+           mt={["-12em", "-11em"]}
            mx="calc(-50vw)"
            pb="10em"
            zIndex={10}
