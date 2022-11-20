@@ -8,7 +8,8 @@ import {
   Flex,
   useColorModeValue,
   TableContainer,
-  Grid, GridItem
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import FakeAccordionContainer from "./fakeAccordionContainer";
 import SubmitCodeEditor from "../submitCodeEditor";
@@ -25,58 +26,39 @@ const FakeTabContainer = ({ inViewport, ready, finished, onFinished }) => {
   const [animating, setAnimating] = useState(false);
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const [problemIndexOpen, setProblemIndexOpen] = useState();
+  const [animatingProblems, setAnimatingProblems] = useState(false);
+  const [problemsAnimated, setProblemsAnimated] = useState(false);
 
   useEffect(() => {
     const animateOpenProblemTab = async () => {
       setAnimating(true);
       await sleep(250);
       setIndex(1);
-      await sleep(500);
-      setAnimationIndex(i => i+1);
-      setAnimating(false);
-    }
-    const animateOpenProblemOne = async () => {
-      setAnimating(true);
       await sleep(250);
-      setProblemIndexOpen(1);
-      await sleep(3500);
-      setAnimationIndex(i => i+1);
-      setAnimating(false)
+      setAnimatingProblems(true);
+      await sleep(14000);
+      setAnimationIndex((i) => i + 1);
+      setAnimating(false);
     };
-    const animateOpenProblemTwo = async () => {
-      setAnimating(true);
-      await sleep(250);
-      setProblemIndexOpen(2);
-      await sleep(3500);
-      setAnimationIndex(i => i+1);
-      setAnimating(false);
-    }
     const animateOpenSubmitTab = async () => {
       setAnimating(true);
-      await sleep(500);
+      await sleep(250);
       setIndex(2);
-      setAnimationIndex(i => i+1);
+      setAnimationIndex((i) => i + 1);
       setAnimating(false);
       onFinished();
-    }
-    if (inViewport && animationIndex < 4 && ready && !animating && !finished) {
+    };
+    if (inViewport && animationIndex < 2 && ready && !animating && !finished) {
       switch (animationIndex) {
         case 0:
           animateOpenProblemTab();
           break;
         case 1:
-          animateOpenProblemOne();
-          break;
-        case 2:
-          animateOpenProblemTwo();
-          break;
-        case 3:
           animateOpenSubmitTab();
           break;
       }
     }
-  }, [finished, inViewport, animating, ready]);
+  }, [finished, inViewport, animating, animationIndex, ready]);
 
   return (
     <Tabs
@@ -105,40 +87,58 @@ const FakeTabContainer = ({ inViewport, ready, finished, onFinished }) => {
       </TabList>
 
       <TabPanels border="none">
-        <TabPanel px='auto'>
+        <TabPanel px="auto">
           <Grid
             templateColumns="repeat(4, 1fr)"
             rowGap={2}
             width="40em"
             height="fit-content"
             py={0}
-            fontSize='1.2rem'
+            fontSize="1.2rem"
           >
-            <GridItem colSpan={1} fontWeight='bold'>Platform:</GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Platform:
+            </GridItem>
             <GridItem>CF</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Time Limit: </GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Time Limit:{" "}
+            </GridItem>
             <GridItem>120 min</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Difficulty:</GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Difficulty:
+            </GridItem>
             <GridItem>1800 - 2200</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Private:</GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Private:
+            </GridItem>
             <GridItem>No</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Status:</GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Status:
+            </GridItem>
             <GridItem>{ready ? "ONGOING" : "READY"}</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Problem Count:</GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Problem Count:
+            </GridItem>
             <GridItem>5</GridItem>
           </Grid>
         </TabPanel>
         <TabPanel px={0}>
-          <FakeAccordionContainer indexOpen={problemIndexOpen} />
-        </TabPanel>
-        <TabPanel px={0} py={-3} transform="scale(0.98)">
-          <SubmitCodeEditor key="stuck-editor" editorId="stuck-editor" 
-            duelPlatform={'CF'} numProblems={5} 
+          <FakeAccordionContainer
+            inViewport={inViewport}
+            ready={animatingProblems}
+            finished={problemsAnimated}
+            onFinished={() => setProblemsAnimated(true)}
           />
         </TabPanel>
-        <TabPanel px={0}>
-          Submissions...
+        <TabPanel px={0} pt={-3} pb={0} transform="scale(0.97)">
+          <SubmitCodeEditor
+            key="stuck-editor"
+            editorId="stuck-editor"
+            duelPlatform={"CF"}
+            numProblems={5}
+          />
         </TabPanel>
+        <TabPanel px={0}>Submissions...</TabPanel>
       </TabPanels>
     </Tabs>
   );

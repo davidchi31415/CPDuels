@@ -30,6 +30,8 @@ const FakeDuelPage = ({ inViewport, forwardedRef }) => {
         border={largeBorder}
         boxShadow={largeShadow}
         transform="scale(0.87)"
+        maxHeight='50em'
+        overflowY='hidden'
       >
         <FakeTabContainer
           inViewport={inViewport}
