@@ -25,8 +25,9 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const { colorMode, toggle } = useColorMode();
-  const infoSectionBackground = useColorModeValue("primary.400", "none");
+  const infoSection1Background = useColorModeValue("primary.400", "none");
   const infoSectionBorder = useColorModeValue("none", "solid 4px");
+  const infoSection2Background = useColorModeValue("secondary.300", "grey.900");
   const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
 
   const [isMobile] = useMediaQuery("(max-width: 480px)");
@@ -87,7 +88,7 @@ const HomePage = () => {
             </Stack>
           </SimpleGrid>
           <Box
-            bg={infoSectionBackground}
+            bg={infoSection1Background}
             borderTop="solid 4px"
             borderTopColor="primary.400"
             mt="5em"
@@ -99,17 +100,41 @@ const HomePage = () => {
             position="relative"
           ></Box>
           <Flex
-            bg={infoSectionBackground}
+            bg={infoSection1Background}
             mt={["-11em", "-12em"]}
             mx="calc(-50vw)"
-            pb="10em"
-            zIndex={10}
+            pb="5em"
+            zIndex={9}
             direction="column"
             align="center"
           >
             <HomeInfoOne />
-            {/* <HomeInfoTwo />
-            <HomeInfoThree /> */}
+          </Flex>
+          <Box
+            bg={infoSection2Background}
+            borderTop="solid 4px"
+            borderTopColor="secondary.300"
+            mt="-8em"
+            mx="calc(-50vw)"
+            pb="5em"
+            borderBottom="none"
+            transform="auto"
+            skewY="-4deg"
+            height="15em"
+            zIndex={10}
+            position="relative"
+          ></Box>
+          <Flex
+           bg={infoSection2Background}
+           mt={["-10em", "-11em"]}
+           mx="calc(-50vw)"
+           pb="10em"
+           zIndex={10}
+           direction="column"
+           align="center"
+          >
+            <HomeInfoTwo />
+            {/* <HomeInfoThree /> */}
           </Flex>
           <Box
             bg={footerSectionBackground}

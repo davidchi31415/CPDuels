@@ -157,7 +157,7 @@ const TimeDisplay = ({ id }) => {
   }, []);
   
   return (
-    <Text textAlign='center' textStyle='display2' py={0} height='100%'>
+    <Text textAlign='center' textStyle='display2'>
       {`${`${hours}`.padStart(2, '0') + ':' + `${minutes}`.padStart(2, '0') + ':' + `${seconds}`.padStart(2, '0')}`}
     </Text>
   );

@@ -217,7 +217,7 @@ const HomeInfoOne = () => {
         color={sectionColoredTitle}
         mb={0}
       >
-        Duel Creation
+        Instant Duel Creation
       </Text>
       <Text
         mt={0}
