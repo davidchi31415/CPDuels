@@ -17,7 +17,7 @@ const HomeHeroCode = () => {
     "\n",
     "int main() {\n",
     "  CPDuels::Duel duel = new CPDuels::Duel(\n",
-    '    "tourist", "apgpsoop", "CF", 10, 180, 2400, 3000\n',
+    '    "tourist", "apgpsoop", 10, 180, 2400, 3000\n',
     "  );\n",
     "  duel.start();\n",
     "  duel.solveProblems();\n",
