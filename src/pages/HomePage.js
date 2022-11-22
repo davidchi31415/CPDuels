@@ -111,7 +111,7 @@ const HomePage = () => {
             <HomeInfoOne />
           </Flex>
           <Box
-            bg={(colorMode === 'light') ? 'primary.500' : 'grey.900'}
+            bg={colorMode === "light" ? "primary.500" : "grey.900"}
             borderTop={infoSectionBorder}
             borderTopColor="secondary.500"
             mt="-8em"
@@ -125,38 +125,49 @@ const HomePage = () => {
             position="relative"
           ></Box>
           <Flex
-           bg={infoSection2Background}
-           mt={["-12em", "-11em"]}
-           mx="calc(-50vw)"
-           pb="10em"
-           zIndex={15}
-           direction="column"
-           align="center"
+            bg={infoSection2Background}
+            mt={["-12em", "-11em"]}
+            mx="calc(-50vw)"
+            pb="10em"
+            zIndex={15}
+            direction="column"
+            align="center"
           >
             <HomeInfoTwo />
-            {/* <HomeInfoThree /> */}
           </Flex>
           <Box
             bg={footerSectionBackground}
-            borderTop="solid 4px"
-            borderTopColor="primary.400"
-            mt="-7.5em"
+            borderTop={infoSectionBorder}
+            borderTopColor="secondary.500"
+            mt="-8em"
             mx="calc(-50vw)"
-            zIndex={16}
-            pb={0}
-            borderTopRadius="100%"
+            pb="5em"
             borderBottom="none"
+            transform="auto"
+            skewY="4deg"
             height="15em"
+            zIndex={17}
             position="relative"
           ></Box>
+          <Flex
+            bg={footerSectionBackground}
+            mt={["-12em", "-11em"]}
+            mx="calc(-50vw)"
+            pb="10em"
+            zIndex={18}
+            direction="column"
+            align="center"
+          >
+            <HomeInfoThree />
+          </Flex>
           <Box
             bg={footerSectionBackground}
-            mt="-7.5em"
+            mt={["-5em", "-7.5em"]}
             ml="-10em"
             mr="-10em"
             px="10em"
             pb="5em"
-            zIndex={17}
+            zIndex={20}
           >
             <Text
               textStyle="body1"

@@ -5,51 +5,28 @@ import {
   Flex,
   Text,
   Stack,
-  useColorMode, useColorModeValue,
+  useColorMode,
+  useColorModeValue,
   Box,
 } from "@chakra-ui/react";
-import ChatLight from '../../images/home_chat_light.png';
-import ChatDark from '../../images/home_chat_dark_resized.png';
+import Phone from "./phone.js";
+import handleViewport from "react-in-viewport";
 
 const HomeInfoThree = () => {
   const { colorMode, toggle } = useColorMode();
-  const backgroundColor = useColorModeValue("offWhite", "grey.900");
-  const borderThickness = useColorModeValue("none", "solid 2px");
-  const boldColor = useColorModeValue("primary.500", "primary.300");
+  const AnimatedPhone = handleViewport(Phone, {
+    threshold: 0.5,
+  });
+
+  const [phoneAnimationFinished, setPhoneAnimationFinished] = useState(false);
 
   return (
-    <Flex
-      bg={backgroundColor}
-      border={borderThickness}
-      borderColor="primary.300"
-      borderRightRadius="3rem"
-      ml="-10em"
-      pl="14em"
-      pr="2.5em"
-      py="3em"
-      gap="1.5em"
-    >
-      <Stack>
-        <Text pt="2.7em" textStyle="body1" fontWeight="bold">
-          Play with your friends.
-        </Text>
-        <Text as="p" fontSize="1.2rem" maxWidth="25em">
-          In addition to public duels with random people, you can also play a duel
-          with your friends.
-        </Text>
-        <Text as="p" fontSize="1.2rem" maxWidth="25em">
-          Just create a private duel and send them a link!
-        </Text>
-      </Stack>
-      <Box p={2} py={3}
-        bg={colorMode === "light" ? "white" : "black"}
-        border="solid 1px" borderColor={colorMode === "light" ? "rgb(0, 0, 0, 0.5)" : "grey.500"} rounded="xl"
-        boxShadow={colorMode === "light" ? "2xl" : "none"}
-        height="420px" overflowY="hidden"
-      >
-        <img src={colorMode === "light" ? ChatLight : ChatDark} width="500px" />
-      </Box>
-    </Flex>
+    <Box transform={["scale(0.9)", "none"]}>
+      <AnimatedPhone
+        finished={phoneAnimationFinished}
+        onFinished={() => setPhoneAnimationFinished(true)}
+      />
+    </Box>
   );
 };
 

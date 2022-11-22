@@ -43,6 +43,7 @@ const FakeDuelPage = () => {
         transform={["scale(0.47)", "scale(0.6)"]}
         height="40em"
         overflowY="hidden"
+        overflowX="hidden"
         pointerEvents="none"
         my={["-8em", "-6em"]}
       >
