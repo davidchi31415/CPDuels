@@ -37,7 +37,13 @@ import handleViewport from "react-in-viewport";
 import FakeReactTable from "./fakeTableContainer.js";
 import { MdRefresh } from "react-icons/md";
 
-const FakeWaitingDuelsTable = ({ inViewport, forwardedRef, ready }) => {
+const FakeWaitingDuelsTable = ({
+  inViewport,
+  forwardedRef,
+  ready,
+  finished,
+  onFinished,
+}) => {
   const borderColor = useColorModeValue("rgb(0, 0, 0, 0.5)", "grey.100");
 
   const originalData = [
@@ -105,7 +111,20 @@ const FakeWaitingDuelsTable = ({ inViewport, forwardedRef, ready }) => {
       timeLimit: 10,
     },
   ];
-  const [data, setData] = useState(originalData);
+  const [data, setData] = useState(
+    finished
+      ? [
+          ...originalData,
+          {
+            platform: "CF",
+            username: "davidchi",
+            difficulty: "1800-2200",
+            problemCount: 5,
+            timeLimit: 120,
+          },
+        ]
+      : originalData
+  );
   const [platform, setPlatform] = useState("All");
   const [loading, setLoading] = useState(false);
 
@@ -129,11 +148,12 @@ const FakeWaitingDuelsTable = ({ inViewport, forwardedRef, ready }) => {
         },
       ]);
       setLoading(false);
+      onFinished();
     };
-    if (ready && inViewport && !animated) {
+    if (ready && inViewport && !animated && !finished) {
       animate();
     }
-  }, [ready, inViewport, animated]);
+  }, [ready, inViewport, animated, finished]);
 
   const columns = useMemo(
     () => [
@@ -578,6 +598,10 @@ const FakePlayPage = () => {
   });
   const [duelCreationAnimationFinished, setDuelCreationAnimationFinished] =
     useState(false);
+  const [
+    duelTableUpdateAnimationFinished,
+    setDuelTableUpdateAnimationFinished,
+  ] = useState(false);
   const backgroundColor = useColorModeValue("offWhite", "grey.900");
   const largeBorder = useColorModeValue("none", "solid 1px #7d7dff");
   const largeShadow = useColorModeValue("2xl", "#7d7dff 0 8px 50px");
@@ -609,7 +633,11 @@ const FakePlayPage = () => {
         transform={[null, null, "scale(0.6)", "scale(0.75)", "scale(0.85)"]}
         my={[null, null, "-6em", "-3em", 0]}
       >
-        <AnimatedWaitingDuelsTable ready={duelCreationAnimationFinished} />
+        <AnimatedWaitingDuelsTable
+          ready={duelCreationAnimationFinished}
+          finished={duelTableUpdateAnimationFinished}
+          onFinished={() => setDuelTableUpdateAnimationFinished(true)}
+        />
         <AnimatedCreateDuelForm
           finished={duelCreationAnimationFinished}
           onFinished={() => setDuelCreationAnimationFinished(true)}
