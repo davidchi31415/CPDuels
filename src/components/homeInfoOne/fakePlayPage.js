@@ -610,6 +610,7 @@ const FakePlayPage = () => {
     return (
       <Box
         backgroundColor={backgroundColor}
+        borderRadius='md'
         transform={["scale(0.6)", "scale(0.8)"]}
         boxShadow={largeShadow}
         my={["-5em", "-1em"]}
