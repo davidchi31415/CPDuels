@@ -38,9 +38,9 @@ const FakeTabContainer = ({
   useEffect(() => {
     const animateOpenProblemTab = async () => {
       setAnimating(true);
-      await sleep(250);
+      await sleep(2000);
       setIndex(1);
-      await sleep(250);
+      await sleep(500);
       setAnimatingProblems(true);
       await sleep(14000);
       setAnimationIndex((i) => i + 1);

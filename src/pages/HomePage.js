@@ -27,7 +27,7 @@ const HomePage = () => {
   const { colorMode, toggle } = useColorMode();
   const infoSection1Background = useColorModeValue("primary.100", "none");
   const infoSectionBorder = useColorModeValue("none", "solid 4px");
-  const infoSection2Background = useColorModeValue("primary.500", "grey.900");
+  const infoSection2Background = useColorModeValue("primary.500", "none");
   const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
 
   const [isMobile] = useMediaQuery("(max-width: 480px)");
@@ -111,7 +111,7 @@ const HomePage = () => {
             <HomeInfoOne />
           </Flex>
           <Box
-            bg={infoSection2Background}
+            bg={(colorMode === 'light') ? 'primary.500' : 'grey.900'}
             borderTop={infoSectionBorder}
             borderTopColor="secondary.500"
             mt="-8em"
@@ -129,7 +129,7 @@ const HomePage = () => {
            mt={["-12em", "-11em"]}
            mx="calc(-50vw)"
            pb="10em"
-           zIndex={10}
+           zIndex={15}
            direction="column"
            align="center"
           >

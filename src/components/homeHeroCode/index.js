@@ -27,7 +27,7 @@ const HomeHeroCode = () => {
   ];
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const cursor="|";
+  const cursor = "|";
 
   useEffect(() => {
     if (!writing) {
@@ -36,7 +36,11 @@ const HomeHeroCode = () => {
         for (let i = 0; i < script.length; i++) {
           for (let j = 0; j < script[i].length; j++) {
             if (script[i][j] === "\n") await sleep(100);
-            if (script[i][j] === " " && j < script[i].length && script[i][j+1] === " ") {
+            if (
+              script[i][j] === " " &&
+              j < script[i].length &&
+              script[i][j + 1] === " "
+            ) {
               setCode(
                 (code) => code.substring(0, code.length - 1) + "  " + cursor
               );
@@ -45,7 +49,8 @@ const HomeHeroCode = () => {
               continue;
             }
             setCode(
-              (code) => code.substring(0, code.length - 1) + script[i][j] + cursor
+              (code) =>
+                code.substring(0, code.length - 1) + script[i][j] + cursor
             );
             if (script[i][j] === " ") await sleep(100);
             else if (script[i][j] === "\n") await sleep(200);
@@ -82,20 +87,23 @@ const HomeHeroCode = () => {
     <Box
       className="macintosh"
       boxShadow={
-        colorMode === "light" ? "0 70px 44px -44px rgba(0, 0, 0, 0.4)" : "#a8a8ff 0 15px 42px"
+        colorMode === "light"
+          ? "0 70px 44px -44px rgba(0, 0, 0, 0.4)"
+          : "#a8a8ff 0 15px 42px"
       }
     >
       <Box className="monitor-inner">
-        <Box className="screen-cutout" boxShadow={
-        colorMode === "light" ? "" : "#888888 0 10px 35px"
-      }>
+        <Box
+          className="screen-cutout"
+          boxShadow={colorMode === "light" ? "" : "#888888 0 10px 35px"}
+        >
           <Box className="screen">
-            <pre className="code"><code>{code}</code></pre>
+            <pre className="code">
+              <code>{code}</code>
+            </pre>
           </Box>
         </Box>
-        <Box className="logo"
-          filter="opacity(50%)"
-        >
+        <Box className="logo" filter="opacity(50%)">
           <img src={CPFavicon} />
         </Box>
         <Box className="opening">
