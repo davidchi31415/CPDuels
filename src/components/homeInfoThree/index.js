@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-  Grid,
-  GridItem,
-  Flex,
+  SimpleGrid,
   Text,
-  Stack,
+  Flex,
   useColorMode,
   useColorModeValue,
   Box,
@@ -20,13 +18,48 @@ const HomeInfoThree = () => {
 
   const [phoneAnimationFinished, setPhoneAnimationFinished] = useState(false);
 
+  const sectionColoredTitle = useColorModeValue("primary.700", "primary.300");
+  const color = useColorModeValue("gray.900", "offWhite");
+
   return (
-    <Box transform={["scale(0.9)", "none"]}>
-      <AnimatedPhone
-        finished={phoneAnimationFinished}
-        onFinished={() => setPhoneAnimationFinished(true)}
-      />
-    </Box>
+    <Flex direction="column" justify="center" align="center">
+      <Text
+        fontSize={["1.2rem", "1.5rem"]}
+        lineHeight={["1rem", "1.2rem"]}
+        fontWeight="bold"
+        color={sectionColoredTitle}
+        mb={0}
+      >
+        Private Duels
+      </Text>
+      <Text
+        mt={0}
+        fontWeight="bold"
+        color={color}
+        fontSize={["1.4rem", "2rem"]}
+        lineHeight={["2.5rem", "2.8rem"]}
+        maxWidth="95vw"
+      >
+        Better with friends.
+      </Text>
+      <Text
+        align="center"
+        color={color}
+        fontSize={["0.9rem", "1.2rem"]}
+        maxWidth="95vw"
+        pb={[0, "2em"]}
+      >
+        Play with your friends and colleagues and push each other to the limits
+        <br />
+        ⁠— it's as easy as sending a link.
+      </Text>
+      <Box transform={["scale(0.9)", "none"]}>
+        <AnimatedPhone
+          finished={phoneAnimationFinished}
+          onFinished={() => setPhoneAnimationFinished(true)}
+        />
+      </Box>
+    </Flex>
   );
 };
 

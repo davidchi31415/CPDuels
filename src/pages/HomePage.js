@@ -175,12 +175,12 @@ const HomePage = () => {
               pt={0}
               width={["7em", "fit-content"]}
               mx="auto"
-              mt={[-8, 0]}
-              mb={[6, 4]}
+              mt={[-12, 0]}
+              mb={2}
             >
               What are you waiting for?
             </Text>
-            <Center mt={2}>
+            <Center>
               <Button
                 fontSize="lg"
                 onClick={() => navigate("/play")}
