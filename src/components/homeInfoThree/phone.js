@@ -43,15 +43,7 @@ const Phone = ({ inViewport, forwardedRef, finished, onFinished }) => {
     {
       author: "Rico",
       message: "Yo this website's dope!!!",
-    },
-    {
-      author: "Ethan Luo",
-      message: "I agree",
-    },
-    {
-      author: "Ethan Chen",
-      message: "^ I also agree",
-    },
+    }
   ];
 
   const [animating, setAnimating] = useState(false);
