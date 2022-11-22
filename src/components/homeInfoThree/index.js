@@ -19,7 +19,9 @@ const HomeInfoThree = () => {
   const [phoneAnimationFinished, setPhoneAnimationFinished] = useState(false);
 
   const sectionColoredTitle = useColorModeValue("primary.700", "primary.300");
-  const color = useColorModeValue("gray.900", "offWhite");
+  const color = useColorModeValue("grey.900", "offWhite");
+  const footerSectionBackground = useColorModeValue("offWhite", "grey.900");
+  const infoSectionBorder = useColorModeValue("none", "solid 4px");
 
   return (
     <Flex direction="column" justify="center" align="center">
@@ -59,6 +61,19 @@ const HomeInfoThree = () => {
           onFinished={() => setPhoneAnimationFinished(true)}
         />
       </Box>
+      <Box
+        bg={footerSectionBackground}
+        borderTop={infoSectionBorder}
+        borderTopColor="primary.400"
+        width="125vw"
+        zIndex={-1}
+        pb={0}
+        mt="-27em"
+        borderTopRadius="100%"
+        borderBottom="none"
+        height="30em"
+        position="relative"
+      ></Box>
     </Flex>
   );
 };

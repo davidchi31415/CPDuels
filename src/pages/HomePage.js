@@ -136,7 +136,7 @@ const HomePage = () => {
             <HomeInfoTwo />
           </Flex>
           <Box
-            bg={footerSectionBackground}
+            bg={infoSection1Background}
             borderTop={infoSectionBorder}
             borderTopColor="secondary.500"
             mt="-8em"
@@ -150,7 +150,7 @@ const HomePage = () => {
             position="relative"
           ></Box>
           <Flex
-            bg={footerSectionBackground}
+            bg={infoSection1Background}
             mt={["-12em", "-11em"]}
             mx="calc(-50vw)"
             pb="10em"
@@ -162,9 +162,8 @@ const HomePage = () => {
           </Flex>
           <Box
             bg={footerSectionBackground}
-            mt={["-5em", "-7.5em"]}
-            ml="-10em"
-            mr="-10em"
+            mt="-10em"
+            mx="calc(-50vw)"
             px="10em"
             pb="5em"
             zIndex={20}
@@ -175,7 +174,7 @@ const HomePage = () => {
               pt={0}
               width={["7em", "fit-content"]}
               mx="auto"
-              mt={[-12, 0]}
+              mt={[-8, 0]}
               mb={2}
             >
               What are you waiting for?
