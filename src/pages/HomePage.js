@@ -142,7 +142,7 @@ const HomePage = () => {
             borderTopColor="primary.400"
             mt="-7.5em"
             mx="calc(-50vw)"
-            zIndex={11}
+            zIndex={16}
             pb={0}
             borderTopRadius="100%"
             borderBottom="none"
@@ -156,7 +156,7 @@ const HomePage = () => {
             mr="-10em"
             px="10em"
             pb="5em"
-            zIndex={12}
+            zIndex={17}
           >
             <Text
               textStyle="body1"
