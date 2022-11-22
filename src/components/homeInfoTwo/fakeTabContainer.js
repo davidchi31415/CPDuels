@@ -28,7 +28,6 @@ const FakeTabContainer = ({
 
   const [index, setIndex] = useState(finished ? 2 : 0);
 
-  const [animationIndex, setAnimationIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -42,29 +41,12 @@ const FakeTabContainer = ({
       setIndex(1);
       await sleep(500);
       setAnimatingProblems(true);
-      await sleep(14000);
-      setAnimationIndex((i) => i + 1);
       setAnimating(false);
     };
-    const animateOpenSubmitTab = async () => {
-      setAnimating(true);
-      await sleep(250);
-      setIndex(2);
-      setAnimationIndex((i) => i + 1);
-      setAnimating(false);
-      onFinished();
-    };
-    if (inViewport && animationIndex < 2 && ready && !animating && !finished) {
-      switch (animationIndex) {
-        case 0:
-          animateOpenProblemTab();
-          break;
-        case 1:
-          animateOpenSubmitTab();
-          break;
-      }
+    if (inViewport && ready && !animating && !finished) {
+      animateOpenProblemTab();
     }
-  }, [finished, inViewport, animating, animationIndex, ready]);
+  }, [finished, inViewport, animating, ready]);
 
   return (
     <div ref={forwardedRef}>
