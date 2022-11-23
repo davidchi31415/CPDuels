@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
 import ContactCard from "../components/contactCard";
+import ContactForm from "../components/contactForm";
 import handleViewport from "react-in-viewport";
 
 const ContactPage = () => {
@@ -45,18 +46,12 @@ const ContactPage = () => {
             maxWidth="90vw"
             flexWrap="wrap"
             pt={["1.25em", "2.5em"]}
-            pb="5em"
+            pb={["2.5em", "4em"]}
           >
             <AnimatedContactCard info={infoDavid} />
             <AnimatedContactCard info={infoJeffrey} />
           </Flex>
-          <Text
-            textStyle="display2"
-            fontSize={["2.8rem", "3rem", "4rem"]}
-            lineHeight={["3.6rem", "4.8rem"]}
-          >
-            Issues? Suggestions? Tell us!
-          </Text>
+          <ContactForm />
         </Flex>
       }
     />
