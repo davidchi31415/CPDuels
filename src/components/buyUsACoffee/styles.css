@@ -12,9 +12,7 @@
   font-family: 'Rubik';
   font-weight: bold;
 }
-.buyButton:hover,
-.buyButton:active,
-.buyButton:focus {
+.buyButton:hover {
   opacity: 0.9;
   color: #f3f3f3;
 }
