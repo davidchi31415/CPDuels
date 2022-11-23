@@ -10,7 +10,7 @@ import React from "react";
 import { SocialIcon } from "react-social-icons";
 
 const ContactCard = ({ inViewport, forwardedRef, info }) => {
-  const {colorMode, toggle} = useColorMode();
+  const { colorMode, toggle } = useColorMode();
   const border = useColorModeValue(
     "solid 1px rgb(0, 0, 0, 0.5)",
     "solid 1px #7d7dff"
@@ -50,6 +50,8 @@ const ContactCard = ({ inViewport, forwardedRef, info }) => {
         height={["525px"]}
         _hover={isMobile ? "" : onHover}
         transition="border-color 0.5s ease, box-shadow 0.5s ease"
+        cursor="pointer"
+        onClick={() => window.open(info.linkedin)}
       >
         <Box
           borderRadius="100%"
