@@ -21,6 +21,7 @@ import socket from "../socket";
 import { useParams, useNavigate } from "react-router-dom";
 import TabContainer from "../components/duelContent/tabContainer.js";
 import { MathJax } from 'better-react-mathjax';
+import AbortAndResignDisplay from "../components/abortAndResignDisplay";
 
 const DuelPage = () => {
   const { id } = useParams();
@@ -99,12 +100,13 @@ const DuelPage = () => {
                 playerNum={playerNum}
                 onMathJaxRendered={() => setRenderedMathJax(true)}
               />
-              <VStack spacing={5}>
+              <VStack spacing={2}>
                 <TimeAndJoinDisplay
                   id={id}
                   duelStatus={duelStatus}
                   playerNum={playerNum}
                 />
+                {playerNum && (duelStatus !== 'FINISHED') ? <AbortAndResignDisplay duelStatus={duelStatus} /> : ""}
                 <ScoreDisplay
                   id={id}
                   duelStatus={duelStatus}
