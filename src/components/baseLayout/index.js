@@ -26,6 +26,7 @@ import { IoMoon, IoClose } from "react-icons/io5";
 import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
 import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
 
 const HamburgerMenu = ({ setMenuRefs }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -168,6 +169,7 @@ const BaseContainer = ({ content }) => {
 
 const BaseFooter = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const navigate = useNavigate();
 
   return (
     <Flex width="100%" justify="center" pt={5} pb={1}>
@@ -177,6 +179,7 @@ const BaseFooter = () => {
           as="span"
           fontWeight="bold"
           color={colorMode === "light" ? "primary.500" : "primary.300"}
+          cursor="pointer" onClick={() => navigate("/contact")}
         >
           David Chi
         </Text>{" "}
@@ -185,6 +188,7 @@ const BaseFooter = () => {
           as="span"
           fontWeight="bold"
           color={colorMode === "light" ? "primary.500" : "primary.300"}
+          cursor="pointer" onClick={() => navigate("/contact")}
         >
           Jeffrey Li
         </Text>
