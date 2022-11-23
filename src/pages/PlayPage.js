@@ -50,10 +50,10 @@ const TabContainer = () => {
       </TabList>
 
       <TabPanels border="none">
-        <TabPanel px="auto">
+        <TabPanel px="auto" mt={2} transform="scale(1.1)">
           <OngoingDuelsTable />
         </TabPanel>
-        <TabPanel px="auto">
+        <TabPanel px="auto" mt={2} transform="scale(1.1)">
           <FinishedDuelsTable />
         </TabPanel>
       </TabPanels>
@@ -68,7 +68,7 @@ const InADuelAlert = ({ duelLink }) => {
 
   return (
     <Alert
-      width={["18em", "25em", "45em", "60em", "72em"]}
+      width={["19em", "25em", "45em", "60em", "72em"]}
       height={[null, null, "10vh", "12vh"]}
       status="warning"
       variant="left-accent"
@@ -152,29 +152,29 @@ const PlayPage = () => {
           )}
           <Box
             transform={[
-              "scale(0.45)",
+              "scale(0.5)",
               "scale(0.6)",
               "scale(0.65)",
               "scale(0.85)",
               "none",
             ]}
-            ml={["-10.5em", "-6em", "-6em", "-2em", 0]}
+            ml={["-11em", "-6em", "-6em", "-2em", 0]}
             mr={["-14em", "-14em", "-14em", "-5em", 0]}
-            my={["-10em", "-7em", "-7em", "-3em", 0]}
+            my={["-9em", "-7em", "-7em", "-3em", 0]}
           >
             <WaitingDuelsTable />
           </Box>
           <Box
-            transform={["scale(0.5)", "scale(0.65)", "scale(0.6)", "scale(0.8)", "none"]}
+            transform={["scale(0.6)", "scale(0.65)", "scale(0.6)", "scale(0.8)", "none"]}
             mx={["-5em", "-0.7em", "-5em", "-2em", 0]}
-            my={["-8.5em", "-6em", "-8.5em", "-4em", 0]}
+            my={["-5em", "-6em", "-8.5em", "-4em", 0]}
           >
             <CreateDuelForm />
           </Box>
           <Box
             mx={["-13.5em", "-8.5em", "auto"]}
-            mt={["-13em", "-8em", "-5em", 0]} mb={["-12em", "-8em", "-4em", 0]}
-            transform={["scale(0.4)", "scale(0.6)", "scale(0.7)", "scale(0.9)", "none"]}
+            mt={["-12em", "-8em", "-5em", 0]} mb={["-8em", "-8em", "-4em", 0]}
+            transform={["scale(0.5)", "scale(0.6)", "scale(0.7)", "scale(0.9)", "none"]}
           >
             <TabContainer />
           </Box>
