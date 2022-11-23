@@ -52,7 +52,7 @@ const ContactPage = () => {
             <AnimatedContactCard info={infoDavid} />
             <AnimatedContactCard info={infoJeffrey} />
           </Flex>
-          <Box transform={[null, null, "scale(1.2)"]} my={null, null, "1em"}>
+          <Box transform={[null, null, "scale(1.2)"]} my={[null, null, "1.5em"]}>
           <ContactForm />
           </Box>
           <Text
@@ -61,7 +61,7 @@ const ContactPage = () => {
             lineHeight={["3.2rem", "4.8rem"]}
             maxWidth="90vw"
             mx="auto"
-            mt={[3, 5]}
+            mt={[3, 5, "1em"]}
           >
             Support Us
           </Text>
