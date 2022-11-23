@@ -86,9 +86,9 @@ const AbortAndResignDisplay = ({ duelStatus }) => {
       justifyContent="center"
     >
       {duelStatus === "ONGOING" ? (
-        <ResignButton onOpen={() => openModal("ABORT")} />
+        <ResignButton onOpen={() => openModal("RESIGN")} />
       ) : (
-        <AbortButton onOpen={() => openModal("RESIGN")} />
+        <AbortButton onOpen={() => openModal("ABORT")} />
       )}
       <Modal isOpen={isOpen} onClose={onClose} size="sm">
         <ModalOverlay />
