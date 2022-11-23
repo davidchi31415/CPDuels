@@ -48,7 +48,13 @@ export default class Database {
     const duel = await this._getModel(`duels/${db_id}`);
     return duel;
   }
-  static async getDuelsWaiting() { // Only gets the public waiting duels
+  static async getDuelsWaiting() {
+    const duels = await this._getModel('duels').then(
+      result => result.filter(duel => (duel.status === "WAITING"))
+    );
+    return duels;
+  }
+  static async getDuelsWaitingPublic() { // Only gets the public waiting duels
     const duels = await this._getModel('duels').then(
       result => result.filter(duel => (duel.status === "WAITING" && !duel.private))
     );
@@ -60,9 +66,33 @@ export default class Database {
     );
     return duels;
   }
+  static async getDuelsOngoingPublic() { // Only gets the public ongoing duels
+    const duels = await this._getModel('duels').then(
+      result => result.filter(duel => duel.status === "ONGOING" && !duel.private)
+    );
+    return duels;
+  }
+  static async getDuelsReady() {
+    const duels = await this._getModel('duels').then(
+      result => result.filter(duel => duel.status === "READY")
+    );
+    return duels;
+  }
+  static async getDuelsReadyPublic() { // Only gets the public ready duels
+    const duels = await this._getModel('duels').then(
+      result => result.filter(duel => duel.status === "READY" && !duel.private)
+    );
+    return duels;
+  }
   static async getDuelsFinished() {
     const duels = await this._getModel('duels').then(
       result => result.filter(duel => duel.status === "FINISHED")
+    );
+    return duels;
+  }
+  static async getDuelsFinishedPublic() { // Only gets the public finished duels
+    const duels = await this._getModel('duels').then(
+      result => result.filter(duel => duel.status === "FINISHED" && !duel.private)
     );
     return duels;
   }

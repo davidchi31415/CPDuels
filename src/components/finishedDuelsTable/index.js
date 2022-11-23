@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { MdRefresh } from "react-icons/md";
 
-const WaitingDuelsTable = () => {
+const FinishedDuelsTable = () => {
   const [data, setData] = useState([]);
   const [platform, setPlatform] = useState("All");
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ const WaitingDuelsTable = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    Database.getDuelsWaitingPublic().then((result) => {
+    Database.getDuelsFinishedPublic().then((result) => {
       if (result?.length)
         for (let index = 0; index < result.length; index++)
           result[index].index = index + 1;
@@ -48,34 +48,25 @@ const WaitingDuelsTable = () => {
         width: "4em",
       },
       {
-        Header: "Username",
-        accessor: "players[0].username",
+        Header: "Usernames",
+        accessor: (row) => `${row.players[0].username} v ${row.players[1].username}`,
+        id: (row, index) => index,
         disableSortBy: true,
-        width: "22em",
+        width: "30em",
       },
       {
-        Header: "Difficulty",
-        accessor: (row) => `${row.ratingMin}-${row.ratingMax}`,
+        Header: "Winner",
+        accessor: (row) => `${row.result}`,
         id: (row) => row._id,
-        width: "4em",
-      },
-      {
-        Header: "# Problems",
-        accessor: "problemCount",
-        width: "3em",
-      },
-      {
-        Header: "Time",
-        accessor: "timeLimit",
-        width: "3em",
-      },
+        width: "8em",
+      }
     ],
     []
   );
 
   return (
-    <VStack width="fit-content">
-      <Flex width="100%" justify="space-between" gap={3}>
+    <VStack>
+      <Flex width="100%" px={5} justify="space-between">
         <FormControl>
           <HStack spacing={0}>
             <FormLabel my="auto" mx={1}>
@@ -125,4 +116,4 @@ const WaitingDuelsTable = () => {
   );
 };
 
-export default WaitingDuelsTable;
+export default FinishedDuelsTable;

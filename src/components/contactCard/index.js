@@ -49,7 +49,7 @@ const ContactCard = ({ inViewport, forwardedRef, info }) => {
         width={["300px", "360px"]}
         height={["525px"]}
         _hover={isMobile ? "" : onHover}
-        transition="border-color 0.5s ease, box-shadow 0.5s ease"
+        transition="border-color 0.25s ease, box-shadow 0.25s ease"
       >
         <Box
           borderRadius="100%"
