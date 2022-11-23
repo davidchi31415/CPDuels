@@ -26,7 +26,6 @@ import { IoMoon, IoClose } from "react-icons/io5";
 import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
 import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useNavigate } from "react-router-dom";
 
 const HamburgerMenu = ({ setMenuRefs }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
