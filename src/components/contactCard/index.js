@@ -50,8 +50,6 @@ const ContactCard = ({ inViewport, forwardedRef, info }) => {
         height={["525px"]}
         _hover={isMobile ? "" : onHover}
         transition="border-color 0.5s ease, box-shadow 0.5s ease"
-        cursor="pointer"
-        onClick={() => window.open(info.linkedin)}
       >
         <Box
           borderRadius="100%"

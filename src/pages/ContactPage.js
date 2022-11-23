@@ -52,7 +52,9 @@ const ContactPage = () => {
             <AnimatedContactCard info={infoDavid} />
             <AnimatedContactCard info={infoJeffrey} />
           </Flex>
+          <Box transform={[null, null, "scale(1.2)"]} my={null, null, "1em"}>
           <ContactForm />
+          </Box>
           <Text
             textStyle="display2"
             fontSize={["2.4rem", "3rem", "4rem"]}
