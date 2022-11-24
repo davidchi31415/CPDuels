@@ -20,7 +20,7 @@ import Database, { handleUID } from "../data";
 import socket from "../socket";
 import { useParams, useNavigate } from "react-router-dom";
 import TabContainer from "../components/duelContent/tabContainer.js";
-import { MathJax } from 'better-react-mathjax';
+import { MathJax } from "better-react-mathjax";
 import AbortAndResignDisplay from "../components/abortAndResignDisplay";
 
 const DuelPage = () => {
@@ -88,11 +88,18 @@ const DuelPage = () => {
 
   return (
     <MathJax>
-      {console.count('counter')}
+      {console.count("counter")}
       <BaseLayout
         content={
           <Box>
-            <Flex justify="space-between" align="flex-start">
+            <Flex
+              justify="space-between"
+              align="flex-start"
+              transform={[null, null, "scale(0.65)", "scale(0.85)", "none"]}
+              ml={[null, null, "-8.5em", "-3.5em", 0]}
+              mt={[null, null, "-8.25em", "-3.25em", 0]}
+              gap={[null, null, 2, null, null]}
+            >
               <TabContainer
                 id={id}
                 duelPlatform={duelPlatform}
@@ -106,7 +113,11 @@ const DuelPage = () => {
                   duelStatus={duelStatus}
                   playerNum={playerNum}
                 />
-                {playerNum && (duelStatus !== 'FINISHED') ? <AbortAndResignDisplay duelStatus={duelStatus} /> : ""}
+                {playerNum && duelStatus !== "FINISHED" ? (
+                  <AbortAndResignDisplay duelStatus={duelStatus} />
+                ) : (
+                  ""
+                )}
                 <ScoreDisplay
                   id={id}
                   duelStatus={duelStatus}

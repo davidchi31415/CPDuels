@@ -56,7 +56,7 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
       colorScheme="primary"
     >
       <TabList>
-        <Flex width="100%">
+        <Flex width="47em">
           <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
             Duel Info
           </Tab>
