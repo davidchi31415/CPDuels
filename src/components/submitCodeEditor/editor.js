@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import AceEditor from "react-ace";
-import { useColorModeValue } from '@chakra-ui/react';
-import languages, { codes_to_languages } from './languages';
+import { useColorModeValue } from "@chakra-ui/react";
+import languages, { codes_to_languages } from "./languages";
 
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-csharp";
@@ -20,41 +20,60 @@ import "ace-builds/src-noconflict/mode-ruby";
 import "ace-builds/src-noconflict/mode-rust";
 import "ace-builds/src-noconflict/mode-scala";
 
-import "ace-builds/src-noconflict/theme-iplastic"
+import "ace-builds/src-noconflict/theme-iplastic";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
+import { MdTurnedIn } from "react-icons/md";
 
-const Editor = ({ duelPlatform, languageCode, onSetCode, providedValue, readOnly }) => {
+const Editor = ({
+  duelPlatform,
+  languageCode,
+  onSetCode,
+  providedValue,
+  readOnly,
+}) => {
   const theme = useColorModeValue("iplastic", "monokai");
 
   function onChange(newValue) {
     onSetCode(newValue);
   }
 
-  const platform = (duelPlatform && duelPlatform in languages) ?
-                   duelPlatform : 'CF';
-  const selection = (languageCode && languageCode in codes_to_languages[platform]) ? 
-                    languages[platform][codes_to_languages[platform][languageCode]] 
-                    : languages[platform][languages.defaults[platform]];
+  const platform =
+    duelPlatform && duelPlatform in languages ? duelPlatform : "CF";
+  const selection =
+    languageCode && languageCode in codes_to_languages[platform]
+      ? languages[platform][codes_to_languages[platform][languageCode]]
+      : languages[platform][languages.defaults[platform]];
 
   return (
     <AceEditor
-      onLoad={providedValue ? (editor) => {
-        editor.session.setValue(providedValue);
-      } : ""}
+      onLoad={
+        providedValue
+          ? (editor) => {
+              editor.session.setValue(providedValue);
+            }
+          : ""
+      }
       mode={selection}
       theme={theme}
       onChange={readOnly ? "" : onChange}
       readOnly={readOnly ? readOnly : false}
       name="editor"
-      width='100%'
-      height='400px'
+      width="100%"
+      height="400px"
       fontSize={14}
       showPrintMargin={true}
       showGutter={true}
       highlightActiveLine={true}
+      setOptions={{
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        enableSnippets: true,
+        showLineNumbers: true,
+        tabSize: 4,
+      }}
     />
   );
-}
+};
 
 export default Editor;
