@@ -48,7 +48,7 @@ const Error404HeroCode = () => {
             className="screen"
             paddingX="15px"
             paddingY="60px"
-            fontSize={["13px", "16px"]}
+            fontSize={["14px", "16px"]}
             lineHeight="12px"
             fontWeight="bold"
           >
