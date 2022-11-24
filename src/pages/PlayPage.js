@@ -166,13 +166,13 @@ const PlayPage = () => {
           </Box>
           <Box
             transform={["scale(0.65)", "scale(0.65)", "scale(0.6)", "scale(0.8)", "none"]}
-            mx={["-5.25em", "-0.7em", "-5em", "-2em", 0]}
+            mx={["-5.5em", "-0.7em", "-5em", "-2em", 0]}
             my={["-5em", "-6em", "-8.5em", "-4em", 0]}
           >
             <CreateDuelForm />
           </Box>
           <Box
-            mx={["-13.8em", "-8.5em", "auto"]}
+            mx={["-14em", "-8.5em", "auto"]}
             mt={["-12em", "-8em", "-5em", 0]} mb={["-8em", "-8em", "-4em", 0]}
             transform={["scale(0.5)", "scale(0.6)", "scale(0.7)", "scale(0.9)", "none"]}
           >

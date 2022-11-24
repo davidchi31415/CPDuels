@@ -25,7 +25,7 @@ import { WiDaySunny } from "react-icons/wi";
 import { IoMoon, IoClose } from "react-icons/io5";
 import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
 import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { HiMenuAlt4 } from "react-icons/hi";
 
 const HamburgerMenu = ({ setMenuRefs }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,7 +39,7 @@ const HamburgerMenu = ({ setMenuRefs }) => {
     <>
       <IconButton
         variant="unstyled"
-        icon={<GiHamburgerMenu size={45} />}
+        icon={<HiMenuAlt4 size={45} />}
         onClick={onOpen}
       />
       <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
@@ -117,7 +117,14 @@ const BaseNavbar = ({ isMobile, setMenuRefs }) => {
 
   if (!isMobile) {
     return (
-      <Flex width="100%" mt="1" justify="space-between" px={2} pt={2}>
+      <Flex
+        width="100%"
+        mt="1"
+        justify="space-between"
+        align="center"
+        px={2}
+        pt={2}
+      >
         <Image
           aria-label="CPDuels logo"
           src={colorMode === "light" ? LightLogo : DarkLogo}
@@ -147,16 +154,17 @@ const BaseNavbar = ({ isMobile, setMenuRefs }) => {
     );
   } else {
     return (
-      <Flex justify="space-between" align="center" mt={1} mx={1}>
+      <Flex justify="space-between" align="center" mt={1} mx={0}>
         <Image
           aria-label="CPDuels logo"
           src={colorMode === "light" ? LightLogo : DarkLogo}
           w="10em"
           h="auto"
+          mt={1}
           cursor="pointer"
           onClick={navigateHome}
         />
-        <HamburgerMenu setMenuRefs={setMenuRefs} />   
+        <HamburgerMenu setMenuRefs={setMenuRefs} />
       </Flex>
     );
   }
@@ -178,7 +186,8 @@ const BaseFooter = () => {
           as="span"
           fontWeight="bold"
           color={colorMode === "light" ? "primary.500" : "primary.300"}
-          cursor="pointer" onClick={() => navigate("/contact")}
+          cursor="pointer"
+          onClick={() => navigate("/contact")}
         >
           David Chi
         </Text>{" "}
@@ -187,7 +196,8 @@ const BaseFooter = () => {
           as="span"
           fontWeight="bold"
           color={colorMode === "light" ? "primary.500" : "primary.300"}
-          cursor="pointer" onClick={() => navigate("/contact")}
+          cursor="pointer"
+          onClick={() => navigate("/contact")}
         >
           Jeffrey Li
         </Text>
@@ -230,42 +240,12 @@ const BaseLayout = ({ content }) => {
   const [isMobile] = useMediaQuery("(max-width: 480px)");
   const mobileMenuOpen = useRef();
   const mobileMenuClose = useRef();
-  const touchStart = useRef();
-  const touchEnd = useRef();
-
-  // the required distance between touchStart and touchEnd to be detected as a swipe
-  const minSwipeDistance = 50;
-
-  const onTouchStart = (e) => {
-    touchEnd.current = null;
-    touchStart.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchMove = (e) => {
-    touchEnd.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchEnd = () => {
-    if (touchStart.current === null || touchEnd.current === null) return;
-    const distance = touchStart.current - touchEnd.current;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < minSwipeDistance;
-    if (isLeftSwipe) {
-      if (mobileMenuOpen.current !== null) mobileMenuOpen.current();
-    } else if (isRightSwipe) {
-      console.log("Right Swipe");
-      if (mobileMenuClose.current !== null) mobileMenuClose.current();
-    }
-  };
 
   return (
     <Flex
       minHeight="1000px"
       justifyContent="center"
       overflowX="hidden"
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      onTouchMove={onTouchMove}
       sx={{ "-webkit-text-size-adjust": "100%" }}
     >
       <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
