@@ -131,6 +131,19 @@ export default class Database {
     return duel;
   }
 
+  static async addMessage(params) {
+    const message = await fetch(`${backendOrigin}/messages/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(
+      res => res.json()
+    ).catch((err) => console.log(err));
+    return message;
+  }
+
   static async addPlayer() {
     const player = await fetch(`${backendOrigin}/players/add`, {
       method: "POST",

@@ -19,7 +19,7 @@ import { MdDelete } from "react-icons/md";
 import languages, { languages_to_codes } from "./languages";
 import Editor from "./editor";
 import socket from "../../socket";
-import { handleUID } from '../../data';
+import { handleUID } from "../../data";
 
 const SubmitCodeEditor = ({
   duelPlatform,
@@ -80,7 +80,7 @@ const SubmitCodeEditor = ({
     }
     setProblemNumError(false);
     handleUID();
-    let uid = localStorage.getItem('uid');
+    let uid = localStorage.getItem("uid");
     if (fileContent.current) {
       socket.emit("submit-problem", {
         roomId: duelId,
@@ -117,7 +117,7 @@ const SubmitCodeEditor = ({
   useEffect(() => {
     socket.on("problem-submitted-success", ({ roomId, uid }) => {
       handleUID();
-      let localUid = localStorage.getItem('uid');  
+      let localUid = localStorage.getItem("uid");
       if (roomId === duelId && uid === localUid && submitting) {
         setSubmitting(false);
         makeToast({
@@ -132,7 +132,7 @@ const SubmitCodeEditor = ({
 
     socket.on("problem-submitted-error", ({ roomId, uid, message }) => {
       handleUID();
-      let localUid = localStorage.getItem('uid');
+      let localUid = localStorage.getItem("uid");
       if (roomId === duelId && uid === localUid && submitting) {
         setSubmitting(false);
         makeToast({
@@ -140,10 +140,10 @@ const SubmitCodeEditor = ({
           description: message,
           status: "error",
           duration: 9000,
-          isClosable: true
+          isClosable: true,
         });
-      } 
-    })
+      }
+    });
 
     return () => {
       socket.off("problem-submitted-success");
@@ -191,7 +191,11 @@ const SubmitCodeEditor = ({
     >
       {isPopup ? console.count("counter") : ""}
       <Flex pb={3} gap={1} justify="center" align="flex-end">
-        <FormControl minHeight='5.5em' isInvalid={chosenLanguageError} isRequired>
+        <FormControl
+          minHeight="5.5em"
+          isInvalid={chosenLanguageError}
+          isRequired
+        >
           <FormLabel my="auto">Language:</FormLabel>
           <Select
             borderColor="grey.100"
@@ -199,19 +203,26 @@ const SubmitCodeEditor = ({
             value={chosenLanguage}
             onChange={(e) => {
               setChosenLanguage(parseInt(e.target.value));
-              console.log(typeof(parseInt(e.target.value)));
+              console.log(typeof parseInt(e.target.value));
               if (parseInt(e.target.value)) setChosenLanguageError(false);
             }}
           >
             <option value={0}></option>
-            {(duelPlatform && duelPlatform in languages) ? Object.keys(languages_to_codes[duelPlatform]).map(
-              (languageName) => (
-              <option value={languages_to_codes[duelPlatform][languageName]}>{languageName}</option>
-            )) : ""}
+            {duelPlatform && duelPlatform in languages
+              ? Object.keys(languages_to_codes[duelPlatform]).map(
+                  (languageName) => (
+                    <option
+                      value={languages_to_codes[duelPlatform][languageName]}
+                    >
+                      {languageName}
+                    </option>
+                  )
+                )
+              : ""}
           </Select>
           <FormErrorMessage mt={1}>Pick a language.</FormErrorMessage>
         </FormControl>
-        <FormControl minHeight='5.5em' isInvalid={problemNumError} isRequired>
+        <FormControl minHeight="5.5em" isInvalid={problemNumError} isRequired>
           <FormLabel my="auto">Problem #:</FormLabel>
           <Select
             borderColor="grey.100"
@@ -229,14 +240,14 @@ const SubmitCodeEditor = ({
           </Select>
           <FormErrorMessage mt={1}>Pick a problem.</FormErrorMessage>
         </FormControl>
-        <FormControl minHeight='5.5em' pt='1.5rem' isInvalid={editorFileError}>
+        <FormControl minHeight="5.5em" pt="1.5rem" isInvalid={editorFileError}>
           <InputGroup>
             <FormLabel
               as="label"
               htmlFor={`${editorId} file`}
               m={0}
-              py='auto'
-              minHeight='2rem'
+              py="auto"
+              minHeight="2rem"
               width="12em"
               border="1px solid"
               textAlign="center"
@@ -272,12 +283,19 @@ const SubmitCodeEditor = ({
           </InputGroup>
         </FormControl>
       </Flex>
-      <FormControl pt={0} minHeight='28.5em' isInvalid={editorFileError}>
+      <FormControl pt={0} minHeight="28.5em" isInvalid={editorFileError}>
         <FormLabel my="auto">or Enter Your Submission:</FormLabel>
         <Box border="1px solid" borderColor="grey.100">
-          <Editor key={editorId} duelPlatform={duelPlatform ? duelPlatform : ""} languageCode={chosenLanguage} onSetCode={handleCode} />
+          <Editor
+            key={editorId}
+            duelPlatform={duelPlatform ? duelPlatform : ""}
+            languageCode={chosenLanguage}
+            onSetCode={handleCode}
+          />
         </Box>
-        <FormErrorMessage mt={1}>Enter code in the box or upload a file.</FormErrorMessage>
+        <FormErrorMessage mt={1}>
+          Enter code in the box or upload a file.
+        </FormErrorMessage>
       </FormControl>
 
       <Center mt={1}>

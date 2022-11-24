@@ -37,6 +37,7 @@ const ContactForm = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const wantsResponseError = wantsResponse && email === "";
+  const messageLengthError = message.length > 500;
   const [messageError, setMessageError] = useState(false);
 
   const toast = useToast();
@@ -54,7 +55,7 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    if (wantsResponseError) {
+    if (wantsResponseError || messageLengthError) {
       setSubmitting(false);
       return;
       // }
@@ -86,13 +87,32 @@ const ContactForm = () => {
       setSubmitting(false);
       return;
     }
-    makeToast({
-      title: "Success",
-      description: "Your message has been sent!",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
+    const submissionTime = new Date();
+    let res = await Database.addMessage({
+      timeSubmitted: submissionTime.toDateString(),
+      name: name != "" ? name : "ANONYMOUS",
+      email: email != "" ? email : "N/A",
+      type: type,
+      wantsResponse: wantsResponse ? "YES" : "NO",
+      content: message,
     });
+    if (res.message) {
+      makeToast({
+        title: "Error",
+        description: res.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      makeToast({
+        title: "Success",
+        description: "Your message has been sent!",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
     setSubmitting(false);
   };
 
@@ -159,9 +179,7 @@ const ContactForm = () => {
       </GridItem>
       <GridItem colSpan={[2, 1]} paddingLeft={0}>
         <FormControl width="192px" isRequired>
-          <FormLabel my="auto">
-            Message Type
-          </FormLabel>
+          <FormLabel my="auto">Message Type</FormLabel>
           <Select
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -176,8 +194,10 @@ const ContactForm = () => {
       </GridItem>
       <GridItem colSpan={[2, 1]} mt={[1, 0]}>
         <Center>
-          <FormControl width='200px' isInvalid={wantsResponseError}>
-            <FormLabel my="auto" width='fit-content' display="inline-block">Want a response?</FormLabel>
+          <FormControl width="200px" isInvalid={wantsResponseError}>
+            <FormLabel my="auto" width="fit-content" display="inline-block">
+              Want a response?
+            </FormLabel>
             <Switch
               my="auto"
               size={["md", "lg"]}
@@ -197,7 +217,7 @@ const ContactForm = () => {
         </Center>
       </GridItem>
       <GridItem colSpan={2} rowSpan={3}>
-        <FormControl isInvalid={messageError} isRequired>
+        <FormControl isInvalid={messageError || messageLengthError} isRequired>
           <Textarea
             mt={1}
             width={["300px", "400px"]}
@@ -212,7 +232,11 @@ const ContactForm = () => {
               setMessageError(false);
             }}
           ></Textarea>
-          {messageError ? (
+          {messageLengthError ? (
+            <FormErrorMessage mt={1}>
+              Max Message Length: 500 characters
+            </FormErrorMessage>
+          ) : messageError ? (
             <FormErrorMessage mt={1}>Please write a message.</FormErrorMessage>
           ) : (
             ""

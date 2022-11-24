@@ -242,7 +242,7 @@ const BaseLayout = ({ content }) => {
   const touchEnd = useRef();
 
   // the required distance between touchStart and touchEnd to be detected as a swipe
-  const minSwipeDistance = 150;
+  const minSwipeDistance = 125;
 
   const onTouchStart = (e) => {
     touchEnd.current = null;
