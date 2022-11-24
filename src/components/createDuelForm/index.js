@@ -63,7 +63,7 @@ const CreateDuelForm = () => {
       timeLimit: timeLimit,
       ratingMin: ratingMin,
       ratingMax, ratingMax,
-      players: [{username: `${username ? username : "GUEST"}`, uid: uid}],
+      players: [{username: `${username ? username : "!GUEST!"}`, uid: uid}],
       private: isPrivate
     };
     console.log(duelData);
@@ -75,7 +75,7 @@ const CreateDuelForm = () => {
             if (!res._id) {
                 setSubmitting(false);
                 makeToast({
-                  title: "Server Error",
+                  title: "Error",
                   description: res.message,
                   status: "error",
                   duration: 9000,

@@ -14,13 +14,20 @@ import {
 import { handleUID } from "../../data";
 import socket from "../../socket";
 
-const AbortButton = ({ onOpen }) => {
+const AbortButton = ({ onOpen, cancelled, onCancelled }) => {
   const [aborting, setAborting] = useState(false);
   const handleAbort = (e) => {
     e.preventDefault();
     setAborting(true);
     onOpen();
   };
+
+  useEffect(() => {
+    if (cancelled) {
+      setAborting(false);
+      onCancelled();
+    }
+  }, [cancelled]);
 
   return (
     <Button
@@ -36,13 +43,20 @@ const AbortButton = ({ onOpen }) => {
   );
 };
 
-const ResignButton = ({ onOpen }) => {
+const ResignButton = ({ onOpen, cancelled, onCancelled }) => {
   const [resigning, setResigning] = useState(false);
   const handleResign = (e) => {
     e.preventDefault();
     setResigning(true);
     onOpen();
   };
+
+  useEffect(() => {
+    if (cancelled) {
+      setResigning(false);
+      onCancelled();
+    }
+  }, [cancelled]);
 
   return (
     <Button
@@ -62,12 +76,12 @@ const AbortAndResignDisplay = ({ id, duelStatus }) => {
   const abortModalContent = {
     title: "Abort?",
     message: "Are you sure you'd like to abort the duel?",
-    action: "ABORT"
+    action: "ABORT",
   };
   const resignModalContent = {
     title: "Resign?",
     message: "Are you sure you'd like to resign the duel?",
-    action: "RESIGN"
+    action: "RESIGN",
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalContent, setModalContent] = useState(abortModalContent);
@@ -83,14 +97,21 @@ const AbortAndResignDisplay = ({ id, duelStatus }) => {
 
   const handleAbortOrResign = (action) => {
     handleUID();
-    let uid = localStorage.getItem('uid');
+    let uid = localStorage.getItem("uid");
     if (action === "ABORT") {
-      socket.emit('abort-duel', { roomId: id, uid: uid });
+      socket.emit("abort-duel", { roomId: id, uid: uid });
     } else {
-      socket.emit('resign-duel', { roomId: id, uid: uid });
+      socket.emit("resign-duel", { roomId: id, uid: uid });
     }
     onClose();
-  }
+  };
+
+  const [cancelled, setCancelled] = useState(false);
+
+  const handleCancel = () => {
+    setCancelled(true);
+    onClose();
+  };
 
   return (
     <Flex
@@ -103,11 +124,19 @@ const AbortAndResignDisplay = ({ id, duelStatus }) => {
       justifyContent="center"
     >
       {duelStatus === "ONGOING" ? (
-        <ResignButton onOpen={() => openModal("RESIGN")} />
+        <ResignButton
+          onOpen={() => openModal("RESIGN")}
+          cancelled={cancelled}
+          onCancelled={() => setCancelled(false)}
+        />
       ) : (
-        <AbortButton onOpen={() => openModal("ABORT")} />
+        <AbortButton
+          onOpen={() => openModal("ABORT")}
+          cancelled={cancelled}
+          onCancelled={() => setCancelled(false)}
+        />
       )}
-      <Modal isOpen={isOpen} onClose={onClose} size="sm">
+      <Modal isOpen={isOpen} onClose={handleCancel} size="sm">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{modalContent.title}</ModalHeader>
@@ -116,14 +145,18 @@ const AbortAndResignDisplay = ({ id, duelStatus }) => {
             <p>{modalContent.message}</p>
           </ModalBody>
           <ModalFooter justifyContent="center">
-            <Button colorScheme="primary" mr={3} onClick={() => handleAbortOrResign(modalContent.action)}>
+            <Button
+              colorScheme="primary"
+              mr={3}
+              onClick={() => handleAbortOrResign(modalContent.action)}
+            >
               I'm sure
             </Button>
             <Button
               colorScheme="primary"
               variant="outline"
               mr={3}
-              onClick={onClose}
+              onClick={handleCancel}
             >
               Cancel
             </Button>

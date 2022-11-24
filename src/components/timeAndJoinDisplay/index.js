@@ -40,10 +40,21 @@ const JoinDisplay = ({ id, playerNum }) => {
     e.preventDefault();
     setJoining(true);
     handleUID();
+    if (!username) {
+      makeToast({
+        title: "Error",
+        description: "Either enter username or join as guest.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+      setJoining(false);
+      return;
+    }
     let uid = localStorage.getItem("uid");
     socket.emit("join-duel", {
       roomId: id,
-      username: username ? username : "GUEST",
+      username: username,
       uid: uid,
     });
   };
@@ -53,16 +64,23 @@ const JoinDisplay = ({ id, playerNum }) => {
     setJoiningGuest(true);
     handleUID();
     let uid = localStorage.getItem("uid");
-    socket.emit("join-duel", { roomId: id, username: "GUEST", uid: uid });
+    socket.emit("join-duel", { roomId: id, username: "!GUEST!", uid: uid });
   };
 
   useEffect(() => {
-    socket.on("error-message", () => {
+    socket.on("join-duel-error", ({ message }) => {
       setJoining(false);
+      makeToast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
     });
 
     return () => {
-      socket.off("error-message");
+      socket.off("join-duel-error");
     };
   }, []);
 
