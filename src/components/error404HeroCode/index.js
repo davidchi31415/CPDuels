@@ -21,7 +21,7 @@ const Error404HeroCode = () => {
     const shiftLine = async () => {
       if (currentLine === -1) {
         await sleep(150);
-        setCurrentLine(script.length-1);
+        setCurrentLine(script.length - 1);
       } else {
         await sleep(150);
         setCurrentLine((i) => i - 1);
@@ -60,6 +60,15 @@ const Error404HeroCode = () => {
                 {line}
               </Text>
             ))}
+            <Text
+              fontSize="10px"
+              fontWeight="normal"
+              pt="27px"
+              px="auto"
+              color="#32ff32"
+            >
+              <code>or our backend is just down... :)</code>
+            </Text>
           </Box>
         </Box>
         <Box className="logo" filter="opacity(50%)">
