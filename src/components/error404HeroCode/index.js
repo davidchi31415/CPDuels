@@ -67,7 +67,7 @@ const Error404HeroCode = () => {
               px="auto"
               color="#32ff32"
             >
-              <code>or our backend is just down... :)</code>
+              <code>or our backend is just down :)</code>
             </Text>
           </Box>
         </Box>
