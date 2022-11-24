@@ -186,8 +186,7 @@ const BaseFooter = () => {
           as="span"
           fontWeight="bold"
           color={colorMode === "light" ? "primary.500" : "primary.300"}
-          cursor="pointer"
-          onClick={() => navigate("/contact")}
+          cursor="pointer" onClick={() => navigate("/contact")}
         >
           David Chi
         </Text>{" "}
@@ -196,8 +195,7 @@ const BaseFooter = () => {
           as="span"
           fontWeight="bold"
           color={colorMode === "light" ? "primary.500" : "primary.300"}
-          cursor="pointer"
-          onClick={() => navigate("/contact")}
+          cursor="pointer" onClick={() => navigate("/contact")}
         >
           Jeffrey Li
         </Text>
@@ -240,12 +238,42 @@ const BaseLayout = ({ content }) => {
   const [isMobile] = useMediaQuery("(max-width: 480px)");
   const mobileMenuOpen = useRef();
   const mobileMenuClose = useRef();
+  const touchStart = useRef();
+  const touchEnd = useRef();
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 150;
+
+  const onTouchStart = (e) => {
+    touchEnd.current = null;
+    touchStart.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e) => {
+    touchEnd.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (touchStart.current === null || touchEnd.current === null) return;
+    const distance = touchStart.current - touchEnd.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < minSwipeDistance;
+    if (isLeftSwipe) {
+      if (mobileMenuOpen.current !== null) mobileMenuOpen.current();
+    } else if (isRightSwipe) {
+      console.log("Right Swipe");
+      if (mobileMenuClose.current !== null) mobileMenuClose.current();
+    }
+  };
 
   return (
     <Flex
       minHeight="1000px"
       justifyContent="center"
       overflowX="hidden"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onTouchMove={onTouchMove}
       sx={{ "-webkit-text-size-adjust": "100%" }}
     >
       <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
