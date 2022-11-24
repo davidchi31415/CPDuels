@@ -107,7 +107,7 @@ const JoinDisplay = ({ id, playerNum }) => {
       <Text my={0} height="100%">
         Wait for someone to join, or invite them:
       </Text>
-      <InputGroup>
+      <InputGroup px={2}>
         <Input
           type="text"
           value={`https://www.cpduels.com/play/${id}`}
@@ -117,7 +117,7 @@ const JoinDisplay = ({ id, playerNum }) => {
           borderColor="grey.100"
           variant="outline"
         />
-        <InputRightElement>
+        <InputRightElement pr={4}>
           <IconButton
             variant="outline"
             borderColor="grey.100"

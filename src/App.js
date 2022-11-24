@@ -16,6 +16,7 @@ function App() {
         <Route path="/play" exact element={<PlayPage />} />
         <Route path="/contact" exact element={<ContactPage />} />
         <Route path="/play/:id" element={<DuelPage />} />
+        <Route path="/404" exact element={<Error404Page />} />
         <Route path="*" exact element={<Error404Page />} />
       </Routes>
     </Router>

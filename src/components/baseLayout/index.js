@@ -269,6 +269,7 @@ const BaseLayout = ({ content }) => {
     <Flex
       justifyContent="center"
       overflowX="hidden"
+      overflowY="hidden"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onTouchMove={onTouchMove}

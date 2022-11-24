@@ -1,4 +1,10 @@
-import { Box, Center, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Text,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 import "./styles.css";
 import CPFavicon from "../../images/CPDuels Favicon (1).svg";
@@ -6,10 +12,22 @@ import CPFavicon from "../../images/CPDuels Favicon (1).svg";
 const HomeHeroCode = () => {
   const { colorMode } = useColorMode();
 
+  const [loading, setLoading] = useState(false);
+  const [doneLoading, setDoneLoading] = useState(false);
   const [writing, setWriting] = useState(false);
   const [doneWriting, setDoneWriting] = useState(false);
-  const [code, setCode] = useState("▮");
-  const script = [
+  const [code, setCode] = useState("|");
+
+  const script1 = [
+    " ======= =======",
+    "===      ===  ===",
+    "===      =======",
+    "===      ===",
+    " ======= ===",
+  ];
+  const [currentLine, setCurrentLine] = useState(script1.length - 1);
+
+  const script2 = [
     "#include <codeforces>\n",
     "#include <atcoder>\n",
     "#include <leetcode>\n",
@@ -30,16 +48,35 @@ const HomeHeroCode = () => {
   const cursor = "|";
 
   useEffect(() => {
-    if (!writing) {
+    if (!doneLoading) {
+      const shiftLine = async () => {
+        if (!loading) {
+          await sleep(1000);
+          setLoading(true);
+        }
+        if (currentLine === -1) {
+          await sleep(1000);
+          setDoneLoading(true);
+        } else {
+          await sleep(250);
+          setCurrentLine((i) => i - 1);
+        }
+      };
+      shiftLine();
+    }
+  }, [loading, doneLoading, currentLine]);
+
+  useEffect(() => {
+    if (!writing && doneLoading) {
       setWriting(true);
       async function writeText() {
-        for (let i = 0; i < script.length; i++) {
-          for (let j = 0; j < script[i].length; j++) {
-            if (script[i][j] === "\n") await sleep(100);
+        for (let i = 0; i < script2.length; i++) {
+          for (let j = 0; j < script2[i].length; j++) {
+            if (script2[i][j] === "\n") await sleep(100);
             if (
-              script[i][j] === " " &&
-              j < script[i].length &&
-              script[i][j + 1] === " "
+              script2[i][j] === " " &&
+              j < script2[i].length &&
+              script2[i][j + 1] === " "
             ) {
               setCode(
                 (code) => code.substring(0, code.length - 1) + "  " + cursor
@@ -50,14 +87,14 @@ const HomeHeroCode = () => {
             }
             setCode(
               (code) =>
-                code.substring(0, code.length - 1) + script[i][j] + cursor
+                code.substring(0, code.length - 1) + script2[i][j] + cursor
             );
-            if (script[i][j] === " ") await sleep(100);
-            else if (script[i][j] === "\n") await sleep(200);
-            else if (script[i][j] === ",") await sleep(250);
-            else if (script[i][j] === "(" || script[i] === ")")
+            if (script2[i][j] === " ") await sleep(100);
+            else if (script2[i][j] === "\n") await sleep(200);
+            else if (script2[i][j] === ",") await sleep(250);
+            else if (script2[i][j] === "(" || script2[i] === ")")
               await sleep(180);
-            else if (script[i][j] === "{" || script[i] === "}")
+            else if (script2[i][j] === "{" || script2[i] === "}")
               await sleep(200);
             else await sleep(50);
           }
@@ -66,7 +103,7 @@ const HomeHeroCode = () => {
       }
       writeText();
     }
-  }, [writing]);
+  }, [writing, doneLoading]);
 
   useEffect(() => {
     async function blinkCursor() {
@@ -97,11 +134,31 @@ const HomeHeroCode = () => {
           className="screen-cutout"
           boxShadow={colorMode === "light" ? "" : "#888888 0 10px 35px"}
         >
-          <Box className="screen">
-            <pre className="code">
-              <code>{code}</code>
-            </pre>
-          </Box>
+          {doneLoading ? (
+            <Box className="screen">
+              <pre className="code">
+                <code>{code}</code>
+              </pre>
+            </Box>
+          ) : (
+            <Box
+              className="screen"
+              paddingX="15px"
+              paddingY="55px"
+              fontSize="25px"
+              lineHeight="15px"
+              fontWeight="bold"
+            >
+              {script1.map((line, index) => (
+                <Text
+                  as="pre"
+                  color={index > currentLine ? "#32ff32" : "#21bc21"}
+                >
+                  {line}
+                </Text>
+              ))}
+            </Box>
+          )}
         </Box>
         <Box className="logo" filter="opacity(50%)">
           <img src={CPFavicon} />

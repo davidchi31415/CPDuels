@@ -56,6 +56,7 @@ const DuelPage = () => {
   useEffect(() => {
     const getDuelInfo = async () => {
       const duel = await Database.getDuelById(id);
+      if (!duel || duel?.message) navigate("/404");
       if (duelStatus !== duel.status) setDuelStatus(duel.status);
       console.log(duel.platform);
       if (duelPlatform !== duel.platform) setDuelPlatform(duel.platform);
