@@ -146,7 +146,7 @@ const HomeHeroCode = () => {
               className="screen"
               paddingX="15px"
               paddingY="55px"
-              fontSize={["23px", null, null, "25px"]}
+              fontSize={["23px", null, null, null, "25px"]}
               lineHeight="15px"
               fontWeight="bold"
             >
