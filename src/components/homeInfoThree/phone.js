@@ -22,7 +22,7 @@ const Phone = ({ inViewport, forwardedRef, finished, onFinished }) => {
     {
       author: "David",
       message: "https://www.cpduels.com/play/637cf18f5fe4f66d0b152238",
-      highlight: true
+      highlight: true,
     },
     {
       author: "Jeffrey",
@@ -43,33 +43,46 @@ const Phone = ({ inViewport, forwardedRef, finished, onFinished }) => {
     {
       author: "Rico",
       message: "Yo this website's dope!!!",
-    }
+    },
   ];
 
   const [animating, setAnimating] = useState(false);
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+  const [waiting, setWaiting] = useState(true);
+  const [animationIndex, setAnimationIndex] = useState(0);
   const [newMessages, setNewMessages] = useState(finished ? messages : []);
   const [typingIndicator, setTypingIndicator] = useState(null);
 
   useEffect(() => {
     const animate = async () => {
       setAnimating(true);
-      await sleep(5000);
-      for (let i = 0; i < messages.length; i++) {
-        await sleep(500);
-        setTypingIndicator(messages[i].author);
-        await sleep(2500);
-        setTypingIndicator(null);
-        setNewMessages(messages.slice(0, i + 1));
+      if (animationIndex === messages.length) {
+        setAnimationIndex((i) => i + 1);
+        onFinished();
+        return;
       }
+      if (waiting) {
+        setWaiting(false);
+        await sleep(5000);
+      }
+      await sleep(500);
+      setTypingIndicator(messages[animationIndex].author);
+      await sleep(2500);
+      setTypingIndicator(null);
+      setNewMessages(messages.slice(0, animationIndex + 1));
+      setAnimationIndex((i) => i + 1);
       setAnimating(false);
-      onFinished();
     };
-    if (inViewport && !animating && !finished) {
+    if (
+      inViewport &&
+      !animating &&
+      animationIndex <= messages.length &&
+      !finished
+    ) {
       animate();
     }
-  }, [finished, inViewport, animating]);
+  }, [finished, inViewport, animating, animationIndex, waiting]);
 
   return (
     <div class="phone" ref={forwardedRef}>
@@ -127,10 +140,14 @@ const Phone = ({ inViewport, forwardedRef, finished, onFinished }) => {
               <>
                 <div class="new-message-bar"></div>
                 {newMessages.map((message) => (
-                <div class="phone-screen-content-message">
-                  <div class="author">{message.author}</div>
-                  <div class={`message ${message.highlight ? "highlight" : ""}`}>{message.message}</div>
-                </div>
+                  <div class="phone-screen-content-message">
+                    <div class="author">{message.author}</div>
+                    <div
+                      class={`message ${message.highlight ? "highlight" : ""}`}
+                    >
+                      {message.message}
+                    </div>
+                  </div>
                 ))}
               </>
             ) : (
