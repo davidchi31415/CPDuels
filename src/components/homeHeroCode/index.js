@@ -53,12 +53,13 @@ const HomeHeroCode = () => {
         if (!loading) {
           await sleep(1000);
           setLoading(true);
+          return;
         }
         if (currentLine === -1) {
           await sleep(1000);
           setDoneLoading(true);
         } else {
-          await sleep(250);
+          await sleep(200);
           setCurrentLine((i) => i - 1);
         }
       };
