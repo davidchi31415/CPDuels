@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Flex,
@@ -11,6 +11,8 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@chakra-ui/react";
+import { handleUID } from "../../data";
+import socket from "../../socket";
 
 const AbortButton = ({ onOpen }) => {
   const [aborting, setAborting] = useState(false);
@@ -19,6 +21,7 @@ const AbortButton = ({ onOpen }) => {
     setAborting(true);
     onOpen();
   };
+
   return (
     <Button
       rounded="md"
@@ -40,6 +43,7 @@ const ResignButton = ({ onOpen }) => {
     setResigning(true);
     onOpen();
   };
+
   return (
     <Button
       rounded="md"
@@ -54,15 +58,17 @@ const ResignButton = ({ onOpen }) => {
   );
 };
 
-const AbortAndResignDisplay = ({ duelStatus }) => {
+const AbortAndResignDisplay = ({ id, duelStatus }) => {
   const abortModalContent = {
     title: "Abort?",
     message: "Are you sure you'd like to abort the duel?",
+    action: "ABORT"
   };
   const resignModalContent = {
     title: "Resign?",
     message: "Are you sure you'd like to resign the duel?",
-  }
+    action: "RESIGN"
+  };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalContent, setModalContent] = useState(abortModalContent);
 
@@ -74,6 +80,17 @@ const AbortAndResignDisplay = ({ duelStatus }) => {
     }
     onOpen();
   };
+
+  const handleAbortOrResign = (action) => {
+    handleUID();
+    let uid = localStorage.getItem('uid');
+    if (action === "ABORT") {
+      socket.emit('abort-duel', { roomId: id, uid: uid });
+    } else {
+      socket.emit('resign-duel', { roomId: id, uid: uid });
+    }
+    onClose();
+  }
 
   return (
     <Flex
@@ -99,10 +116,15 @@ const AbortAndResignDisplay = ({ duelStatus }) => {
             <p>{modalContent.message}</p>
           </ModalBody>
           <ModalFooter justifyContent="center">
-            <Button colorScheme="primary" mr={3} onClick={onClose}>
+            <Button colorScheme="primary" mr={3} onClick={() => handleAbortOrResign(modalContent.action)}>
               I'm sure
             </Button>
-            <Button colorScheme="primary" variant='outline' mr={3} onClick={onClose}>
+            <Button
+              colorScheme="primary"
+              variant="outline"
+              mr={3}
+              onClick={onClose}
+            >
               Cancel
             </Button>
           </ModalFooter>

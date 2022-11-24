@@ -12,6 +12,7 @@ import {
   ModalFooter,
   useDisclosure,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
 import TimeAndJoinDisplay from "../components/timeAndJoinDisplay";
@@ -39,6 +40,18 @@ const DuelPage = () => {
   }
 
   const forceUpdate = useForceUpdate();
+
+  const toast = useToast();
+  const toastRef = useRef();
+
+  const makeToast = (toastParams) => {
+    if (toastRef.current) {
+      toast.close(toastRef.current);
+      toastRef.current = toast(toastParams);
+    } else {
+      toastRef.current = toast(toastParams);
+    }
+  };
 
   useEffect(() => {
     const getDuelInfo = async () => {
@@ -74,11 +87,39 @@ const DuelPage = () => {
         getDuelInfo();
       }
     });
+    socket.on("abort-duel-error", ({ roomId, uid, message }) => {
+      handleUID();
+      let localUid = localStorage.getItem("uid");
+      if (roomId === id && uid === localUid) {
+        makeToast({
+          title: "Abort Duel Error",
+          description: message,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    });
+    socket.on("resign-duel-error", ({ roomId, uid, message }) => {
+      handleUID();
+      let localUid = localStorage.getItem("uid");
+      if (roomId === id && uid === localUid) {
+        makeToast({
+          title: "Resign Duel Error",
+          description: message,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    });
     return () => {
       socket.off("connect");
       socket.off("error-message");
       socket.off("status-change");
       socket.off("time-left");
+      socket.off("abort-duel-error");
+      socket.off("resign-duel-error");
     };
   }, []);
 
@@ -113,8 +154,10 @@ const DuelPage = () => {
                   duelStatus={duelStatus}
                   playerNum={playerNum}
                 />
-                {playerNum && duelStatus !== "FINISHED" ? (
-                  <AbortAndResignDisplay duelStatus={duelStatus} />
+                {playerNum &&
+                duelStatus !== "FINISHED" &&
+                duelStatus !== "ABORTED" ? (
+                  <AbortAndResignDisplay id={id} duelStatus={duelStatus} />
                 ) : (
                   ""
                 )}

@@ -56,7 +56,7 @@ const FinishedDuelsTable = () => {
       },
       {
         Header: "Winner",
-        accessor: (row) => `${row.result}`,
+        accessor: (row) => `${row.result?.length === 2 ? row.result[1] : row.result[0]}`,
         id: (row) => row._id,
         width: "8em",
       }
