@@ -51,7 +51,7 @@ const HomeHeroCode = () => {
     if (!doneLoading) {
       const shiftLine = async () => {
         if (!loading) {
-          await sleep(1000);
+          await sleep(500);
           setLoading(true);
           return;
         }

@@ -61,7 +61,7 @@ const Error404HeroCode = () => {
               </Text>
             ))}
             <Text
-              fontSize="10px"
+              fontSize="8px"
               fontWeight="normal"
               pt="27px"
               px="auto"
