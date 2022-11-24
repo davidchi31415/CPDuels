@@ -44,6 +44,8 @@ const SubmitCodeEditor = ({
   const fileName = useRef("");
   const fileContent = useRef("");
   const code = useRef("");
+  const [lastSubmissionTime, setLastSubmissionTime] = useState();
+  
   const [submitting, setSubmitting] = useState(false);
 
   const toast = useToast();
@@ -79,6 +81,21 @@ const SubmitCodeEditor = ({
       return;
     }
     setProblemNumError(false);
+    if (lastSubmissionTime) {
+      let diff = Date.now() - lastSubmissionTime;
+      if (diff < 5000) {
+        makeToast({
+          title: "Rate Limit",
+          description: "Please wait a few seconds before submitting again.",
+          status: "error",
+          duration: 2000,
+          isClosable: true
+        });
+        setSubmitting(false);
+        return;
+      }
+    }
+    setLastSubmissionTime(Date.now());
     handleUID();
     let uid = localStorage.getItem("uid");
     if (fileContent.current) {
