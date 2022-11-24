@@ -51,6 +51,7 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
       variant="line"
       borderColor={borderColor}
       width="47em"
+      mt={[null, null, "-1em", 0]}
       index={index}
       onChange={(index) => setIndex(index)}
       colorScheme="primary"

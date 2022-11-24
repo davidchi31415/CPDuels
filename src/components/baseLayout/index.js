@@ -261,14 +261,12 @@ const BaseLayout = ({ content }) => {
     if (isLeftSwipe) {
       if (mobileMenuOpen.current !== null) mobileMenuOpen.current();
     } else if (isRightSwipe) {
-      console.log("Right Swipe");
       if (mobileMenuClose.current !== null) mobileMenuClose.current();
     }
   };
 
   return (
     <Flex
-      minHeight="1000px"
       justifyContent="center"
       overflowX="hidden"
       onTouchStart={onTouchStart}

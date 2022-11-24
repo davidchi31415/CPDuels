@@ -107,7 +107,7 @@ const DuelPage = () => {
                 playerNum={playerNum}
                 onMathJaxRendered={() => setRenderedMathJax(true)}
               />
-              <VStack spacing={2}>
+              <VStack spacing={2} mt={[null, null, "-0.5em", 0]}>
                 <TimeAndJoinDisplay
                   id={id}
                   duelStatus={duelStatus}

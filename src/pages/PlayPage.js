@@ -50,10 +50,10 @@ const TabContainer = () => {
       </TabList>
 
       <TabPanels border="none">
-        <TabPanel px="auto" mt={2} transform="scale(1.1)">
+        <TabPanel px="auto" mt={2} transform={["scale(1.1)", "none"]}>
           <OngoingDuelsTable />
         </TabPanel>
-        <TabPanel px="auto" mt={2} transform="scale(1.1)">
+        <TabPanel px="auto" mt={2} transform={["scale(1.1)", "none"]}>
           <FinishedDuelsTable />
         </TabPanel>
       </TabPanels>
