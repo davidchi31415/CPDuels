@@ -46,29 +46,30 @@ const Error404HeroCode = () => {
         >
           <Box
             className="screen"
-            paddingX="15px"
             paddingY="60px"
             fontSize={["15px", null, null, null, "16px"]}
             lineHeight="12px"
             fontWeight="bold"
           >
-            {script.map((line, index) => (
+            <Box mx="auto" width="fit-content">
+              {script.map((line, index) => (
+                <Text
+                  as="pre"
+                  color={index > currentLine ? "#32ff32" : "#21bc21"}
+                >
+                  {line}
+                </Text>
+              ))}
               <Text
-                as="pre"
-                color={index > currentLine ? "#32ff32" : "#21bc21"}
+                fontSize="8px"
+                fontWeight="normal"
+                pt="27px"
+                px="auto"
+                color="#32ff32"
               >
-                {line}
+                <code>or our backend is just down :)</code>
               </Text>
-            ))}
-            <Text
-              fontSize="8px"
-              fontWeight="normal"
-              pt="27px"
-              px="auto"
-              color="#32ff32"
-            >
-              <code>or our backend is just down :)</code>
-            </Text>
+            </Box>
           </Box>
         </Box>
         <Box className="logo" filter="opacity(50%)">

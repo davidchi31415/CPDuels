@@ -144,20 +144,21 @@ const HomeHeroCode = () => {
           ) : (
             <Box
               className="screen"
-              paddingX="15px"
               paddingY="55px"
-              fontSize={["23px", null, null, "24px", "25px"]}
+              fontSize={["23px", null, null, null, "25px"]}
               lineHeight="15px"
               fontWeight="bold"
             >
-              {script1.map((line, index) => (
-                <Text
-                  as="pre"
-                  color={index > currentLine ? "#32ff32" : "#21bc21"}
-                >
-                  {line}
-                </Text>
-              ))}
+              <Box mx="auto" width="fit-content">
+                {script1.map((line, index) => (
+                  <Text
+                    as="pre"
+                    color={index > currentLine ? "#32ff32" : "#21bc21"}
+                  >
+                    {line}
+                  </Text>
+                ))}
+              </Box>
             </Box>
           )}
         </Box>
