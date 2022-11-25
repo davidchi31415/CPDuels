@@ -301,7 +301,7 @@ const TimeAndJoinDisplay = ({ id, duelStatus, playerNum }) => {
       borderTopLeftRadius="md"
       borderTopRightRadius="md"
       width="22em"
-      boxShadow="2xl"
+      boxShadow="xl"
     >
       <Table>
         <Thead>

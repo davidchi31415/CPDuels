@@ -8,15 +8,24 @@ import {
   Flex,
   useColorModeValue,
   TableContainer,
-  Grid, GridItem
+  Box,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import AccordionContainer from "./accordionContainer";
 import SubmitCodeEditor from "../submitCodeEditor";
 import Database from "../../data";
-import socket from '../../socket';
+import socket from "../../socket";
 import SubmissionsTable from "../submissionsTable";
+import ChatBox from "../chatBox";
 
-const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRendered }) => {
+const TabContainer = ({
+  id,
+  duelPlatform,
+  duelStatus,
+  playerNum,
+  onMathJaxRendered,
+}) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
     "rgb(255, 255, 255, 0.5)"
@@ -37,7 +46,7 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
         ratingMax: duel.ratingMax,
         private: duel.private,
         status: duel.status,
-        problemCount: duel.problemCount
+        problemCount: duel.problemCount,
       });
     };
     getDuelInfo();
@@ -74,28 +83,56 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
       </TabList>
 
       <TabPanels border="none">
-        <TabPanel px='auto'>
+        <TabPanel px="auto">
           <Grid
             templateColumns="repeat(4, 1fr)"
             rowGap={2}
             width="40em"
             height="fit-content"
             py={0}
-            fontSize='1.2rem'
+            mx="auto"
+            fontSize="1.2rem"
           >
-            <GridItem colSpan={1} fontWeight='bold'>Platform:</GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Platform:
+            </GridItem>
             <GridItem>{duelInfo ? duelInfo.platform : "N/A"}</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Time Limit: </GridItem>
-            <GridItem>{duelInfo ? `${duelInfo.timeLimit} min` : "N/A"}</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Difficulty:</GridItem>
-            <GridItem>{duelInfo ? `${duelInfo.ratingMin} - ${duelInfo.ratingMax}` : "N/A"}</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Private:</GridItem>
-            <GridItem>{duelInfo ? `${duelInfo.private ? "Yes" : "No"}` : "N/A"}</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Status:</GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Time Limit:{" "}
+            </GridItem>
+            <GridItem>
+              {duelInfo ? `${duelInfo.timeLimit} min` : "N/A"}
+            </GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Difficulty:
+            </GridItem>
+            <GridItem>
+              {duelInfo
+                ? `${duelInfo.ratingMin} - ${duelInfo.ratingMax}`
+                : "N/A"}
+            </GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Private:
+            </GridItem>
+            <GridItem>
+              {duelInfo ? `${duelInfo.private ? "Yes" : "No"}` : "N/A"}
+            </GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Status:
+            </GridItem>
             <GridItem>{duelInfo ? duelInfo.status : "N/A"}</GridItem>
-            <GridItem colSpan={1} fontWeight='bold'>Problem Count:</GridItem>
+            <GridItem colSpan={1} fontWeight="bold">
+              Problem Count:
+            </GridItem>
             <GridItem>{duelInfo ? duelInfo.problemCount : "N/A"}</GridItem>
           </Grid>
+          {playerNum ? (
+            <Box mt={5}>
+              <ChatBox id={id} />
+            </Box>
+          ) : (
+            ""
+          )}
         </TabPanel>
         <TabPanel px={0}>
           <AccordionContainer
@@ -107,9 +144,12 @@ const TabContainer = ({ id, duelPlatform, duelStatus, playerNum, onMathJaxRender
           />
         </TabPanel>
         <TabPanel px={0}>
-          <SubmitCodeEditor key="stuck-editor" editorId="stuck-editor" 
-            duelPlatform={duelPlatform} 
-            duelId={id} numProblems={numProblems} 
+          <SubmitCodeEditor
+            key="stuck-editor"
+            editorId="stuck-editor"
+            duelPlatform={duelPlatform}
+            duelId={id}
+            numProblems={numProblems}
           />
         </TabPanel>
         <TabPanel px={0}>
