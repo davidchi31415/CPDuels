@@ -47,7 +47,7 @@ const DuelNotFoundHeroCode = () => {
           <Box
             className="screen"
             paddingY="60px"
-            fontSize={["15px", null, null, null, "16px"]}
+            fontSize={["14px", null, null, null, "16px"]}
             lineHeight="12px"
             fontWeight="bold"
           >
@@ -67,7 +67,7 @@ const DuelNotFoundHeroCode = () => {
                 px="auto"
                 color="#32ff32"
               >
-                <code>Duel does not exist, or our backend is just down. :)</code>
+                <code>Duel doesn't exist (or our backend is just down). :)</code>
               </Text>
             </Box>
           </Box>
