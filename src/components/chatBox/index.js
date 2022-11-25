@@ -150,7 +150,7 @@ const ChatBox = ({ id }) => {
         {messages.length ? (
           <>
             {messages.map((message, index) => (
-              <Box px={2} pt={1}>
+              <Box px={2} pt={1} pb={index < messages.length - 1 ? 0 : 1}>
                 <Text fontWeight="bold">{message.author}</Text>
                 <Text>{message.content}</Text>
                 {index < messages.length - 1 ? (
@@ -228,6 +228,7 @@ const ChatBox = ({ id }) => {
           isLoading={sending}
           width="5em"
           height="5em"
+          isDisabled={currentMessage.length === 0}
           onClick={handleSend}
         >
           Send
