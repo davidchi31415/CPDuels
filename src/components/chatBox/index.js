@@ -14,7 +14,7 @@ import "./styles.css";
 import socket from "../../socket";
 import Database, { handleUID } from "../../data";
 
-const ChatBox = ({ id }) => {
+const ChatBox = ({ id, players, playerNum }) => {
   const [typingIndicator, setTypingIndicator] = useState(null);
 
   const [messages, setMessages] = useState([]);
@@ -24,6 +24,26 @@ const ChatBox = ({ id }) => {
 
   const [emptyMessageError, setEmptyMessageError] = useState(false);
   const messageLengthError = currentMessage.length > 500;
+
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    handleUID();
+    let uid = localStorage.getItem("uid");
+    if (players.length === 1) {
+      if (players[0].username === "!GUEST!") setUsername("GUEST");
+    } else {
+      if (
+        players[0].username === "!GUEST!" &&
+        players[1].username === "!GUEST!"
+      ) {
+        if (players[0].uid === uid) setUsername("GUEST1");
+        else setUsername("GUEST2");
+      } else if (players[playerNum - 1].username === "!GUEST!")
+        setUsername("GUEST");
+      else setUsername(players[playerNum - 1].username);
+    }
+  }, [players, playerNum, username]);
 
   const [sending, setSending] = useState(false);
 
@@ -74,11 +94,11 @@ const ChatBox = ({ id }) => {
     }
     handleUID();
     let uid = localStorage.getItem("uid");
-    setMessages((curr) => [...curr, { author: uid, content: currentMessage }]);
+    setMessages((curr) => [...curr, { author: username, content: currentMessage }]);
     socket.emit("message-send", {
       roomId: id,
       uid: uid,
-      message: { author: uid, content: currentMessage },
+      message: { author: username, content: currentMessage },
     });
     setCurrentMessage("");
     setSending(false);
@@ -107,11 +127,11 @@ const ChatBox = ({ id }) => {
         });
       }
     });
-    socket.on("message-typing-receive", ({ roomId, senderUid }) => {
+    socket.on("message-typing-receive", ({ roomId, senderUid, author }) => {
       handleUID();
       let localUid = localStorage.getItem("uid");
       if (id === roomId && localUid != senderUid) {
-        setTypingIndicator(senderUid);
+        setTypingIndicator(author);
       }
     });
 
@@ -204,6 +224,7 @@ const ChatBox = ({ id }) => {
               socket.emit("message-typing-send", {
                 roomId: id,
                 uid: uid,
+                author: username
               });
             }}
           />

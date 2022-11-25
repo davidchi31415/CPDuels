@@ -23,6 +23,7 @@ const TabContainer = ({
   id,
   duelPlatform,
   duelStatus,
+  players,
   playerNum,
   onMathJaxRendered,
 }) => {
@@ -128,7 +129,7 @@ const TabContainer = ({
           </Grid>
           {playerNum ? (
             <Box mt={5}>
-              <ChatBox id={id} />
+              <ChatBox id={id} players={players} playerNum={playerNum} />
             </Box>
           ) : (
             ""

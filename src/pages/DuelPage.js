@@ -30,6 +30,7 @@ const DuelPage = () => {
   const navigate = useNavigate();
   const [duelPlatform, setDuelPlatform] = useState("CF");
   const [duelStatus, setDuelStatus] = useState("");
+  const [players, setPlayers] = useState([]);
   const [playerNum, setPlayerNum] = useState();
   const [renderedMathJax, setRenderedMathJax] = useState(false);
 
@@ -64,6 +65,7 @@ const DuelPage = () => {
       if (duelStatus !== duel.status) setDuelStatus(duel.status);
       console.log(duel.platform);
       if (duelPlatform !== duel.platform) setDuelPlatform(duel.platform);
+      setPlayers(duel.players);
       handleUID();
       let uid = localStorage.getItem("uid");
       if (uid === duel.players[0].uid) {
@@ -97,7 +99,7 @@ const DuelPage = () => {
       let localUid = localStorage.getItem("uid");
       if (roomId === id && uid === localUid) {
         makeToast({
-          title: "Abort Duel Error",
+          title: "Error",
           description: message,
           status: "error",
           duration: 2000,
@@ -110,7 +112,7 @@ const DuelPage = () => {
       let localUid = localStorage.getItem("uid");
       if (roomId === id && uid === localUid) {
         makeToast({
-          title: "Resign Duel Error",
+          title: "Error",
           description: message,
           status: "error",
           duration: 2000,
@@ -174,6 +176,7 @@ const DuelPage = () => {
                 id={id}
                 duelPlatform={duelPlatform}
                 duelStatus={duelStatus}
+                players={players}
                 playerNum={playerNum}
                 onMathJaxRendered={() => setRenderedMathJax(true)}
               />
@@ -181,6 +184,7 @@ const DuelPage = () => {
                 <TimeAndJoinDisplay
                   id={id}
                   duelStatus={duelStatus}
+                  players={players}
                   playerNum={playerNum}
                 />
                 {playerNum &&
@@ -193,6 +197,7 @@ const DuelPage = () => {
                 <ScoreDisplay
                   id={id}
                   duelStatus={duelStatus}
+                  players={players}
                   playerNum={playerNum}
                 />
               </VStack>

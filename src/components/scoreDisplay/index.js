@@ -19,8 +19,7 @@ import {
 import Database, { handleUID } from "../../data";
 import socket from "../../socket";
 
-const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
-  const [players, setPlayers] = useState([]);
+const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
   const [playerScores, setPlayerScores] = useState([]);
   const [problemScores, setProblemScores] = useState([]);
 
@@ -31,10 +30,6 @@ const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getPlayers = async () => {
-      let duel = await Database.getDuelById(id);
-      setPlayers(duel.players);
-    };
     const updateScores = async () => {
       let duel = await Database.getDuelById(id);
       setPlayerScores([duel.playerOneScore, duel.playerTwoScore]);
@@ -45,16 +40,13 @@ const ScoreDisplay = ({ id, duelStatus, playerNum }) => {
         ])
       );
     };
-    getPlayers();
     updateScores();
 
     socket.on("status-change", () => {
-      getPlayers();
       updateScores();
     });
 
     socket.on("time-left", () => {
-      getPlayers();
       updateScores();
     });
 
