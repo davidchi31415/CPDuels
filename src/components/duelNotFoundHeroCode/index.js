@@ -55,7 +55,7 @@ const DuelNotFoundHeroCode = () => {
               {script.map((line, index) => (
                 <Text
                   as="pre"
-                  color={index > currentLine ? "#32ff32" : "#21bc21"}
+                  color={index > currentLine ? "#43ff43" : "#21bc21"}
                 >
                   {line}
                 </Text>
@@ -65,7 +65,7 @@ const DuelNotFoundHeroCode = () => {
                 fontWeight="normal"
                 pt="27px"
                 px="auto"
-                color="#32ff32"
+                color="#43ff43"
               >
                 <code>Uh oh :)</code><br /><code>Duel doesn't exist (or our backend is just down).</code>
               </Text>

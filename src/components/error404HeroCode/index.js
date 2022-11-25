@@ -55,7 +55,7 @@ const Error404HeroCode = () => {
               {script.map((line, index) => (
                 <Text
                   as="pre"
-                  color={index > currentLine ? "#32ff32" : "#21bc21"}
+                  color={index > currentLine ? "#43ff43" : "#21bc21"}
                 >
                   {line}
                 </Text>
@@ -65,7 +65,7 @@ const Error404HeroCode = () => {
                 fontWeight="normal"
                 pt="27px"
                 px="auto"
-                color="#32ff32"
+                color="#43ff43"
               >
                 <code>Uh oh :)</code>
                 <br />
