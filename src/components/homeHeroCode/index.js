@@ -137,7 +137,7 @@ const HomeHeroCode = () => {
         >
           {doneLoading ? (
             <Box className="screen">
-              <pre className="code">
+              <pre class="code">
                 <code>{code}</code>
               </pre>
             </Box>
@@ -153,7 +153,7 @@ const HomeHeroCode = () => {
                 {script1.map((line, index) => (
                   <Text
                     as="pre"
-                    color={index > currentLine ? "#32ff32" : "#21bc21"}
+                    color={index > currentLine ? "#43ff43" : "#21bc21"}
                   >
                     {line}
                   </Text>
