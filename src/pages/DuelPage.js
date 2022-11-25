@@ -60,6 +60,7 @@ const DuelPage = () => {
     const getDuelInfo = async () => {
       const duel = await Database.getDuelById(id);
       if (!duel || duel?.message) navigate("/noduel");
+      setLoading(false);
       if (duelStatus !== duel.status) setDuelStatus(duel.status);
       console.log(duel.platform);
       if (duelPlatform !== duel.platform) setDuelPlatform(duel.platform);
@@ -125,7 +126,7 @@ const DuelPage = () => {
       socket.off("abort-duel-error");
       socket.off("resign-duel-error");
     };
-  }, []);
+  }, [loading]);
 
   useEffect(() => {
     if (duelStatus === "FINISHED") onOpen();
