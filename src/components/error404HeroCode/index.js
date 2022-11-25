@@ -67,7 +67,7 @@ const Error404HeroCode = () => {
                 px="auto"
                 color="#32ff32"
               >
-                <code>Page does not exist. :)</code>
+                <code>Page doesn't exist.</code>
               </Text>
             </Box>
           </Box>
