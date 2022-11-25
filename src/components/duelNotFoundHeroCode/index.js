@@ -67,7 +67,7 @@ const DuelNotFoundHeroCode = () => {
                 px="auto"
                 color="#32ff32"
               >
-                <code>Duel doesn't exist (or our backend is just down).</code>
+                <code>Uh oh :)</code><br /><code>Duel doesn't exist (or our backend is just down).</code>
               </Text>
             </Box>
           </Box>
