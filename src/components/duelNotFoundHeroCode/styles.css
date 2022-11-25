@@ -63,8 +63,8 @@
   width: 260px;
   height: 195px;
   background-color: #4f5555;
-  color: #32ff32;
-  text-shadow: 0 0 1px #32ff32;
+  color: #21bc21;
+  text-shadow: 0 0 1px #21bc21;
   margin: auto;
   position: absolute;
   top: 10px;
@@ -72,16 +72,6 @@
   right: 0;
   border-radius: 20px;
   box-shadow: 0 0 20px 10px #2b3030 inset;
-}
-
-.code {
-  display: block;
-  width: 236px;
-  height: 171px;
-  margin: 12px 12px;
-  font-weight: 600;
-  font-size: 8px;
-  -webkit-text-size-adjust: 100%;
 }
 
 .logo {

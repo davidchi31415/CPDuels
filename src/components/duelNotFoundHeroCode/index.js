@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./styles.css";
 import CPFavicon from "../../images/CPDuels Favicon (1).svg";
 
-const Error404HeroCode = () => {
+const DuelNotFoundHeroCode = () => {
   const { colorMode } = useColorMode();
   const script = [
     "===  ===  ======  ===  ===",
@@ -67,7 +67,7 @@ const Error404HeroCode = () => {
                 px="auto"
                 color="#32ff32"
               >
-                <code>Page does not exist. :)</code>
+                <code>Duel does not exist, or our backend is just down. :)</code>
               </Text>
             </Box>
           </Box>
@@ -84,4 +84,4 @@ const Error404HeroCode = () => {
   );
 };
 
-export default Error404HeroCode;
+export default DuelNotFoundHeroCode;

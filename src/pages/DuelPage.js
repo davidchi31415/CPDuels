@@ -13,6 +13,7 @@ import {
   useDisclosure,
   Button,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
 import TimeAndJoinDisplay from "../components/timeAndJoinDisplay";
@@ -53,10 +54,12 @@ const DuelPage = () => {
     }
   };
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getDuelInfo = async () => {
       const duel = await Database.getDuelById(id);
-      if (!duel || duel?.message) navigate("/404");
+      if (!duel || duel?.message) navigate("/noduel");
       if (duelStatus !== duel.status) setDuelStatus(duel.status);
       console.log(duel.platform);
       if (duelPlatform !== duel.platform) setDuelPlatform(duel.platform);
@@ -134,6 +137,30 @@ const DuelPage = () => {
       <BaseLayout
         content={
           <Box>
+            {loading ? (
+              <Flex
+                position="absolute"
+                top={0}
+                left={0}
+                justify="center"
+                width="100%"
+                height="100%"
+                textAlign="center"
+                background="rgb(0, 0, 0, 0.6)"
+                zIndex={10}
+              >
+                <Spinner
+                  thickness="4px"
+                  speed="0.65s"
+                  mt="50vh"
+                  emptyColor="grey.300"
+                  color="secondary.300"
+                  size="xl"
+                />
+              </Flex>
+            ) : (
+              ""
+            )}
             <Flex
               justify="space-between"
               align="flex-start"

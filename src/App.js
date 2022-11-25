@@ -5,6 +5,7 @@ import PlayPage from "./pages/PlayPage";
 import ContactPage from "./pages/ContactPage";
 import DuelPage from "./pages/DuelPage";
 import Error404Page from "./pages/Error404Page";
+import DuelNotFoundPage from "./pages/DuelNotFoundPage";
 import ScrollToTop from "./components/scrollToTop";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/play" exact element={<PlayPage />} />
         <Route path="/contact" exact element={<ContactPage />} />
         <Route path="/play/:id" element={<DuelPage />} />
+        <Route path="/noduel" element={<DuelNotFoundPage />} />
         <Route path="/404" exact element={<Error404Page />} />
         <Route path="*" exact element={<Error404Page />} />
       </Routes>
