@@ -14,13 +14,14 @@ import "./styles.css";
 import socket from "../../socket";
 import Database, { handleUID } from "../../data";
 
-const ChatBox = ({ id, players, playerNum }) => {
+const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
   const [typingIndicator, setTypingIndicator] = useState(null);
 
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
 
   const boxShadow = useColorModeValue("2xl", "none");
+  const backgroundColor = useColorModeValue("#dfdfdf", "none");
 
   const [emptyMessageError, setEmptyMessageError] = useState(false);
   const messageLengthError = currentMessage.length > 500;
@@ -45,6 +46,10 @@ const ChatBox = ({ id, players, playerNum }) => {
     }
   }, [players, playerNum, username]);
 
+  useEffect(() => {
+    if (inView) setUnreadmessages(0);
+  }, [inView, setUnreadmessages]);
+
   const [sending, setSending] = useState(false);
 
   const toast = useToast();
@@ -66,7 +71,7 @@ const ChatBox = ({ id, players, playerNum }) => {
       messagesScroller.current.scrollTop =
         messagesScroller.current.scrollHeight;
     }
-  }, [messages]);
+  }, [inView, messages]);
 
   useEffect(() => {
     if (typingIndicator) setTimeout(() => setTypingIndicator(null), 5000);
@@ -94,7 +99,10 @@ const ChatBox = ({ id, players, playerNum }) => {
     }
     handleUID();
     let uid = localStorage.getItem("uid");
-    setMessages((curr) => [...curr, { author: username, content: currentMessage }]);
+    setMessages((curr) => [
+      ...curr,
+      { author: username, content: currentMessage },
+    ]);
     socket.emit("message-send", {
       roomId: id,
       uid: uid,
@@ -112,6 +120,7 @@ const ChatBox = ({ id, players, playerNum }) => {
         console.log(message);
         setMessages((curr) => [...curr, message]);
         setTypingIndicator(null);
+        if (!inView) setUnreadmessages((i) => i + 1);
       }
     });
     socket.on("message-send-error", ({ roomId, senderUid, message }) => {
@@ -140,7 +149,7 @@ const ChatBox = ({ id, players, playerNum }) => {
       socket.off("message-send-error");
       socket.off("message-typing-receive");
     };
-  }, []);
+  }, [inView]);
 
   return (
     <Box
@@ -163,6 +172,7 @@ const ChatBox = ({ id, players, playerNum }) => {
         mt={0}
         border="solid 1px"
         borderColor="grey.100"
+        backgroundColor={backgroundColor}
         position="relative"
         overflowY="auto"
         ref={messagesScroller}
@@ -215,6 +225,7 @@ const ChatBox = ({ id, players, playerNum }) => {
             pl={2}
             pt={1}
             borderColor="grey.100"
+            backgroundColor={backgroundColor}
             value={currentMessage}
             onChange={(e) => {
               setCurrentMessage(e.target.value);
@@ -224,8 +235,11 @@ const ChatBox = ({ id, players, playerNum }) => {
               socket.emit("message-typing-send", {
                 roomId: id,
                 uid: uid,
-                author: username
+                author: username,
               });
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSend(e);
             }}
           />
           {messageLengthError ? (

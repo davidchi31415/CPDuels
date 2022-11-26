@@ -34,6 +34,7 @@ const TabContainer = ({
   const [index, setIndex] = useState(0);
   const [numProblems, setNumProblems] = useState(0);
   const [duelInfo, setDuelInfo] = useState(null);
+  const [unreadMessages, setUnreadmessages] = useState(0);
 
   useEffect(() => {
     const getDuelInfo = async () => {
@@ -80,18 +81,24 @@ const TabContainer = ({
           <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
             Submissions
           </Tab>
+          {playerNum ? (
+            <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+              Chat{unreadMessages ? ` (${unreadMessages})` : ""}
+            </Tab>
+          ) : (
+            ""
+          )}
         </Flex>
       </TabList>
 
-      <TabPanels border="none">
-        <TabPanel px="auto">
+      <TabPanels border="none" width="100%">
+        <TabPanel mx="auto" width="45em">
           <Grid
             templateColumns="repeat(4, 1fr)"
             rowGap={2}
-            width="40em"
+            width="100%"
             height="fit-content"
             py={0}
-            mx="auto"
             fontSize="1.2rem"
           >
             <GridItem colSpan={1} fontWeight="bold">
@@ -127,13 +134,6 @@ const TabContainer = ({
             </GridItem>
             <GridItem>{duelInfo ? duelInfo.problemCount : "N/A"}</GridItem>
           </Grid>
-          {playerNum ? (
-            <Box mt={5}>
-              <ChatBox id={id} players={players} playerNum={playerNum} />
-            </Box>
-          ) : (
-            ""
-          )}
         </TabPanel>
         <TabPanel px={0}>
           <AccordionContainer
@@ -156,6 +156,16 @@ const TabContainer = ({
         <TabPanel px={0}>
           <SubmissionsTable duelId={id} />
         </TabPanel>
+        {
+          playerNum ?
+          <TabPanel px={0}>
+            <Box width="fit-content" mx="auto">
+              <ChatBox id={id} players={players} playerNum={playerNum} 
+                inView={index === 4} setUnreadmessages={setUnreadmessages}
+              />
+            </Box>
+          </TabPanel> : ""
+        }
       </TabPanels>
     </Tabs>
   );
