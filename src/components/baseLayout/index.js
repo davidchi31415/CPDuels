@@ -27,13 +27,9 @@ import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
 import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
 import { HiMenuAlt4 } from "react-icons/hi";
 
-const HamburgerMenu = ({ setMenuRefs }) => {
+const HamburgerMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
-
-  useEffect(() => {
-    setMenuRefs(onOpen, onClose);
-  }, []);
 
   return (
     <>
@@ -110,64 +106,64 @@ const HamburgerMenu = ({ setMenuRefs }) => {
   );
 };
 
-const BaseNavbar = ({ isMobile, setMenuRefs }) => {
+const MobileBaseNavbar = () => {
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
   const navigateHome = () => navigate("/");
 
-  if (!isMobile) {
-    return (
-      <Flex
-        width="100%"
-        mt="1"
-        justify="space-between"
-        align="center"
-        px={2}
-        pt={2}
+  return (
+    <Flex justify="space-between" align="center" mt={1} mx={0}>
+      <Image
+        aria-label="CPDuels logo"
+        src={colorMode === "light" ? LightLogo : DarkLogo}
+        w="10em"
+        h="auto"
+        mt={1}
+        cursor="pointer"
+        onClick={navigateHome}
+      />
+      <HamburgerMenu />
+    </Flex>
+  );
+};
+
+const BaseNavbar = () => {
+  const navigate = useNavigate();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const navigateHome = () => navigate("/");
+
+  return (
+    <Flex
+      width="100%"
+      mt="1"
+      justify="space-between"
+      align="center"
+      px={2}
+      pt={2}
+    >
+      <Image
+        aria-label="CPDuels logo"
+        src={colorMode === "light" ? LightLogo : DarkLogo}
+        w="10em"
+        h="auto"
+        cursor="pointer"
+        onClick={navigateHome}
+      />
+      <HStack
+        fontSize="1.5rem"
+        fontWeight="800"
+        spacing="1.5em"
+        width="fit-content"
       >
-        <Image
-          aria-label="CPDuels logo"
-          src={colorMode === "light" ? LightLogo : DarkLogo}
-          w="10em"
-          h="auto"
-          cursor="pointer"
-          onClick={navigateHome}
-        />
-        <HStack
-          fontSize="1.5rem"
-          fontWeight="800"
-          spacing="1.5em"
-          width="fit-content"
-        >
-          <Link as={ReactLink} _hover={{ textDecoration: "none" }} to="/play">
-            Play
-          </Link>
-          <Link
-            as={ReactLink}
-            _hover={{ textDecoration: "none" }}
-            to="/contact"
-          >
-            Contact Us
-          </Link>
-        </HStack>
-      </Flex>
-    );
-  } else {
-    return (
-      <Flex justify="space-between" align="center" mt={1} mx={0}>
-        <Image
-          aria-label="CPDuels logo"
-          src={colorMode === "light" ? LightLogo : DarkLogo}
-          w="10em"
-          h="auto"
-          mt={1}
-          cursor="pointer"
-          onClick={navigateHome}
-        />
-        <HamburgerMenu setMenuRefs={setMenuRefs} />
-      </Flex>
-    );
-  }
+        <Link as={ReactLink} _hover={{ textDecoration: "none" }} to="/play">
+          Play
+        </Link>
+        <Link as={ReactLink} _hover={{ textDecoration: "none" }} to="/contact">
+          Contact Us
+        </Link>
+      </HStack>
+    </Flex>
+  );
 };
 
 const BaseContainer = ({ content }) => {
@@ -186,7 +182,8 @@ const BaseFooter = () => {
           as="span"
           fontWeight="bold"
           color={colorMode === "light" ? "primary.500" : "primary.300"}
-          cursor="pointer" onClick={() => navigate("/contact")}
+          cursor="pointer"
+          onClick={() => navigate("/contact")}
         >
           David Chi
         </Text>{" "}
@@ -195,7 +192,8 @@ const BaseFooter = () => {
           as="span"
           fontWeight="bold"
           color={colorMode === "light" ? "primary.500" : "primary.300"}
-          cursor="pointer" onClick={() => navigate("/contact")}
+          cursor="pointer"
+          onClick={() => navigate("/contact")}
         >
           Jeffrey Li
         </Text>
@@ -236,53 +234,12 @@ const ToggleColorMode = () => {
 
 const BaseLayout = ({ content }) => {
   const [isMobile] = useMediaQuery("(max-width: 480px)");
-  const mobileMenuOpen = useRef();
-  const mobileMenuClose = useRef();
-  const touchStart = useRef();
-  const touchEnd = useRef();
-
-  // the required distance between touchStart and touchEnd to be detected as a swipe
-  const minSwipeDistance = 125;
-
-  const onTouchStart = (e) => {
-    touchEnd.current = null;
-    touchStart.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchMove = (e) => {
-    touchEnd.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchEnd = () => {
-    if (touchStart.current === null || touchEnd.current === null) return;
-    const distance = touchStart.current - touchEnd.current;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < minSwipeDistance;
-    if (isLeftSwipe) {
-      if (mobileMenuOpen.current !== null) mobileMenuOpen.current();
-    } else if (isRightSwipe) {
-      if (mobileMenuClose.current !== null) mobileMenuClose.current();
-    }
-  };
 
   return (
-    <Flex
-      justifyContent="center"
-      overflowX="hidden"
-      overflowY="hidden"
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      onTouchMove={onTouchMove}
-      sx={{ "-webkit-text-size-adjust": "100%" }}
-    >
+    <Flex justifyContent="center" overflowX="hidden" overflowY="hidden">
+      {console.count("Base Layout")}
       <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
-        <BaseNavbar
-          isMobile={isMobile}
-          setMenuRefs={(onOpen, onClose) => {
-            mobileMenuOpen.current = onOpen;
-            mobileMenuClose.current = onClose;
-          }}
-        />
+        {isMobile ? <MobileBaseNavbar /> : <BaseNavbar />}
         <BaseContainer content={content} />
         <BaseFooter />
         {!isMobile ? <ToggleColorMode /> : ""}
