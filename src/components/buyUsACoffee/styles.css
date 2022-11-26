@@ -1,22 +1,3 @@
-.buyButton {
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  color: #111111;
-  background-color: #7d7dff;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  padding: 0.5rem;
-  font-size: 1rem;
-  letter-spacing: 0.6px;
-  font-family: 'Rubik';
-  font-weight: bold;
-}
-.buyButton:hover {
-  opacity: 0.9;
-  color: #f3f3f3;
-}
-
 .coffeeImage {
   height: 27px;
   box-shadow: none;

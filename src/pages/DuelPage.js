@@ -85,13 +85,9 @@ const DuelPage = () => {
       console.log(roomId);
       if (roomId === id) {
         console.log("status changed to " + newStatus);
+        setLoading(true);
         getDuelInfo();
         forceUpdate();
-      }
-    });
-    socket.on("time-left", ({ roomId, timeLeft }) => {
-      if (roomId === id) {
-        getDuelInfo();
       }
     });
     socket.on("abort-duel-error", ({ roomId, uid, message }) => {
@@ -124,11 +120,10 @@ const DuelPage = () => {
       socket.off("connect");
       socket.off("error-message");
       socket.off("status-change");
-      socket.off("time-left");
       socket.off("abort-duel-error");
       socket.off("resign-duel-error");
     };
-  }, [loading]);
+  }, []);
 
   useEffect(() => {
     if (duelStatus === "FINISHED") onOpen();
@@ -157,7 +152,7 @@ const DuelPage = () => {
                   speed="0.65s"
                   mt="50vh"
                   emptyColor="grey.300"
-                  color="secondary.300"
+                  color="#43ff43"
                   size="xl"
                 />
               </Flex>

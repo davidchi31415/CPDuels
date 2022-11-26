@@ -30,6 +30,7 @@ import "./cfStyles.css";
 
 const AccordionContainer = ({
   id,
+  duelStatus,
   duelPlatform,
   onMathJaxRendered,
 }) => {
@@ -79,6 +80,7 @@ const AccordionContainer = ({
       allowToggle
       boxShadow="2xl"
     >
+      { console.count("Accordion Container") }
       {problems.map((problem, index) => (
         <AccordionItem
           key={problem._id}
@@ -167,6 +169,7 @@ const AccordionContainer = ({
                 fontSize="lg"
                 variant="solid"
                 colorScheme="primary"
+                isDisabled={duelStatus != "ONGOING"}
               >
                 Submit Your Answer
               </Button>
@@ -184,6 +187,7 @@ const AccordionContainer = ({
           <ModalBody width="675px" pb={3}>
             <SubmitCodeEditor
               key="floating-editor"
+              duelStatus={duelStatus}
               duelPlatform={duelPlatform}
               editorId="floating-editor"
               isPopup={true}

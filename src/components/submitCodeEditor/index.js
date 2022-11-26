@@ -22,6 +22,7 @@ import socket from "../../socket";
 import { handleUID } from "../../data";
 
 const SubmitCodeEditor = ({
+  duelStatus,
   duelPlatform,
   editorId,
   duelId,
@@ -325,6 +326,7 @@ const SubmitCodeEditor = ({
           isLoading={submitting}
           variant="solid"
           colorScheme="primary"
+          isDisabled={duelStatus != "ONGOING"}
         >
           Submit
         </Button>

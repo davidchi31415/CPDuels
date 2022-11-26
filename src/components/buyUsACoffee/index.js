@@ -1,12 +1,20 @@
 import React from "react";
 import "./styles.css";
+import { Button, Link, useColorModeValue } from "@chakra-ui/react";
 
 const BuyUsACoffee = () => {
   return (
-    <a
+    <Button
       className="buyButton"
-      target="_blank"
-      href="https://www.buymeacoffee.com/davidchi31j"
+      display="inline-flex"
+      alignItems="center"
+      rounded="md"
+      colorScheme="primary"
+      p="0.5rem"
+      fontSize="1rem"
+      letterSpacing="0.6px"
+      fontWeight="bold"
+      onClick={() => window.open("https://www.buymeacoffee.com/davidchi31j")}
     >
       <img
         className="coffeeImage"
@@ -14,7 +22,7 @@ const BuyUsACoffee = () => {
         alt="Buy me a coffee"
       />
       <span className="coffeeButtonText">Buy us a coffee</span>
-    </a>
+    </Button>
   );
 };
 

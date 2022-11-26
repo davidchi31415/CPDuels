@@ -67,6 +67,7 @@ const TabContainer = ({
       onChange={(index) => setIndex(index)}
       colorScheme="primary"
     >
+      { console.count("Tab Container") }
       <TabList>
         <Flex width="47em">
           <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
@@ -148,6 +149,7 @@ const TabContainer = ({
           <SubmitCodeEditor
             key="stuck-editor"
             editorId="stuck-editor"
+            duelStatus={duelStatus}
             duelPlatform={duelPlatform}
             duelId={id}
             numProblems={numProblems}

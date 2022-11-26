@@ -46,10 +46,6 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
     }
   }, [players, playerNum, username]);
 
-  useEffect(() => {
-    if (inView) setUnreadmessages(0);
-  }, [inView, setUnreadmessages]);
-
   const [sending, setSending] = useState(false);
 
   const toast = useToast();
@@ -163,6 +159,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
       rounded="md"
       boxShadow={boxShadow}
     >
+      { console.count("Chat") }
       <Box py={2}>
         <Text textStyle="body2Semi">Duel Chat</Text>
         <Text fontSize="0.8rem">visible only to duel participants</Text>
