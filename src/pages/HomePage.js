@@ -179,7 +179,7 @@ const HomePage = () => {
             >
               What are you waiting for?
             </Text>
-            <Center>
+            <Flex direction="column" align="center" gap={2}>
               <Button
                 fontSize="lg"
                 onClick={() => navigate("/play")}
@@ -190,7 +190,17 @@ const HomePage = () => {
               >
                 Play Now
               </Button>
-            </Center>
+              <Button
+                fontSize="lg"
+                onClick={() => navigate("/contact")}
+                width="12em"
+                height={["3.5em", "3.2em", "3em"]}
+                variant="outline"
+                colorScheme="primary"
+              >
+                Contact Us
+              </Button>
+            </Flex>
           </Box>
         </Flex>
       }
