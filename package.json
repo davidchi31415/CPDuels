@@ -15,6 +15,7 @@
     "better-react-mathjax": "^2.0.2",
     "framer-motion": "^6.5.1",
     "html-react-parser": "^3.0.4",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
     "react-dom": "^18.2.0",

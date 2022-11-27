@@ -96,8 +96,6 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
                 <Tr 
                   key={`row ${rowIndex}`}
                   {...row.getRowProps(rowProps(row))}
-                  style={{cursor: "pointer"}}
-                  _hover={{ bg: rowHoverColor }}
                 >
                   {row.cells.map(cell => {
                     if (rowIndex === page.length-1) {

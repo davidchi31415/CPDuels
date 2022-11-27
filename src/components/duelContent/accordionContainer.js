@@ -54,7 +54,7 @@ const AccordionContainer = ({
     return () => {
       socket.off("problem-change");
     };
-  }, [problems]);
+  }, []);
 
   useEffect(() => {
     if (problems?.length && !rendered) {
@@ -169,7 +169,7 @@ const AccordionContainer = ({
                 fontSize="lg"
                 variant="solid"
                 colorScheme="primary"
-                isDisabled={duelStatus != "ONGOING"}
+                isDisabled={duelStatus !== "ONGOING"}
               >
                 Submit Your Answer
               </Button>
