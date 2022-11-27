@@ -60,7 +60,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
     <>
       <VStack width="fit-content">
       <TableContainer
-        width="41em"
+        width="45em"
         border="1px solid"
         borderColor={tableBorderColor}
         boxShadow='xl'

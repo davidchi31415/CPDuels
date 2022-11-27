@@ -54,15 +54,15 @@ const AccordionContainer = ({
     return () => {
       socket.off("problem-change");
     };
-  }, []);
+  }, [problems]);
 
   useEffect(() => {
-    if (problems.length && !rendered) {
+    if (problems?.length && !rendered) {
       console.log(problems.length);
       setRendered(true);
       onMathJaxRendered();
     }
-  }, [problems, rendered]);
+  }, [problems, rendered, onMathJaxRendered]);
 
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",

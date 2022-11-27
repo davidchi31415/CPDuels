@@ -29,21 +29,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    handleUID();
-    let uid = localStorage.getItem("uid");
-    if (players.length === 1) {
-      if (players[0].username === "!GUEST!") setUsername("GUEST");
-    } else {
-      if (
-        players[0].username === "!GUEST!" &&
-        players[1].username === "!GUEST!"
-      ) {
-        if (players[0].uid === uid) setUsername("GUEST1");
-        else setUsername("GUEST2");
-      } else if (players[playerNum - 1].username === "!GUEST!")
-        setUsername("GUEST");
-      else setUsername(players[playerNum - 1].username);
-    }
+    setUsername(players[playerNum - 1].username);
   }, [players, playerNum, username]);
 
   const [sending, setSending] = useState(false);
@@ -67,6 +53,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
       messagesScroller.current.scrollTop =
         messagesScroller.current.scrollHeight;
     }
+    if (inView) setUnreadmessages(0);
   }, [inView, messages]);
 
   useEffect(() => {
@@ -112,7 +99,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
     socket.on("message-receive", ({ roomId, senderUid, message }) => {
       handleUID();
       let localUid = localStorage.getItem("uid");
-      if (id === roomId && localUid != senderUid) {
+      if (id === roomId && localUid !== senderUid) {
         console.log(message);
         setMessages((curr) => [...curr, message]);
         setTypingIndicator(null);
@@ -135,7 +122,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
     socket.on("message-typing-receive", ({ roomId, senderUid, author }) => {
       handleUID();
       let localUid = localStorage.getItem("uid");
-      if (id === roomId && localUid != senderUid) {
+      if (id === roomId && localUid !== senderUid) {
         setTypingIndicator(author);
       }
     });
@@ -159,7 +146,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
       rounded="md"
       boxShadow={boxShadow}
     >
-      { console.count("Chat") }
+      {console.count("Chat")}
       <Box py={2}>
         <Text textStyle="body2Semi">Duel Chat</Text>
         <Text fontSize="0.8rem">visible only to duel participants</Text>

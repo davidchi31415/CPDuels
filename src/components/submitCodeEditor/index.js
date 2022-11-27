@@ -84,10 +84,10 @@ const SubmitCodeEditor = ({
     setProblemNumError(false);
     if (lastSubmissionTime) {
       let diff = Date.now() - lastSubmissionTime;
-      if (diff < 5000) {
+      if (diff < 10000) {
         makeToast({
           title: "Rate Limit",
-          description: "Please wait a few seconds before submitting again.",
+          description: "Please wait 10 seconds between submissions.",
           status: "error",
           duration: 2000,
           isClosable: true

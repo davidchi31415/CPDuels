@@ -55,6 +55,7 @@ const JoinDisplay = ({ id, playerNum }) => {
     socket.emit("join-duel", {
       roomId: id,
       username: username,
+      guest: false,
       uid: uid,
     });
   };
@@ -64,7 +65,12 @@ const JoinDisplay = ({ id, playerNum }) => {
     setJoiningGuest(true);
     handleUID();
     let uid = localStorage.getItem("uid");
-    socket.emit("join-duel", { roomId: id, username: "!GUEST!", uid: uid });
+    socket.emit("join-duel", {
+      roomId: id,
+      username: "GUEST",
+      guest: true,
+      uid: uid,
+    });
   };
 
   useEffect(() => {

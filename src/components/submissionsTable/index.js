@@ -33,9 +33,9 @@ const SubmissionsTable = ({ duelId }) => {
   const columns = useMemo(
     () => [
       {
-        Header: "Submission Time",
-        accessor: "timeSubmitted",
-        width: "22em"
+        Header: "When",
+        accessor: "createdAt",
+        width: "3em"
       },
       // {
       //   Header: "Lang",
@@ -45,13 +45,13 @@ const SubmissionsTable = ({ duelId }) => {
       // },
       {
         Header: "Problem",
-        accessor: "submissionId",
-        width: "3em"
+        accessor: "problemName",
+        width: "25em"
       },
       {
         Header: "Verdict",
         accessor: "status",
-        width: "3em"
+        width: "10em"
       },
       // {
       //   Header: "Time",

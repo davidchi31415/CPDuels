@@ -80,13 +80,9 @@ const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
                 <Text
                   textAlign="center"
                   fontWeight="bold"
-                  fontStyle={players[0].username === "!GUEST!" ? "italic" : ""}
+                  fontStyle={players[0].guest ? "italic" : ""}
                 >
-                  {players[0].username === "!GUEST!"
-                    ? players.length === 2 && players[1].username === "!GUEST!"
-                      ? "GUEST1"
-                      : "GUEST"
-                    : players[0].username}
+                  {players[0].username}
                 </Text>
               </GridItem>
               <GridItem>
@@ -136,15 +132,9 @@ const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
                   <Text
                     textAlign="center"
                     fontWeight="bold"
-                    fontStyle={
-                      players[1].username === "!GUEST!" ? "italic" : ""
-                    }
+                    fontStyle={players[1].guest ? "italic" : ""}
                   >
-                    {players[1].username === "!GUEST!"
-                      ? players[0].username === "!GUEST!"
-                        ? "GUEST2"
-                        : "GUEST"
-                      : players[1].username}
+                    {players[1].username}
                   </Text>
                 ) : (
                   <Text textAlign="center" fontWeight="bold">
