@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import ReactTable from "./tableContainer.js";
 import Database, { handleUID } from "../../data";
-import { Text, IconButton, HStack, VStack, Center } from "@chakra-ui/react";
-import { MdRefresh } from "react-icons/md";
 import moment from "moment";
+import socket from "../../socket";
 
 const SubmissionsTable = ({ duelId }) => {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     const getSubmissions = async () => {
@@ -16,24 +14,30 @@ const SubmissionsTable = ({ duelId }) => {
       let uid = localStorage.getItem("uid");
       let res = await Database.getSubmissionsByDuelIdAndUid(duelId, uid);
       if (res?.length) setSubmissions(res.reverse());
+      setLoading(false);
     };
     getSubmissions();
-    setLoading(false);
-    setRefresh(false);
-  }, [refresh]);
 
-  const handleRefresh = () => {
-    setRefresh(true);
-    setLoading(true);
-    setSubmissions([]);
-  };
+    socket.on("submission-change", ({ uid }) => {
+      handleUID();
+      let localUid = localStorage.getItem("uid");
+      if (localUid === uid) {
+        setLoading(true);
+        getSubmissions();
+      }
+    });
+
+    return () => {
+      socket.off("submission-change");
+    };
+  }, []);
 
   const columns = useMemo(
     () => [
       {
         Header: "When",
-        accessor: row => `${moment(row.createdAt).format('HH:mm:ss')}`,
-        id: row => row.createdAt,
+        accessor: (row) => `${moment(row.createdAt).format("HH:mm:ss")}`,
+        id: (row) => row.createdAt,
         width: "3em",
       },
       // {
@@ -67,15 +71,19 @@ const SubmissionsTable = ({ duelId }) => {
                   : {}
               }
             >
-              {s.value
-                ?.split(" ")
-                .slice(0, s.value?.split(" ").length - 3)
-                ?.join(" ")}
+              {s.value.split(" ")?.length <= 2
+                ? s.value
+                : s.value
+                    ?.split(" ")
+                    .slice(0, s.value?.split(" ").length - 3)
+                    ?.join(" ")}
             </span>
-            {` ${s.value
-              ?.split(" ")
-              ?.slice(s.value?.split(" ").length - 3)
-              ?.join(" ")}`}
+            {s.value.split(" ")?.length > 2
+              ? ` ${s.value
+                  ?.split(" ")
+                  ?.slice(s.value?.split(" ").length - 3)
+                  ?.join(" ")}`
+              : ""}
           </div>
         ),
       },
@@ -94,29 +102,14 @@ const SubmissionsTable = ({ duelId }) => {
   );
 
   return (
-    <VStack>
-      <Center>
-        <HStack>
-          <Text my="auto" mx={0} width="4em">
-            Refresh
-          </Text>
-          <IconButton
-            variant="solid"
-            colorScheme="primary"
-            icon={<MdRefresh />}
-            onClick={() => handleRefresh()}
-          />
-        </HStack>
-      </Center>
-      <ReactTable
-        loading={loading}
-        data={submissions}
-        columns={columns}
-        rowProps={(row) => ({
-          onClick: () => console.log("clicked"),
-        })}
-      />
-    </VStack>
+    <ReactTable
+      loading={loading}
+      data={submissions}
+      columns={columns}
+      rowProps={(row) => ({
+        onClick: () => console.log("clicked"),
+      })}
+    />
   );
 };
 

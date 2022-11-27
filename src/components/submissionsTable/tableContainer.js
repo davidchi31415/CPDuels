@@ -49,10 +49,6 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
     );
   }
 
-  const rowHoverColor = useColorModeValue("secondary.300", "secondary.900");
-  const rowBorderColor = useColorModeValue("grey.500", "gray.300");
-  const buttonBgColor = useColorModeValue("primary.500", "primary.300");
-  const buttonTextColor = useColorModeValue("white", "grey.900");
   const rowTextColor = useColorModeValue("grey.900", "offWhite");
   const tableBorderColor = useColorModeValue('rgb(0, 0, 0, 0.5)', 'rgb(255, 255, 255, 0.5)');
 
@@ -60,7 +56,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
     <>
       <VStack width="fit-content">
       <TableContainer
-        width="45em"
+        width="47em"
         border="1px solid"
         borderColor={tableBorderColor}
         boxShadow='xl'
