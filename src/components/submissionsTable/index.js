@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useColorModeValue } from "@chakra-ui/react";
 import ReactTable from "./tableContainer.js";
 import Database, { handleUID } from "../../data";
 import moment from "moment";
@@ -7,6 +8,7 @@ import socket from "../../socket";
 const SubmissionsTable = ({ duelId }) => {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const wrongAnswerColor = useColorModeValue("red.500", "red.300");
 
   useEffect(() => {
     const getSubmissions = async () => {
@@ -65,7 +67,7 @@ const SubmissionsTable = ({ duelId }) => {
             <span
               style={
                 !s.value?.includes("ACCEPTED") && !s.value?.includes("PENDING")
-                  ? { color: "red", fontWeight: "bold" }
+                  ? { color: wrongAnswerColor, fontWeight: "bold" }
                   : s.value?.includes("ACCEPTED")
                   ? { color: "#21bc21", fontWeight: "bold" }
                   : {}
