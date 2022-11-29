@@ -25,7 +25,10 @@ const TabContainer = ({
   duelStatus,
   players,
   playerNum,
-  onMathJaxRendered,
+  problemsRefresh,
+  onProblemsRefresh,
+  submissionsRefresh,
+  onSubmissionsRefresh,
 }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
@@ -67,7 +70,7 @@ const TabContainer = ({
       onChange={(index) => setIndex(index)}
       colorScheme="primary"
     >
-      { console.count("Tab Container") }
+      {console.count("Tab Container")}
       <TabList>
         <Flex width="47em">
           <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
@@ -142,7 +145,8 @@ const TabContainer = ({
             duelPlatform={duelPlatform}
             duelStatus={duelStatus}
             playerNum={playerNum}
-            onMathJaxRendered={onMathJaxRendered}
+            refresh={problemsRefresh}
+            onRefresh={onProblemsRefresh}
           />
         </TabPanel>
         <TabPanel px={0}>
@@ -156,18 +160,27 @@ const TabContainer = ({
           />
         </TabPanel>
         <TabPanel px={0}>
-          <SubmissionsTable duelId={id} />
+          <SubmissionsTable
+            duelId={id}
+            refresh={submissionsRefresh}
+            onRefresh={onSubmissionsRefresh}
+          />
         </TabPanel>
-        {
-          playerNum ?
+        {playerNum ? (
           <TabPanel px={0}>
             <Box width="fit-content" mx="auto">
-              <ChatBox id={id} players={players} playerNum={playerNum} 
-                inView={index === 4} setUnreadmessages={setUnreadmessages}
+              <ChatBox
+                id={id}
+                players={players}
+                playerNum={playerNum}
+                inView={index === 4}
+                setUnreadmessages={setUnreadmessages}
               />
             </Box>
-          </TabPanel> : ""
-        }
+          </TabPanel>
+        ) : (
+          ""
+        )}
       </TabPanels>
     </Tabs>
   );

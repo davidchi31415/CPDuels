@@ -32,16 +32,11 @@ const DuelPage = () => {
   const [duelStatus, setDuelStatus] = useState("");
   const [players, setPlayers] = useState([]);
   const [playerNum, setPlayerNum] = useState();
-  const [renderedMathJax, setRenderedMathJax] = useState(false);
+  const [submissionsRefresh, setSubmissionsRefresh] = useState(true);
+  const [scoresRefresh, setScoresRefresh] = useState(true);
+  const [problemsRefresh, setProblemsRefresh] = useState(true);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  function useForceUpdate() {
-    const [value, setValue] = useState(0);
-    return () => setValue((value) => value + 1);
-  }
-
-  const forceUpdate = useForceUpdate();
 
   const toast = useToast();
   const toastRef = useRef();
@@ -87,7 +82,6 @@ const DuelPage = () => {
         console.log("status changed to " + newStatus);
         setLoading(true);
         getDuelInfo();
-        forceUpdate();
       }
     });
     socket.on("abort-duel-error", ({ roomId, uid, message }) => {
@@ -116,12 +110,28 @@ const DuelPage = () => {
         });
       }
     });
+    socket.on("problem-change", ({ roomId }) => {
+      if (roomId === id) {
+        setProblemsRefresh(true);
+        setScoresRefresh(true);
+      }
+    });
+    socket.on("submission-change", ({ uid }) => {
+      handleUID();
+      let localUid = localStorage.getItem("uid");
+      if (localUid === uid) {
+        setSubmissionsRefresh(true);
+        setProblemsRefresh(true);
+        setScoresRefresh(true);
+      }
+    });
     return () => {
       socket.off("connect");
       socket.off("error-message");
       socket.off("status-change");
       socket.off("abort-duel-error");
       socket.off("resign-duel-error");
+      socket.off("submission-change");
     };
   }, []);
 
@@ -173,7 +183,10 @@ const DuelPage = () => {
                 duelStatus={duelStatus}
                 players={players}
                 playerNum={playerNum}
-                onMathJaxRendered={() => setRenderedMathJax(true)}
+                problemsRefresh={problemsRefresh}
+                onProblemsRefresh={() => setProblemsRefresh(false)}
+                submissionsRefresh={scoresRefresh}
+                onSubmissionsRefresh={() => setSubmissionsRefresh(false)}
               />
               <VStack spacing={2}>
                 <TimeAndJoinDisplay
@@ -185,7 +198,12 @@ const DuelPage = () => {
                 {playerNum &&
                 duelStatus !== "FINISHED" &&
                 duelStatus !== "ABORTED" ? (
-                  <AbortAndResignDisplay id={id} duelStatus={duelStatus} />
+                  <AbortAndResignDisplay
+                    id={id}
+                    duelStatus={duelStatus}
+                    players={players}
+                    playerNum={playerNum}
+                  />
                 ) : (
                   ""
                 )}
@@ -194,6 +212,8 @@ const DuelPage = () => {
                   duelStatus={duelStatus}
                   players={players}
                   playerNum={playerNum}
+                  refresh={scoresRefresh}
+                  onRefresh={() => setScoresRefresh(false)}
                 />
               </VStack>
             </Flex>

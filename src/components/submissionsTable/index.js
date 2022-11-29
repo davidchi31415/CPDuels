@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useColorModeValue } from "@chakra-ui/react";
+import { useColorModeValue, Text } from "@chakra-ui/react";
 import ReactTable from "./tableContainer.js";
 import Database, { handleUID } from "../../data";
 import moment from "moment";
 import socket from "../../socket";
 
-const SubmissionsTable = ({ duelId }) => {
+const SubmissionsTable = ({ duelId, refresh, onRefresh }) => {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const wrongAnswerColor = useColorModeValue("red.500", "red.300");
 
   useEffect(() => {
     const getSubmissions = async () => {
+      console.log("Getting submissions.");
       setSubmissions([]);
       handleUID();
       let uid = localStorage.getItem("uid");
@@ -19,25 +19,11 @@ const SubmissionsTable = ({ duelId }) => {
       if (res?.length) setSubmissions(res.reverse());
       setLoading(false);
     };
-    getSubmissions();
-
-    socket.on("submission-change", ({ uid }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
-      if (localUid === uid) {
-        setLoading(true);
-        getSubmissions();
-      }
-    });
-
-    return () => {
-      socket.off("submission-change");
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log("New submission info.");
-  }, [submissions]);
+    if (refresh) {
+      getSubmissions();
+      onRefresh();
+    }
+  }, [refresh]);
 
   const columns = useMemo(
     () => [
@@ -69,13 +55,13 @@ const SubmissionsTable = ({ duelId }) => {
         width: "10em",
         Cell: (s) => (
           <div>
-            <span
-              style={
+            <Text as="span"
+              fontWeight="bold"
+              color={
                 !s.value?.includes("ACCEPTED") && !s.value?.includes("PENDING")
-                  ? { color: wrongAnswerColor, fontWeight: "bold" }
+                  ? "red.500"
                   : s.value?.includes("ACCEPTED")
-                  ? { color: "#21bc21", fontWeight: "bold" }
-                  : {}
+                  ? "#00aa00" : ""
               }
             >
               {s.value.split(" ")?.length <= 2
@@ -84,7 +70,7 @@ const SubmissionsTable = ({ duelId }) => {
                     ?.split(" ")
                     .slice(0, s.value?.split(" ").length - 3)
                     ?.join(" ")}
-            </span>
+            </Text>
             {s.value.split(" ")?.length > 2
               ? ` ${s.value
                   ?.split(" ")

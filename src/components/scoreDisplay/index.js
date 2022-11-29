@@ -19,7 +19,7 @@ import {
 import Database, { handleUID } from "../../data";
 import socket from "../../socket";
 
-const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
+const ScoreDisplay = ({ id, duelStatus, players, playerNum, refresh, onRefresh }) => {
   const [playerScores, setPlayerScores] = useState([]);
   const [problemScores, setProblemScores] = useState([]);
 
@@ -27,9 +27,7 @@ const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
     "rgb(0, 0, 0, 0.5)",
     "rgb(255, 255, 255, 0.5)"
   );
-  const problemScoreColor = useColorModeValue(
-    "primary.500", "primary.200"
-  );
+  const problemScoreColor = useColorModeValue("primary.500", "primary.200");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,21 +47,11 @@ const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
         ])
       );
     };
-    updateScores();
-
-    socket.on("status-change", () => {
+    if (refresh) {
       updateScores();
-    });
-
-    socket.on("time-left", () => {
-      updateScores();
-    });
-
-    return () => {
-      socket.off("status-change");
-      socket.off("time-left");
-    };
-  }, []);
+      onRefresh();
+    }
+  }, [refresh]);
 
   useEffect(() => {
     if (duelStatus !== "") setLoading(false);
