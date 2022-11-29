@@ -27,16 +27,25 @@ const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
     "rgb(0, 0, 0, 0.5)",
     "rgb(255, 255, 255, 0.5)"
   );
+  const problemScoreColor = useColorModeValue(
+    "primary.500", "primary.200"
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const updateScores = async () => {
       let duel = await Database.getDuelById(id);
-      setPlayerScores([duel.playerOneScore, duel.playerTwoScore]);
+      if (duel.players?.length === 2) {
+        setPlayerScores([duel.players[0].score, duel.players[1].score]);
+      } else if (duel.players?.length === 1) {
+        setPlayerScores([duel.players[0].score, 0]);
+      } else {
+        setPlayerScores([0, 0]);
+      }
       setProblemScores(
         duel.problems.map((problem) => [
-          problem.playerOneScore,
-          problem.playerTwoScore,
+          problem.playerScores[0],
+          problem.playerScores[1],
         ])
       );
     };
@@ -100,7 +109,7 @@ const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
                         rounded="md"
                         borderColor={borderColor}
                         fontSize="sm"
-                        color="primary.500"
+                        color={problemScoreColor}
                       >
                         {scores[0]}
                       </Square>
@@ -157,7 +166,7 @@ const ScoreDisplay = ({ id, duelStatus, players, playerNum }) => {
                         border="1px solid"
                         borderColor={borderColor}
                         fontSize="sm"
-                        color="primary.500"
+                        color={problemScoreColor}
                       >
                         {scores[1]}
                       </Square>

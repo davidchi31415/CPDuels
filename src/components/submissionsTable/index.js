@@ -12,6 +12,7 @@ const SubmissionsTable = ({ duelId }) => {
 
   useEffect(() => {
     const getSubmissions = async () => {
+      setSubmissions([]);
       handleUID();
       let uid = localStorage.getItem("uid");
       let res = await Database.getSubmissionsByDuelIdAndUid(duelId, uid);
@@ -33,6 +34,10 @@ const SubmissionsTable = ({ duelId }) => {
       socket.off("submission-change");
     };
   }, []);
+
+  useEffect(() => {
+    console.log("New submission info.");
+  }, [submissions]);
 
   const columns = useMemo(
     () => [
