@@ -326,7 +326,7 @@ const SubmitCodeEditor = ({
           isLoading={submitting}
           variant="solid"
           colorScheme="primary"
-          isDisabled={duelStatus != "ONGOING"}
+          isDisabled={duelStatus !== "ONGOING"}
         >
           Submit
         </Button>

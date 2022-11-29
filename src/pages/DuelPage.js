@@ -35,6 +35,7 @@ const DuelPage = () => {
   const [submissionsRefresh, setSubmissionsRefresh] = useState(true);
   const [scoresRefresh, setScoresRefresh] = useState(true);
   const [problemsRefresh, setProblemsRefresh] = useState(true);
+  const [rerenderVal, setRerenderVal] = useState(0);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -139,6 +140,13 @@ const DuelPage = () => {
     if (duelStatus === "FINISHED") onOpen();
   }, [duelStatus]);
 
+  useEffect(() => {
+    if (problemsRefresh === false) {
+      console.log("Rerendering");
+      setRerenderVal((i) => i + 1); // Force rerender upon problem render to make sure MathJax shows properly
+    }
+  }, [problemsRefresh]);
+
   return (
     <MathJax>
       {console.count("counter")}
@@ -185,7 +193,7 @@ const DuelPage = () => {
                 playerNum={playerNum}
                 problemsRefresh={problemsRefresh}
                 onProblemsRefresh={() => setProblemsRefresh(false)}
-                submissionsRefresh={scoresRefresh}
+                submissionsRefresh={submissionsRefresh}
                 onSubmissionsRefresh={() => setSubmissionsRefresh(false)}
               />
               <VStack spacing={2}>

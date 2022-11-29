@@ -62,11 +62,9 @@ const AccordionContainer = ({
     if (refresh) {
       getProblems();
       getProblemVerdicts();
-      if (duelStatus === "ONGOING") {
-        if (problems?.length) onRefresh();
-      } else onRefresh();
+      onRefresh();
     }
-  }, [duelStatus, problems, refresh]);
+  }, [refresh]);
 
   const defaultBorderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
