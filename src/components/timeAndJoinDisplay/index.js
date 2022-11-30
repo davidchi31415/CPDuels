@@ -186,7 +186,7 @@ const StartDisplay = ({ id, playerNum }) => {
     socket.emit("start-duel", { roomId: id, uid: uid });
   };
 
-  return playerNum !== null ? (
+  return playerNum ? (
     <Center>
       <Button
         onClick={handleStart}
@@ -200,7 +200,9 @@ const StartDisplay = ({ id, playerNum }) => {
       </Button>
     </Center>
   ) : (
-    <Text height="100%">Duel is full.</Text>
+    <Center>
+      <Text textAlign="center" textStyle="body2Semi">Duel is full.</Text>
+    </Center>
   );
 };
 

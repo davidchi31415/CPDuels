@@ -117,10 +117,8 @@ const DuelPage = () => {
         setScoresRefresh(true);
       }
     });
-    socket.on("submission-change", ({ uid }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
-      if (localUid === uid) {
+    socket.on("submission-change", ({ duelId }) => {
+      if (duelId === id) {
         setSubmissionsRefresh(true);
         setProblemsRefresh(true);
         setScoresRefresh(true);
