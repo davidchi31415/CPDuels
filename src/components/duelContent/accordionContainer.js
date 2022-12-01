@@ -120,7 +120,8 @@ const AccordionContainer = ({
 
   useEffect(() => {
     setSelectedReplaceProblemIndices([]);
-  }, [replacing]);
+    if (replacing) setProblems([]);
+  }, [replacing, problems]);
 
   if (duelStatus === "INITIALIZED") {
     if (playerNum)
