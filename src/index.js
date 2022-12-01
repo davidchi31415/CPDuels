@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ChakraProvider theme={theme} resetCSS={true}>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-    <MathJaxContext><App /></MathJaxContext>
+    <MathJaxContext src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-svg.js"><App /></MathJaxContext>
   </ChakraProvider>
 );
 
