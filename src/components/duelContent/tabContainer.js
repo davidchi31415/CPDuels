@@ -33,6 +33,8 @@ const TabContainer = ({
   onSubmissionsToast,
   mathJaxRendered,
   onMathJaxRendered,
+  replacingProblems,
+  setReplacingProblems,
 }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
@@ -62,7 +64,7 @@ const TabContainer = ({
     if (duelStatus === "ONGOING" || duelStatus === "INITIALIZED") {
       setIndex(1); // Go to problems tab
     }
-  }, [duelStatus]);
+  }, [duelStatus, replacingProblems]);
 
   return (
     <Tabs
@@ -153,6 +155,8 @@ const TabContainer = ({
             onRefresh={onProblemsRefresh}
             mathJaxRendered={mathJaxRendered}
             onMathJaxRendered={onMathJaxRendered}
+            replacing={replacingProblems}
+            setReplacing={setReplacingProblems}
           />
         </TabPanel>
         <TabPanel px={0}>

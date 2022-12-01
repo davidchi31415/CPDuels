@@ -23,6 +23,7 @@ import { handleUID } from "../../data";
 
 const SubmitCodeEditor = ({
   duelStatus,
+  playerNum,
   duelPlatform,
   editorId,
   duelId,
@@ -326,7 +327,7 @@ const SubmitCodeEditor = ({
           isLoading={submitting}
           variant="solid"
           colorScheme="primary"
-          isDisabled={duelStatus !== "ONGOING"}
+          isDisabled={duelStatus !== "ONGOING" || !playerNum}
         >
           Submit
         </Button>

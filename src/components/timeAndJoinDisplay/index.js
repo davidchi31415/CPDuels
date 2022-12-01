@@ -177,7 +177,7 @@ const JoinDisplay = ({ id, playerNum }) => {
 	);
 };
 
-const ReadyUpDisplay = ({ id, playerNum }) => {
+const ReadyUpDisplay = ({ id, playerNum, replacing }) => {
 	const handleReady = (e) => {
 		e.preventDefault();
 		handleUID();
@@ -225,7 +225,7 @@ const ReadyUpDisplay = ({ id, playerNum }) => {
 					colorScheme="green"
 					variant="solid"
 					boxSize="3em"
-					disabled={ready}
+					disabled={ready || replacing}
 					icon={<CheckIcon boxSize="2em" />}
 				/>
 				<IconButton
@@ -233,7 +233,7 @@ const ReadyUpDisplay = ({ id, playerNum }) => {
 					size="md"
 					colorScheme="red"
 					boxSize="3em"
-					disabled={!ready}
+					disabled={!ready || replacing}
 					icon={<CloseIcon boxSize="1.5em" />}
 				/>
 			</Center>
@@ -321,14 +321,14 @@ const ResultDisplay = ({ id }) => {
 	);
 };
 
-const TimeAndJoinDisplay = ({ id, duelStatus, playerNum }) => {
+const TimeAndJoinDisplay = ({ id, duelStatus, playerNum, replacing }) => {
 	const [title, setTitle] = useState("");
 	const [currentDisplay, setCurrentDisplay] = useState();
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		if (duelStatus === "INITIALIZED") {
 			setTitle(playerNum !== null ? "Ready to Start?" : "Duel Full");
-			setCurrentDisplay(<ReadyUpDisplay id={id} playerNum={playerNum} />);
+			setCurrentDisplay(<ReadyUpDisplay id={id} playerNum={playerNum} replacing={replacing} />);
 		} else if (duelStatus === "ONGOING") {
 			setTitle("Time Left");
 			setCurrentDisplay(<TimeDisplay id={id} />);
@@ -340,7 +340,7 @@ const TimeAndJoinDisplay = ({ id, duelStatus, playerNum }) => {
 			setCurrentDisplay(<JoinDisplay id={id} playerNum={playerNum} />);
 		}
 		if (duelStatus !== "") setLoading(false);
-	}, [duelStatus, playerNum]);
+	}, [duelStatus, playerNum, replacing]);
 
 	const borderColor = useColorModeValue(
 		"rgb(0, 0, 0, 0.5)",

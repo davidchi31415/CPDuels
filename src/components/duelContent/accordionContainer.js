@@ -39,6 +39,8 @@ const AccordionContainer = ({
   onRefresh,
   mathJaxRendered,
   onMathJaxRendered,
+  replacing,
+  setReplacing,
 }) => {
   const [problems, setProblems] = useState([]);
   const [problemVerdicts, setProblemVerdicts] = useState([]);
@@ -63,8 +65,8 @@ const AccordionContainer = ({
       let duel = await Database.getDuelById(id);
       setProblems(duel.problems);
     };
-    if (refresh && playerNum) {
-      getProblems();
+    getProblems();
+    if (refresh) {
       getProblemVerdicts();
       onRefresh();
     }
@@ -93,20 +95,17 @@ const AccordionContainer = ({
   const selectedReplaceColor = useColorModeValue("red.500", "red.300");
   const numberColor = useColorModeValue("grey.900", "offWhite");
 
-  const [replacing, setReplacing] = useState(false);
-
   const handleReplace = (e) => {
     e.preventDefault();
     setReplacing(true);
-    setProblems([]);
-    socket.emit("regenerate-problems", { roomId: id, problemIndices: selectedReplaceProblemIndices });
-  }
+    socket.emit("regenerate-problems", {
+      roomId: id,
+      problemIndices: selectedReplaceProblemIndices,
+    });
+    setSelectedReplaceProblemIndices([]);
+  };
 
   useEffect(() => {
-    const getProblems = async () => {
-      let duel = await Database.getDuelById(id);
-      setProblems(duel.problems);
-    };
     socket.on("replace-problem-received", ({ roomId, uid, updatedIndices }) => {
       handleUID();
       let localUid = localStorage.getItem("uid");
@@ -114,139 +113,140 @@ const AccordionContainer = ({
         setSelectedReplaceProblemIndices(updatedIndices);
       }
     });
-    socket.on("regenerate-problems-received", ({ roomId }) => {
-      if (roomId === id) {
-        setReplacing(true);
-        setProblems([]);
-      }
-    });
-    socket.on("regenerate-problems-completed", ({ roomId }) => {
-      if (roomId === id) {
-        setReplacing(false);
-        setSelectedReplaceProblemIndices([]);
-        getProblems();
-      }
-    });
     return () => {
       socket.off("replace-problem-received");
-      socket.off("regenerate-probilems-received");
-      socket.off("regenerate-problems-completed");
     };
   }, []);
 
+  useEffect(() => {
+    setSelectedReplaceProblemIndices([]);
+  }, [replacing]);
+
   if (duelStatus === "INITIALIZED") {
-    return (
-      <Box>
-        <Text fontSize="1.2rem" mb="1em">
-          Already seen some of these problems? Select the ones you'd like to
-          drop from the problem set, hit the refresh button, and we'll replace
-          them with new ones.
-          <br />
-          Ready up when you're satisfied.
-        </Text>
-        <Flex mb="1em" gap={1} justify="center" height="fit-content">
-          <ButtonGroup>
-            {problems.map((problem, index) => (
-              <Button
-                width="3.5em"
-                height="3.5em"
-                color={
-                  selectedReplaceProblemIndices.includes(index)
-                    ? selectedReplaceColor
-                    : numberColor
-                }
-                border="solid 2px"
-                borderColor={
-                  selectedReplaceProblemIndices.includes(index)
-                    ? selectedReplaceColor
-                    : "grey.100"
-                }
-                onClick={() => {
-                  let updatedIndices;
-                  if (selectedReplaceProblemIndices.includes(index)) {
-                    updatedIndices = [];
-                    for (
-                      let i = 0;
-                      i < selectedReplaceProblemIndices.length;
-                      i++
-                    ) {
-                      if (selectedReplaceProblemIndices[i] !== index)
-                        updatedIndices.push(selectedReplaceProblemIndices[i]);
-                    }
-                  } else {
-                    updatedIndices = [...selectedReplaceProblemIndices, index];
-                  }
-                  setSelectedReplaceProblemIndices(updatedIndices);
-                  handleUID();
-                  let uid = localStorage.getItem("uid");
-                  socket.emit("replace-problem-selected", {
-                    roomId: id,
-                    uid: uid,
-                    updatedIndices: updatedIndices,
-                  });
-                }}
-                variant="outline"
-                disabled={replacing}
-              >
-                {index + 1}
-              </Button>
-            ))}
-          </ButtonGroup>
-          <Box ml="1em">
-            <IconButton
-              boxSize="3.5em"
-              icon={<RepeatIcon />}
-              variant="solid"
-              colorScheme="primary"
-              isLoading={replacing}
-              onClick={handleReplace}
-              disabled={selectedReplaceProblemIndices.length === 0 || replacing}
-            />
-          </Box>
-        </Flex>
-        <Accordion
-          onChange={(index) => {
-            setSelectedProblem(index + 1);
-          }}
-          allowToggle
-          boxShadow="2xl"
-        >
-          {console.count("Initialized Accordion Container")}
-          {problems.map((problem, index) => (
-            <AccordionItem key={problem._id} border="none">
-              <h2>
-                <AccordionButton
+    if (playerNum)
+      return (
+        <Box>
+          <Text fontSize="1.2rem" mb="1em">
+            Already seen some of these problems? Select the ones you'd like to
+            drop from the problem set, hit the refresh button, and we'll replace
+            them with new ones.
+            <br />
+            Ready up when you're satisfied.
+          </Text>
+          <Flex mb="1em" gap={1} justify="center" height="fit-content">
+            <ButtonGroup>
+              {problems.map((problem, index) => (
+                <Button
+                  width="3.5em"
                   height="3.5em"
-                  bg={index === selectedProblem - 1 ? selectedRowColor : ""}
-                  _hover={"none"}
-                  border="solid 1px"
+                  color={
+                    selectedReplaceProblemIndices.includes(index)
+                      ? selectedReplaceColor
+                      : numberColor
+                  }
+                  border="solid 2px"
+                  borderColor={
+                    selectedReplaceProblemIndices.includes(index)
+                      ? selectedReplaceColor
+                      : "grey.100"
+                  }
+                  onClick={() => {
+                    let updatedIndices;
+                    if (selectedReplaceProblemIndices.includes(index)) {
+                      updatedIndices = [];
+                      for (
+                        let i = 0;
+                        i < selectedReplaceProblemIndices.length;
+                        i++
+                      ) {
+                        if (selectedReplaceProblemIndices[i] !== index)
+                          updatedIndices.push(selectedReplaceProblemIndices[i]);
+                      }
+                    } else {
+                      updatedIndices = [
+                        ...selectedReplaceProblemIndices,
+                        index,
+                      ];
+                    }
+                    setSelectedReplaceProblemIndices(updatedIndices);
+                    handleUID();
+                    let uid = localStorage.getItem("uid");
+                    socket.emit("replace-problem-selected", {
+                      roomId: id,
+                      uid: uid,
+                      updatedIndices: updatedIndices,
+                    });
+                  }}
+                  variant="outline"
+                  disabled={replacing}
                 >
-                  <Box flex="2" textAlign="left">
-                    {index + 1}. <b>{problem.name}</b>
+                  {index + 1}
+                </Button>
+              ))}
+            </ButtonGroup>
+            <Box ml="1em">
+              <IconButton
+                boxSize="3.5em"
+                icon={<RepeatIcon />}
+                variant="solid"
+                colorScheme="primary"
+                isLoading={replacing}
+                onClick={handleReplace}
+                disabled={
+                  selectedReplaceProblemIndices.length === 0 || replacing
+                }
+              />
+            </Box>
+          </Flex>
+          <Accordion
+            onChange={(index) => {
+              setSelectedProblem(index + 1);
+            }}
+            allowToggle
+            boxShadow="2xl"
+          >
+            {console.count("Initialized Accordion Container")}
+            {problems.map((problem, index) => (
+              <AccordionItem key={problem._id} border="none">
+                <h2>
+                  <AccordionButton
+                    height="3.5em"
+                    bg={index === selectedProblem - 1 ? selectedRowColor : ""}
+                    _hover={"none"}
+                    border="solid 1px"
+                  >
+                    <Box flex="2" textAlign="left">
+                      {index + 1}. <b>{problem.name}</b>
+                    </Box>
+                    <Box flex="1" textAlign="center">
+                      <b>Rated:</b> {problem.rating}, <b>Points:</b>{" "}
+                      {problem.duelPoints}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel border="solid 1px" borderTop={"none"}>
+                  <Box
+                    className="problem-statement"
+                    fontSize="0.95rem"
+                    mb="-1.5em"
+                  >
+                    {problem.content.statement
+                      ? parse(problem.content.statement)
+                      : ""}
                   </Box>
-                  <Box flex="1" textAlign="center">
-                    <b>Rated:</b> {problem.rating}, <b>Points:</b>{" "}
-                    {problem.duelPoints}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel border="solid 1px" borderTop={"none"}>
-                <Box
-                  className="problem-statement"
-                  fontSize="0.95rem"
-                  mb="-1.5em"
-                >
-                  {problem.content.statement
-                    ? parse(problem.content.statement)
-                    : ""}
-                </Box>
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </Box>
-    );
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Box>
+      );
+    else
+      return (
+        <Text fontSize="1.2rem">
+          This duel is no longer open and problems are being finalized.
+        </Text>
+      );
   } else {
     return problems?.length ? (
       <Accordion
@@ -257,6 +257,15 @@ const AccordionContainer = ({
         boxShadow="2xl"
       >
         {console.count("Ongoing Accordion Container")}
+        {playerNum ? (
+          ""
+        ) : duelStatus === "ONGOING" ? (
+          <Text fontSize="1.2rem" mb="1em">
+            You are a spectator and may not submit to any problems in this duel.
+          </Text>
+        ) : (
+          ""
+        )}
         {problems.map((problem, index) => (
           <AccordionItem key={problem._id} border="none">
             <h2>
@@ -372,7 +381,7 @@ const AccordionContainer = ({
                   fontSize="lg"
                   variant="solid"
                   colorScheme="primary"
-                  isDisabled={duelStatus !== "ONGOING"}
+                  isDisabled={duelStatus !== "ONGOING" || !playerNum}
                 >
                   Submit Your Answer
                 </Button>
@@ -394,6 +403,7 @@ const AccordionContainer = ({
               <SubmitCodeEditor
                 key="floating-editor"
                 duelStatus={duelStatus}
+                playerNum={playerNum}
                 duelPlatform={duelPlatform}
                 editorId="floating-editor"
                 isPopup={true}
@@ -406,10 +416,10 @@ const AccordionContainer = ({
         </Modal>
       </Accordion>
     ) : (
-      <p>
+      <Text fontSize="1.2rem">
         Problems will be generated when the duel is initialized (i.e. when
         someone joins).
-      </p>
+      </Text>
     );
   }
 };

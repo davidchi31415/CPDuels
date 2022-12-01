@@ -37,6 +37,7 @@ const DuelPage = () => {
   const [scoresRefresh, setScoresRefresh] = useState(true);
   const [problemsRefresh, setProblemsRefresh] = useState(true);
   const [mathJaxRendered, setMathJaxRendered] = useState(false);
+  const [replacingProblems, setReplacingProblems] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -70,6 +71,7 @@ const DuelPage = () => {
       } else if (duel.players[1] && uid === duel.players[1].uid) {
         if (playerNum !== 2) setPlayerNum(2);
       }
+      if (duel.regeneratingProblems) setReplacingProblems(true);
     };
     getDuelInfo();
     socket.on("connect", async () => {
@@ -127,6 +129,26 @@ const DuelPage = () => {
         setScoresRefresh(true);
       }
     });
+    socket.on("regenerate-problems-received", ({ roomId }) => {
+      if (roomId === id) {
+        setReplacingProblems(true);
+      }
+    });
+    socket.on("regenerate-problems-completed", ({ roomId }) => {
+      if (roomId === id) {
+        setReplacingProblems(false);
+        setProblemsRefresh(true);
+        setMathJaxRendered(false);
+        if (playerNum)
+          makeToast({
+            title: "Problems regenerated.",
+            description: "Please see the new problem set.",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+      }
+    });
     return () => {
       socket.off("connect");
       socket.off("error-message");
@@ -134,6 +156,8 @@ const DuelPage = () => {
       socket.off("abort-duel-error");
       socket.off("resign-duel-error");
       socket.off("submission-change");
+      socket.on("regenerate-problems-received");
+      socket.on("regenerate-problems-completed");
     };
   }, []);
 
@@ -206,6 +230,8 @@ const DuelPage = () => {
                 onSubmissionsToast={() => setSubmissionsToast(false)}
                 mathJaxRendered={mathJaxRendered}
                 onMathJaxRendered={() => setMathJaxRendered(true)}
+                replacingProblems={replacingProblems}
+                setReplacingProblems={setReplacingProblems}
               />
               <VStack spacing={2}>
                 <TimeAndJoinDisplay
@@ -213,6 +239,7 @@ const DuelPage = () => {
                   duelStatus={duelStatus}
                   players={players}
                   playerNum={playerNum}
+                  replacing={replacingProblems}
                 />
                 {playerNum &&
                 duelStatus !== "FINISHED" &&
