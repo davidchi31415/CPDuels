@@ -29,6 +29,8 @@ const TabContainer = ({
   onProblemsRefresh,
   submissionsRefresh,
   onSubmissionsRefresh,
+  submissionsToast,
+  onSubmissionsToast,
 }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
@@ -164,6 +166,8 @@ const TabContainer = ({
             duelId={id}
             refresh={submissionsRefresh}
             onRefresh={onSubmissionsRefresh}
+            toast={submissionsToast}
+            onToast={onSubmissionsToast}
           />
         </TabPanel>
         {playerNum ? (

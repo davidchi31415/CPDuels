@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useColorModeValue, Text } from "@chakra-ui/react";
+import { useColorModeValue, useToast, Text } from "@chakra-ui/react";
 import ReactTable from "./tableContainer.js";
 import Database, { handleUID } from "../../data";
 import moment from "moment";
 import socket from "../../socket";
 
-const SubmissionsTable = ({ duelId, refresh, onRefresh }) => {
+const SubmissionsTable = ({ duelId, refresh, onRefresh, toast, onToast }) => {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const makeToast = useToast();
 
   useEffect(() => {
     const getSubmissions = async () => {
@@ -16,14 +17,30 @@ const SubmissionsTable = ({ duelId, refresh, onRefresh }) => {
       handleUID();
       let uid = localStorage.getItem("uid");
       let res = await Database.getSubmissionsByDuelIdAndUid(duelId, uid);
-      if (res?.length) setSubmissions(res.reverse());
+      if (res?.length) {
+        let updateVal = res.reverse();
+        setSubmissions(updateVal);
+        if (toast) {
+          let newSubmission = updateVal[updateVal.length - 1];
+          if (newSubmission.status && newSubmission.status[0] !== "PENDING") {
+            makeToast({
+              title: `Problem ${newSubmission.problemNumber} Verdict`,
+              description: `${newSubmission.status[0]}`,
+              status: (newSubmission.status[0] === "ACCEPTED") ? "success" : "error",
+              duration: 5000,
+              isClosable: true
+            });
+            onToast();
+          }
+        }
+      }
       setLoading(false);
     };
     if (refresh) {
       getSubmissions();
       onRefresh();
     }
-  }, [refresh]);
+  }, [refresh, toast]);
 
   const columns = useMemo(
     () => [

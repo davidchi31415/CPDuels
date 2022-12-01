@@ -33,6 +33,7 @@ const DuelPage = () => {
   const [players, setPlayers] = useState([]);
   const [playerNum, setPlayerNum] = useState();
   const [submissionsRefresh, setSubmissionsRefresh] = useState(true);
+  const [submissionsToast, setSubmissionsToast] = useState(false);
   const [scoresRefresh, setScoresRefresh] = useState(true);
   const [problemsRefresh, setProblemsRefresh] = useState(true);
   const [rerenderVal, setRerenderVal] = useState(0);
@@ -120,6 +121,7 @@ const DuelPage = () => {
     socket.on("submission-change", ({ duelId }) => {
       if (duelId === id) {
         setSubmissionsRefresh(true);
+        setSubmissionsToast(true);
         setProblemsRefresh(true);
         setScoresRefresh(true);
       }
@@ -138,12 +140,18 @@ const DuelPage = () => {
     if (duelStatus === "FINISHED") onOpen();
   }, [duelStatus]);
 
-  useEffect(() => {
-    if (problemsRefresh === false) {
-      console.log("Rerendering");
-      setRerenderVal((i) => i + 1); // Force rerender upon problem render to make sure MathJax shows properly
-    }
-  }, [problemsRefresh]);
+  // const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  // useEffect(() => {
+  //   const rerender = async () => {
+  //     await sleep(5000);
+  //   }
+  //   if (problemsRefresh === false) {
+  //     console.log("Rerendering");
+  //     rerender();
+  //     setRerenderVal((i) => i + 1); // Force rerender upon problem render to make sure MathJax shows properly
+  //   }
+  // }, [problemsRefresh]);
 
   return (
     <MathJax>
@@ -193,6 +201,8 @@ const DuelPage = () => {
                 onProblemsRefresh={() => setProblemsRefresh(false)}
                 submissionsRefresh={submissionsRefresh}
                 onSubmissionsRefresh={() => setSubmissionsRefresh(false)}
+                submissionsToast={submissionsToast}
+                onSubmissionsToast={() => setSubmissionsToast(false)}
               />
               <VStack spacing={2}>
                 <TimeAndJoinDisplay

@@ -59,12 +59,13 @@ const AccordionContainer = ({
       let duel = await Database.getDuelById(id);
       setProblems(duel.problems);
     };
-    if (refresh) {
+    if (refresh && playerNum) {
       getProblems();
       getProblemVerdicts();
       onRefresh();
     }
-  }, [refresh]);
+    console.log("hello");
+  }, [refresh, playerNum]);
 
   const defaultBorderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
