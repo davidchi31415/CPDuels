@@ -56,8 +56,10 @@ const ContactCard = ({ inViewport, forwardedRef, info }) => {
           width="150px"
           height="150px"
           margin="0 auto"
-          border="solid 1px"
-        ></Box>
+          overflow="hidden"
+        >
+          {info.image ? <img src={info.image} /> : ""}
+        </Box>
         <Text margin="5px auto 0" width="fit-content" textStyle="body2Semi">
           {info.name}
         </Text>

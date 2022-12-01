@@ -84,7 +84,6 @@ const DuelPage = () => {
         console.log("status changed to " + newStatus);
         setLoading(true);
         getDuelInfo();
-        setMathJaxRendered(false);
       }
     });
     socket.on("abort-duel-error", ({ roomId, uid, message }) => {

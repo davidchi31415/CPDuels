@@ -5,9 +5,12 @@ import ContactCard from "../components/contactCard";
 import ContactForm from "../components/contactForm";
 import BuyUsACoffee from "../components/buyUsACoffee";
 import handleViewport from "react-in-viewport";
+import DavidSelfie from "../images/CPDuels_Contact_David.jpg";
+import JeffreySelfie from "../images/CPDuels_Contact_Jeffrey.jpg";
 
 const ContactPage = () => {
   const infoDavid = {
+    image: DavidSelfie,
     name: "David Chi",
     role: "Frontend",
     description: `I am a junior Computer Science student at Texas A&M. I am primarily focused on web development and machine learning,
@@ -16,6 +19,7 @@ const ContactPage = () => {
     github: "https://github.com/davidchi31415",
   };
   const infoJeffrey = {
+    image: JeffreySelfie,
     name: "Jeffrey Li",
     role: "Backend",
     description: `I am currently a junior at Texas A&M majoring in Computer Science. I am primarily focused on cybersecurity and am looking
