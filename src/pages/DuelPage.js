@@ -36,7 +36,7 @@ const DuelPage = () => {
   const [submissionsToast, setSubmissionsToast] = useState(false);
   const [scoresRefresh, setScoresRefresh] = useState(true);
   const [problemsRefresh, setProblemsRefresh] = useState(true);
-  const [rerenderVal, setRerenderVal] = useState(0);
+  const [mathJaxRendered, setMathJaxRendered] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -84,6 +84,7 @@ const DuelPage = () => {
         console.log("status changed to " + newStatus);
         setLoading(true);
         getDuelInfo();
+        setMathJaxRendered(false);
       }
     });
     socket.on("abort-duel-error", ({ roomId, uid, message }) => {
@@ -116,6 +117,7 @@ const DuelPage = () => {
       if (roomId === id) {
         setProblemsRefresh(true);
         setScoresRefresh(true);
+        setMathJaxRendered(false);
       }
     });
     socket.on("submission-change", ({ duelId }) => {
@@ -203,6 +205,8 @@ const DuelPage = () => {
                 onSubmissionsRefresh={() => setSubmissionsRefresh(false)}
                 submissionsToast={submissionsToast}
                 onSubmissionsToast={() => setSubmissionsToast(false)}
+                mathJaxRendered={mathJaxRendered}
+                onMathJaxRendered={() => setMathJaxRendered(true)}
               />
               <VStack spacing={2}>
                 <TimeAndJoinDisplay

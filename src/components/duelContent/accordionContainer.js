@@ -35,6 +35,8 @@ const AccordionContainer = ({
   playerNum,
   refresh,
   onRefresh,
+  mathJaxRendered,
+  onMathJaxRendered,
 }) => {
   const [problems, setProblems] = useState([]);
   const [problemVerdicts, setProblemVerdicts] = useState([]);
@@ -66,6 +68,13 @@ const AccordionContainer = ({
     }
     console.log("hello");
   }, [refresh, playerNum]);
+
+  useEffect(() => {
+    if (!mathJaxRendered && document.querySelector(".problem-statement")) {
+      console.log("Problems rendered");
+      onMathJaxRendered();
+    }
+  });
 
   const defaultBorderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",

@@ -31,6 +31,8 @@ const TabContainer = ({
   onSubmissionsRefresh,
   submissionsToast,
   onSubmissionsToast,
+  mathJaxRendered,
+  onMathJaxRendered,
 }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
@@ -149,6 +151,8 @@ const TabContainer = ({
             playerNum={playerNum}
             refresh={problemsRefresh}
             onRefresh={onProblemsRefresh}
+            mathJaxRendered={mathJaxRendered}
+            onMathJaxRendered={onMathJaxRendered}
           />
         </TabPanel>
         <TabPanel px={0}>
