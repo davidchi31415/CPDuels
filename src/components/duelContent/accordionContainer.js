@@ -71,12 +71,10 @@ const AccordionContainer = ({
       getProblems();
       onRefresh();
     }
-    console.log("hello");
   }, [refresh, playerNum, id]);
 
   useEffect(() => {
     if (!mathJaxRendered && document.querySelector(".problem-statement")) {
-      console.log("Problems rendered");
       onMathJaxRendered();
     }
   });
@@ -98,7 +96,6 @@ const AccordionContainer = ({
 
   const handleReplace = (e) => {
     e.preventDefault();
-    console.log(id);
     socket.emit("regenerate-problems", {
       roomId: id,
       problemIndices: selectedReplaceProblemIndices,
@@ -173,7 +170,6 @@ const AccordionContainer = ({
                     setSelectedReplaceProblemIndices(updatedIndices);
                     handleUID();
                     let uid = localStorage.getItem("uid");
-                    console.log(id);
                     socket.emit("replace-problem-selected", {
                       roomId: id,
                       uid: uid,

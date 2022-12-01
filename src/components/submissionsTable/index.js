@@ -12,7 +12,6 @@ const SubmissionsTable = ({ duelId, refresh, onRefresh, toast, onToast }) => {
 
   useEffect(() => {
     const getSubmissions = async () => {
-      console.log("Getting submissions.");
       setSubmissions([]);
       handleUID();
       let uid = localStorage.getItem("uid");
@@ -117,7 +116,7 @@ const SubmissionsTable = ({ duelId, refresh, onRefresh, toast, onToast }) => {
       data={submissions}
       columns={columns}
       rowProps={(row) => ({
-        onClick: () => console.log("clicked"),
+        onClick: () => {},
       })}
     />
   );

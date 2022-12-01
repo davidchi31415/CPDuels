@@ -57,12 +57,10 @@ const DuelPage = () => {
 
   useEffect(() => {
     const getDuelInfo = async () => {
-      console.log("fetching", id);
       const duel = await Database.getDuelById(id);
       if (!duel || duel?.message) navigate("/noduel");
       setLoading(false);
       if (duelStatus !== duel.status) setDuelStatus(duel.status);
-      console.log(duel.platform);
       if (duelPlatform !== duel.platform) setDuelPlatform(duel.platform);
       setPlayers(duel.players);
       handleUID();
@@ -82,9 +80,7 @@ const DuelPage = () => {
       alert(message);
     });
     socket.on("status-change", ({ roomId, newStatus }) => {
-      console.log(roomId);
       if (roomId === id) {
-        console.log("status changed to " + newStatus);
         setLoading(true);
         getDuelInfo();
       }
@@ -130,15 +126,24 @@ const DuelPage = () => {
         setScoresRefresh(true);
       }
     });
+    return () => {
+      socket.off("connect");
+      socket.off("error-message");
+      socket.off("status-change");
+      socket.off("abort-duel-error");
+      socket.off("resign-duel-error");
+      socket.off("submission-change");
+    };
+  }, [id]);
+
+  useEffect(() => {
     socket.on("regenerate-problems-received", ({ roomId }) => {
-      console.log(roomId);
       if (roomId === id) {
         setReplacingProblems(true);
       }
     });
     socket.on("regenerate-problems-completed", ({ roomId }) => {
       if (roomId === id) {
-        console.log("Completed");
         setReplacingProblems(false);
         setProblemsRefresh(true);
         setMathJaxRendered(false);
@@ -153,33 +158,14 @@ const DuelPage = () => {
       }
     });
     return () => {
-      socket.off("connect");
-      socket.off("error-message");
-      socket.off("status-change");
-      socket.off("abort-duel-error");
-      socket.off("resign-duel-error");
-      socket.off("submission-change");
-      socket.on("regenerate-problems-received");
-      socket.on("regenerate-problems-completed");
+      socket.off("regenerate-problems-received");
+      socket.off("regenerate-problems-completed");
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (duelStatus === "FINISHED") onOpen();
   }, [duelStatus]);
-
-  // const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  // useEffect(() => {
-  //   const rerender = async () => {
-  //     await sleep(5000);
-  //   }
-  //   if (problemsRefresh === false) {
-  //     console.log("Rerendering");
-  //     rerender();
-  //     setRerenderVal((i) => i + 1); // Force rerender upon problem render to make sure MathJax shows properly
-  //   }
-  // }, [problemsRefresh]);
 
   return (
     <MathJax>

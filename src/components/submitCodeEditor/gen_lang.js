@@ -12,4 +12,3 @@ let res = "";
 for(let i = 0; i < options.length; ++i){
     res += `"${options[i].value}": "${options[i].innerText}",\n`;
 }
-console.log(res);

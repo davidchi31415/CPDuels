@@ -100,7 +100,6 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
       handleUID();
       let localUid = localStorage.getItem("uid");
       if (id === roomId && localUid !== senderUid) {
-        console.log(message);
         setMessages((curr) => [...curr, message]);
         setTypingIndicator(null);
         if (!inView) setUnreadmessages((i) => i + 1);

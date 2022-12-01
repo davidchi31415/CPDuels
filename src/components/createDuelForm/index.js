@@ -98,7 +98,6 @@ const CreateDuelForm = () => {
       ],
       private: isPrivate,
     };
-    console.log(duelData);
     let duelID;
     await Database.addDuel(duelData).then((res) => {
       if (!res._id) {

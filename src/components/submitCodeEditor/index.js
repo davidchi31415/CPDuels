@@ -174,13 +174,9 @@ const SubmitCodeEditor = ({
     setFileUploaded(true);
     setEditorFileError(false);
     let file = e.target.files[0];
-    console.log(file);
     let fileReader = new FileReader();
     fileReader.onload = (event) => {
       fileContent.current = event.target.result;
-    };
-    fileReader.onerror = (error) => {
-      console.log("Error uploading file: " + error);
     };
     fileReader.readAsText(file);
     fileName.current = file.name;
@@ -222,7 +218,6 @@ const SubmitCodeEditor = ({
             value={chosenLanguage}
             onChange={(e) => {
               setChosenLanguage(parseInt(e.target.value));
-              console.log(typeof parseInt(e.target.value));
               if (parseInt(e.target.value)) setChosenLanguageError(false);
             }}
           >
