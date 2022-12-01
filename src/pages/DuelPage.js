@@ -57,6 +57,7 @@ const DuelPage = () => {
 
   useEffect(() => {
     const getDuelInfo = async () => {
+      console.log("fetching", id);
       const duel = await Database.getDuelById(id);
       if (!duel || duel?.message) navigate("/noduel");
       setLoading(false);
@@ -130,12 +131,14 @@ const DuelPage = () => {
       }
     });
     socket.on("regenerate-problems-received", ({ roomId }) => {
+      console.log(roomId);
       if (roomId === id) {
         setReplacingProblems(true);
       }
     });
     socket.on("regenerate-problems-completed", ({ roomId }) => {
       if (roomId === id) {
+        console.log("Completed");
         setReplacingProblems(false);
         setProblemsRefresh(true);
         setMathJaxRendered(false);
@@ -159,7 +162,7 @@ const DuelPage = () => {
       socket.on("regenerate-problems-received");
       socket.on("regenerate-problems-completed");
     };
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (duelStatus === "FINISHED") onOpen();

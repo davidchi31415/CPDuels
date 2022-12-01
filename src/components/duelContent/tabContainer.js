@@ -64,7 +64,7 @@ const TabContainer = ({
     if (duelStatus === "ONGOING" || duelStatus === "INITIALIZED") {
       setIndex(1); // Go to problems tab
     }
-  }, [duelStatus, replacingProblems, mathJaxRendered]);
+  }, [duelStatus, replacingProblems, mathJaxRendered, id]);
 
   return (
     <Tabs

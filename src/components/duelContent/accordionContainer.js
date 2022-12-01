@@ -68,10 +68,11 @@ const AccordionContainer = ({
     getProblems();
     if (refresh) {
       getProblemVerdicts();
+      getProblems();
       onRefresh();
     }
     console.log("hello");
-  }, [refresh, playerNum]);
+  }, [refresh, playerNum, id]);
 
   useEffect(() => {
     if (!mathJaxRendered && document.querySelector(".problem-statement")) {
@@ -97,6 +98,7 @@ const AccordionContainer = ({
 
   const handleReplace = (e) => {
     e.preventDefault();
+    console.log(id);
     socket.emit("regenerate-problems", {
       roomId: id,
       problemIndices: selectedReplaceProblemIndices,
@@ -115,11 +117,11 @@ const AccordionContainer = ({
     return () => {
       socket.off("replace-problem-received");
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     setSelectedReplaceProblemIndices([]);
-    if (replacing) setProblems([]);
+    if (replacing && problems?.length) setProblems([]);
   }, [replacing, problems]);
 
   if (duelStatus === "INITIALIZED") {
@@ -171,6 +173,7 @@ const AccordionContainer = ({
                     setSelectedReplaceProblemIndices(updatedIndices);
                     handleUID();
                     let uid = localStorage.getItem("uid");
+                    console.log(id);
                     socket.emit("replace-problem-selected", {
                       roomId: id,
                       uid: uid,
@@ -206,38 +209,42 @@ const AccordionContainer = ({
             boxShadow="2xl"
           >
             {console.count("Initialized Accordion Container")}
-            {problems.map((problem, index) => (
-              <AccordionItem key={problem._id} border="none">
-                <h2>
-                  <AccordionButton
-                    height="3.5em"
-                    bg={index === selectedProblem - 1 ? selectedRowColor : ""}
-                    _hover={"none"}
-                    border="solid 1px"
-                  >
-                    <Box flex="2" textAlign="left">
-                      {index + 1}. <b>{problem.name}</b>
-                    </Box>
-                    <Box flex="1" textAlign="center">
-                      <b>Rated:</b> {problem.rating}, <b>Points:</b>{" "}
-                      {problem.duelPoints}
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel border="solid 1px" borderTop={"none"}>
-                  <Box
-                    className="problem-statement"
-                    fontSize="0.95rem"
-                    mb="-1.5em"
-                  >
-                    {problem.content.statement
-                      ? parse(problem.content.statement)
-                      : ""}
-                  </Box>
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
+            {problems?.length
+              ? problems.map((problem, index) => (
+                  <AccordionItem key={problem?._id} border="none">
+                    <h2>
+                      <AccordionButton
+                        height="3.5em"
+                        bg={
+                          index === selectedProblem - 1 ? selectedRowColor : ""
+                        }
+                        _hover={"none"}
+                        border="solid 1px"
+                      >
+                        <Box flex="2" textAlign="left">
+                          {index + 1}. <b>{problem?.name}</b>
+                        </Box>
+                        <Box flex="1" textAlign="center">
+                          <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
+                          {problem.duelPoints}
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel border="solid 1px" borderTop={"none"}>
+                      <Box
+                        className="problem-statement"
+                        fontSize="0.95rem"
+                        mb="-1.5em"
+                      >
+                        {problem.content?.statement
+                          ? parse(problem.content.statement)
+                          : ""}
+                      </Box>
+                    </AccordionPanel>
+                  </AccordionItem>
+                ))
+              : ""}
           </Accordion>
         </Box>
       );
@@ -297,11 +304,11 @@ const AccordionContainer = ({
                 }
               >
                 <Box flex="2" textAlign="left">
-                  {index + 1}. <b>{problem.name}</b>
+                  {index + 1}. <b>{problem?.name}</b>
                 </Box>
                 <Box flex="1" textAlign="center">
-                  <b>Rated:</b> {problem.rating}, <b>Points:</b>{" "}
-                  {problem.duelPoints}
+                  <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
+                  {problem?.duelPoints}
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
@@ -318,7 +325,7 @@ const AccordionContainer = ({
                   : ""
               }
             >
-              {problem.content.constraints ? (
+              {problem?.content?.constraints ? (
                 <Flex justify="space-between">
                   {parse(problem.content.constraints)}
                 </Flex>
@@ -329,7 +336,7 @@ const AccordionContainer = ({
                 <Text fontWeight="bold" fontSize="1.2rem">
                   Problem Statement
                 </Text>
-                {problem.content.statement
+                {problem?.content?.statement
                   ? parse(problem.content.statement)
                   : ""}
               </Box>
@@ -341,7 +348,7 @@ const AccordionContainer = ({
                 <Text fontWeight="bold" fontSize="1.2rem">
                   Input
                 </Text>
-                {problem.content.input ? parse(problem.content.input) : ""}
+                {problem?.content?.input ? parse(problem.content.input) : ""}
               </Box>
               <Box
                 mt={2}
@@ -351,7 +358,7 @@ const AccordionContainer = ({
                 <Text fontWeight="bold" fontSize="1.2rem">
                   Output
                 </Text>
-                {problem.content.output ? parse(problem.content.output) : ""}
+                {problem?.content?.output ? parse(problem.content.output) : ""}
               </Box>
               <Box
                 mt={2}
@@ -367,12 +374,12 @@ const AccordionContainer = ({
                     },
                 }}
               >
-                {problem.content.testCases
+                {problem?.content?.testCases
                   ? parse(problem.content.testCases)
                   : ""}
               </Box>
               <Box mt={2} className="problem-note" fontSize="0.95rem">
-                {problem.content.note ? parse(problem.content.note) : ""}
+                {problem?.content?.note ? parse(problem.content.note) : ""}
               </Box>
               <Center pt={3}>
                 <Button
