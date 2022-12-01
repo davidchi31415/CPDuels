@@ -159,7 +159,7 @@ const DuelPage = () => {
       socket.on("regenerate-problems-received");
       socket.on("regenerate-problems-completed");
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (duelStatus === "FINISHED") onOpen();

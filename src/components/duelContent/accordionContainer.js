@@ -97,7 +97,6 @@ const AccordionContainer = ({
 
   const handleReplace = (e) => {
     e.preventDefault();
-    setReplacing(true);
     socket.emit("regenerate-problems", {
       roomId: id,
       problemIndices: selectedReplaceProblemIndices,
