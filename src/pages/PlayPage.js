@@ -103,7 +103,7 @@ const PlayPage = () => {
       let uid = localStorage.getItem("uid");
       let duelsOngoing = await Database.getDuelsOngoing();
       let duelsWaiting = await Database.getDuelsWaiting();
-      let duelsReady = await Database.getDuelsReady();
+      let duelsInitialized = await Database.getDuelsInitialized();
       for (let i = 0; i < duelsOngoing.length; i++) {
         if (
           duelsOngoing[i].players[0].uid === uid ||
@@ -121,13 +121,13 @@ const PlayPage = () => {
           return;
         }
       }
-      for (let i = 0; i < duelsReady.length; i++) {
+      for (let i = 0; i < duelsInitialized.length; i++) {
         if (
-          duelsReady[i].players[0].uid === uid ||
-          duelsReady[i].players[1].uid === uid
+          duelsInitialized[i].players[0].uid === uid ||
+          duelsInitialized[i].players[1].uid === uid
         ) {
           setInADuel(true);
-          setCurrentDuelLink(`/play/${duelsReady[i]._id}`);
+          setCurrentDuelLink(`/play/${duelsInitialized[i]._id}`);
           return;
         }
       }

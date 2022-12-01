@@ -59,7 +59,7 @@ const TabContainer = ({
       });
     };
     getDuelInfo();
-    if (duelStatus === "ONGOING") {
+    if (duelStatus === "ONGOING" || duelStatus === "INITIALIZED") {
       setIndex(1); // Go to problems tab
     }
   }, [duelStatus]);

@@ -72,15 +72,15 @@ export default class Database {
     );
     return duels;
   }
-  static async getDuelsReady() {
+  static async getDuelsInitialized() {
     const duels = await this._getModel('duels').then(
-      result => result.filter(duel => duel.status === "READY")
+      result => result.filter(duel => duel.status === "INITIALIZED")
     );
     return duels;
   }
-  static async getDuelsReadyPublic() { // Only gets the public ready duels
+  static async getDuelsInitializedPublic() { // Only gets the public initialized duels
     const duels = await this._getModel('duels').then(
-      result => result.filter(duel => duel.status === "READY" && !duel.private)
+      result => result.filter(duel => duel.status === "INITIALIZED" && !duel.private)
     );
     return duels;
   }

@@ -19,6 +19,7 @@ import {
   useColorModeValue,
   useDisclosure,
   ButtonGroup,
+  IconButton,
   Flex,
   Text,
 } from "@chakra-ui/react";
@@ -27,6 +28,7 @@ import socket from "../../socket";
 import Database, { handleUID } from "../../data";
 import parse from "html-react-parser";
 import "./cfStyles.css";
+import { RepeatIcon } from "@chakra-ui/icons";
 
 const AccordionContainer = ({
   id,
@@ -41,6 +43,8 @@ const AccordionContainer = ({
   const [problems, setProblems] = useState([]);
   const [problemVerdicts, setProblemVerdicts] = useState([]);
   const [selectedProblem, setSelectedProblem] = useState();
+  const [selectedReplaceProblemIndices, setSelectedReplaceProblemIndices] =
+    useState([]); // Initialized duel
 
   useEffect(() => {
     const getProblemVerdicts = async () => {
@@ -54,8 +58,6 @@ const AccordionContainer = ({
           newProblemVerdicts[i] = "WA";
       }
       setProblemVerdicts(newProblemVerdicts);
-      console.log(playerIndex);
-      console.log(newProblemVerdicts);
     };
     const getProblems = async () => {
       let duel = await Database.getDuelById(id);
@@ -88,166 +90,328 @@ const AccordionContainer = ({
   const sampleTestLineColor = useColorModeValue("grey.100", "grey.700");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  return problems?.length ? (
-    <Accordion
-      onChange={(index) => {
-        setSelectedProblem(index + 1);
-      }}
-      allowToggle
-      boxShadow="2xl"
-    >
-      {console.count("Accordion Container")}
-      {problems.map((problem, index) => (
-        <AccordionItem key={problem._id} border="none">
-          <h2>
-            <AccordionButton
-              height="3.5em"
-              bg={
-                index === selectedProblem - 1
-                  ? problemVerdicts[index] === "AC"
-                    ? rightAnswerSelectedColor
-                    : problemVerdicts[index] === "WA"
-                    ? wrongAnswerSelectedColor
-                    : selectedRowColor
-                  : problemVerdicts[index] === "AC"
-                  ? rightAnswerColor
-                  : problemVerdicts[index] === "WA"
-                  ? wrongAnswerColor
-                  : ""
-              }
-              _hover={"none"}
-              border="solid 1px"
-              borderColor={
-                index === selectedProblem - 1
-                  ? problemVerdicts[index] === "AC"
+  const selectedReplaceColor = useColorModeValue("red.500", "red.300");
+  const numberColor = useColorModeValue("grey.900", "offWhite");
+
+  const [replacing, setReplacing] = useState(false);
+
+  const handleReplace = (e) => {
+    e.preventDefault();
+    setReplacing(true);
+    setProblems([]);
+    socket.emit("regenerate-problems", { roomId: id, problemIndices: selectedReplaceProblemIndices });
+  }
+
+  useEffect(() => {
+    const getProblems = async () => {
+      let duel = await Database.getDuelById(id);
+      setProblems(duel.problems);
+    };
+    socket.on("replace-problem-received", ({ roomId, uid, updatedIndices }) => {
+      handleUID();
+      let localUid = localStorage.getItem("uid");
+      if (roomId === id && uid !== localUid) {
+        setSelectedReplaceProblemIndices(updatedIndices);
+      }
+    });
+    socket.on("regenerate-problems-received", ({ roomId }) => {
+      if (roomId === id) {
+        setReplacing(true);
+        setProblems([]);
+      }
+    });
+    socket.on("regenerate-problems-completed", ({ roomId }) => {
+      if (roomId === id) {
+        setReplacing(false);
+        setSelectedReplaceProblemIndices([]);
+        getProblems();
+      }
+    });
+    return () => {
+      socket.off("replace-problem-received");
+      socket.off("regenerate-probilems-received");
+      socket.off("regenerate-problems-completed");
+    };
+  }, []);
+
+  if (duelStatus === "INITIALIZED") {
+    return (
+      <Box>
+        <Text fontSize="1.2rem" mb="1em">
+          Already seen some of these problems? Select the ones you'd like to
+          drop from the problem set, hit the refresh button, and we'll replace
+          them with new ones.
+          <br />
+          Ready up when you're satisfied.
+        </Text>
+        <Flex mb="1em" gap={1} justify="center" height="fit-content">
+          <ButtonGroup>
+            {problems.map((problem, index) => (
+              <Button
+                width="3.5em"
+                height="3.5em"
+                color={
+                  selectedReplaceProblemIndices.includes(index)
+                    ? selectedReplaceColor
+                    : numberColor
+                }
+                border="solid 2px"
+                borderColor={
+                  selectedReplaceProblemIndices.includes(index)
+                    ? selectedReplaceColor
+                    : "grey.100"
+                }
+                onClick={() => {
+                  let updatedIndices;
+                  if (selectedReplaceProblemIndices.includes(index)) {
+                    updatedIndices = [];
+                    for (
+                      let i = 0;
+                      i < selectedReplaceProblemIndices.length;
+                      i++
+                    ) {
+                      if (selectedReplaceProblemIndices[i] !== index)
+                        updatedIndices.push(selectedReplaceProblemIndices[i]);
+                    }
+                  } else {
+                    updatedIndices = [...selectedReplaceProblemIndices, index];
+                  }
+                  setSelectedReplaceProblemIndices(updatedIndices);
+                  handleUID();
+                  let uid = localStorage.getItem("uid");
+                  socket.emit("replace-problem-selected", {
+                    roomId: id,
+                    uid: uid,
+                    updatedIndices: updatedIndices,
+                  });
+                }}
+                variant="outline"
+                disabled={replacing}
+              >
+                {index + 1}
+              </Button>
+            ))}
+          </ButtonGroup>
+          <Box ml="1em">
+            <IconButton
+              boxSize="3.5em"
+              icon={<RepeatIcon />}
+              variant="solid"
+              colorScheme="primary"
+              isLoading={replacing}
+              onClick={handleReplace}
+              disabled={selectedReplaceProblemIndices.length === 0 || replacing}
+            />
+          </Box>
+        </Flex>
+        <Accordion
+          onChange={(index) => {
+            setSelectedProblem(index + 1);
+          }}
+          allowToggle
+          boxShadow="2xl"
+        >
+          {console.count("Initialized Accordion Container")}
+          {problems.map((problem, index) => (
+            <AccordionItem key={problem._id} border="none">
+              <h2>
+                <AccordionButton
+                  height="3.5em"
+                  bg={index === selectedProblem - 1 ? selectedRowColor : ""}
+                  _hover={"none"}
+                  border="solid 1px"
+                >
+                  <Box flex="2" textAlign="left">
+                    {index + 1}. <b>{problem.name}</b>
+                  </Box>
+                  <Box flex="1" textAlign="center">
+                    <b>Rated:</b> {problem.rating}, <b>Points:</b>{" "}
+                    {problem.duelPoints}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel border="solid 1px" borderTop={"none"}>
+                <Box
+                  className="problem-statement"
+                  fontSize="0.95rem"
+                  mb="-1.5em"
+                >
+                  {problem.content.statement
+                    ? parse(problem.content.statement)
+                    : ""}
+                </Box>
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Box>
+    );
+  } else {
+    return problems?.length ? (
+      <Accordion
+        onChange={(index) => {
+          setSelectedProblem(index + 1);
+        }}
+        allowToggle
+        boxShadow="2xl"
+      >
+        {console.count("Ongoing Accordion Container")}
+        {problems.map((problem, index) => (
+          <AccordionItem key={problem._id} border="none">
+            <h2>
+              <AccordionButton
+                height="3.5em"
+                bg={
+                  index === selectedProblem - 1
+                    ? problemVerdicts[index] === "AC"
+                      ? rightAnswerSelectedColor
+                      : problemVerdicts[index] === "WA"
+                      ? wrongAnswerSelectedColor
+                      : selectedRowColor
+                    : problemVerdicts[index] === "AC"
                     ? rightAnswerColor
                     : problemVerdicts[index] === "WA"
                     ? wrongAnswerColor
                     : ""
+                }
+                _hover={"none"}
+                border="solid 1px"
+                borderColor={
+                  index === selectedProblem - 1
+                    ? problemVerdicts[index] === "AC"
+                      ? rightAnswerColor
+                      : problemVerdicts[index] === "WA"
+                      ? wrongAnswerColor
+                      : ""
+                    : ""
+                }
+              >
+                <Box flex="2" textAlign="left">
+                  {index + 1}. <b>{problem.name}</b>
+                </Box>
+                <Box flex="1" textAlign="center">
+                  <b>Rated:</b> {problem.rating}, <b>Points:</b>{" "}
+                  {problem.duelPoints}
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              p={4}
+              border="solid 1px"
+              borderTop={"none"}
+              borderColor={
+                problemVerdicts[index] === "AC"
+                  ? rightAnswerSelectedColor
+                  : problemVerdicts[index] === "WA"
+                  ? wrongAnswerSelectedColor
                   : ""
               }
             >
-              <Box flex="2" textAlign="left">
-                {index + 1}. <b>{problem.name}</b>
+              {problem.content.constraints ? (
+                <Flex justify="space-between">
+                  {parse(problem.content.constraints)}
+                </Flex>
+              ) : (
+                ""
+              )}
+              <Box mt={2} className="problem-statement" fontSize="0.95rem">
+                <Text fontWeight="bold" fontSize="1.2rem">
+                  Problem Statement
+                </Text>
+                {problem.content.statement
+                  ? parse(problem.content.statement)
+                  : ""}
               </Box>
-              <Box flex="1" textAlign="center">
-                <b>Rated:</b> {problem.rating}, <b>Points:</b>{" "}
-                {problem.duelPoints}
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            p={4}
-            border="solid 1px"
-            borderTop={"none"}
-            borderColor={
-              problemVerdicts[index] === "AC"
-                ? rightAnswerSelectedColor
-                : problemVerdicts[index] === "WA"
-                ? wrongAnswerSelectedColor
-                : ""
-            }
-          >
-            {problem.content.constraints ? (
-              <Flex justify="space-between">
-                {parse(problem.content.constraints)}
-              </Flex>
-            ) : (
-              ""
-            )}
-            <Box mt={2} className="problem-statement" fontSize="0.95rem">
-              <Text fontWeight="bold" fontSize="1.2rem">
-                Problem Statement
-              </Text>
-              {problem.content.statement
-                ? parse(problem.content.statement)
-                : ""}
-            </Box>
-            <Box
-              mt={2}
-              className="problem-input-specifications"
-              fontSize="0.95rem"
-            >
-              <Text fontWeight="bold" fontSize="1.2rem">
-                Input
-              </Text>
-              {problem.content.input ? parse(problem.content.input) : ""}
-            </Box>
-            <Box
-              mt={2}
-              className="problem-output-specifications"
-              fontSize="0.95rem"
-            >
-              <Text fontWeight="bold" fontSize="1.2rem">
-                Output
-              </Text>
-              {problem.content.output ? parse(problem.content.output) : ""}
-            </Box>
-            <Box
-              mt={2}
-              className="problem-sample-test-cases"
-              fontSize="0.95rem"
-              sx={{
-                " && .test-example-line.test-example-line-odd": {
-                  backgroundColor: sampleTestLineColor,
-                },
-                " && .sample-test, .sample-test .title, .sample-test .input, .sample-test .output":
-                  {
-                    borderColor: defaultBorderColor,
-                  },
-              }}
-            >
-              {problem.content.testCases
-                ? parse(problem.content.testCases)
-                : ""}
-            </Box>
-            <Box mt={2} className="problem-note" fontSize="0.95rem">
-              {problem.content.note ? parse(problem.content.note) : ""}
-            </Box>
-            <Center pt={3}>
-              <Button
-                onClick={onOpen}
-                size="md"
-                fontSize="lg"
-                variant="solid"
-                colorScheme="primary"
-                isDisabled={duelStatus !== "ONGOING"}
+              <Box
+                mt={2}
+                className="problem-input-specifications"
+                fontSize="0.95rem"
               >
-                Submit Your Answer
-              </Button>
-            </Center>
-          </AccordionPanel>
-        </AccordionItem>
-      ))}
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        size="2xl"
-        motionPreset="slideInBottom"
-      >
-        <ModalOverlay />
-        <ModalContent top="0">
-          <ModalHeader pb={0}>Submit Your Answer</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody width="675px" pb={3}>
-            <SubmitCodeEditor
-              key="floating-editor"
-              duelStatus={duelStatus}
-              duelPlatform={duelPlatform}
-              editorId="floating-editor"
-              isPopup={true}
-              problemChosen={selectedProblem}
-              numProblems={problems.length}
-              duelId={id}
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </Accordion>
-  ) : (
-    <p>Problems will be generated when the duel starts.</p>
-  );
+                <Text fontWeight="bold" fontSize="1.2rem">
+                  Input
+                </Text>
+                {problem.content.input ? parse(problem.content.input) : ""}
+              </Box>
+              <Box
+                mt={2}
+                className="problem-output-specifications"
+                fontSize="0.95rem"
+              >
+                <Text fontWeight="bold" fontSize="1.2rem">
+                  Output
+                </Text>
+                {problem.content.output ? parse(problem.content.output) : ""}
+              </Box>
+              <Box
+                mt={2}
+                className="problem-sample-test-cases"
+                fontSize="0.95rem"
+                sx={{
+                  " && .test-example-line.test-example-line-odd": {
+                    backgroundColor: sampleTestLineColor,
+                  },
+                  " && .sample-test, .sample-test .title, .sample-test .input, .sample-test .output":
+                    {
+                      borderColor: defaultBorderColor,
+                    },
+                }}
+              >
+                {problem.content.testCases
+                  ? parse(problem.content.testCases)
+                  : ""}
+              </Box>
+              <Box mt={2} className="problem-note" fontSize="0.95rem">
+                {problem.content.note ? parse(problem.content.note) : ""}
+              </Box>
+              <Center pt={3}>
+                <Button
+                  onClick={onOpen}
+                  size="md"
+                  fontSize="lg"
+                  variant="solid"
+                  colorScheme="primary"
+                  isDisabled={duelStatus !== "ONGOING"}
+                >
+                  Submit Your Answer
+                </Button>
+              </Center>
+            </AccordionPanel>
+          </AccordionItem>
+        ))}
+        <Modal
+          isOpen={isOpen}
+          onClose={onClose}
+          size="2xl"
+          motionPreset="slideInBottom"
+        >
+          <ModalOverlay />
+          <ModalContent top="0">
+            <ModalHeader pb={0}>Submit Your Answer</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody width="675px" pb={3}>
+              <SubmitCodeEditor
+                key="floating-editor"
+                duelStatus={duelStatus}
+                duelPlatform={duelPlatform}
+                editorId="floating-editor"
+                isPopup={true}
+                problemChosen={selectedProblem}
+                numProblems={problems.length}
+                duelId={id}
+              />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </Accordion>
+    ) : (
+      <p>
+        Problems will be generated when the duel is initialized (i.e. when
+        someone joins).
+      </p>
+    );
+  }
 };
 
 export default AccordionContainer;
