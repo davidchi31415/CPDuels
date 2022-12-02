@@ -239,6 +239,7 @@ const AccordionContainer = ({
                           mb="-1.5em"
                         >
                           <div
+                            className={(index === problems.length - 1) ? "MathJaxEnd" : ""}
                             dangerouslySetInnerHTML={{
                               __html: problem.content?.statement,
                             }}
