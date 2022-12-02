@@ -74,7 +74,7 @@ const AccordionContainer = ({
   }, [refresh, playerNum, id]);
 
   useEffect(() => {
-    if (!mathJaxRendered && document.querySelector("MathJaxEnd")) {
+    if (!mathJaxRendered && document.querySelector(".MathJaxEnd")) {
       onMathJaxRendered();
     }
   });
