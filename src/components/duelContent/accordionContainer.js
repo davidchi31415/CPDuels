@@ -126,125 +126,129 @@ const AccordionContainer = ({
     if (playerNum)
       return (
         <MathJax>
-        <Box>
-          <Text fontSize="1.2rem" mb="1em">
-            Already seen some of these problems? Select the ones you'd like to
-            drop from the problem set, hit the refresh button, and we'll replace
-            them with new ones.
-            <br />
-            Ready up when you're satisfied.
-          </Text>
-          <Flex mb="1em" gap={1} justify="center" height="fit-content">
-            <ButtonGroup>
-              {problems.map((problem, index) => (
-                <Button
-                  width="3.5em"
-                  height="3.5em"
-                  color={
-                    selectedReplaceProblemIndices.includes(index)
-                      ? selectedReplaceColor
-                      : numberColor
-                  }
-                  border="solid 2px"
-                  borderColor={
-                    selectedReplaceProblemIndices.includes(index)
-                      ? selectedReplaceColor
-                      : "grey.100"
-                  }
-                  onClick={() => {
-                    let updatedIndices;
-                    if (selectedReplaceProblemIndices.includes(index)) {
-                      updatedIndices = [];
-                      for (
-                        let i = 0;
-                        i < selectedReplaceProblemIndices.length;
-                        i++
-                      ) {
-                        if (selectedReplaceProblemIndices[i] !== index)
-                          updatedIndices.push(selectedReplaceProblemIndices[i]);
-                      }
-                    } else {
-                      updatedIndices = [
-                        ...selectedReplaceProblemIndices,
-                        index,
-                      ];
+          <Box>
+            <Text fontSize="1.2rem" mb="1em">
+              Already seen some of these problems? Select the ones you'd like to
+              drop from the problem set, hit the refresh button, and we'll
+              replace them with new ones.
+              <br />
+              Ready up when you're satisfied.
+            </Text>
+            <Flex mb="1em" gap={1} justify="center" height="fit-content">
+              <ButtonGroup>
+                {problems.map((problem, index) => (
+                  <Button
+                    width="3.5em"
+                    height="3.5em"
+                    color={
+                      selectedReplaceProblemIndices.includes(index)
+                        ? selectedReplaceColor
+                        : numberColor
                     }
-                    setSelectedReplaceProblemIndices(updatedIndices);
-                    handleUID();
-                    let uid = localStorage.getItem("uid");
-                    socket.emit("replace-problem-selected", {
-                      roomId: id,
-                      uid: uid,
-                      updatedIndices: updatedIndices,
-                    });
-                  }}
-                  variant="outline"
-                  disabled={replacing}
-                >
-                  {index + 1}
-                </Button>
-              ))}
-            </ButtonGroup>
-            <Box ml="1em">
-              <IconButton
-                boxSize="3.5em"
-                icon={<RepeatIcon />}
-                variant="solid"
-                colorScheme="primary"
-                isLoading={replacing}
-                onClick={handleReplace}
-                disabled={
-                  selectedReplaceProblemIndices.length === 0 || replacing
-                }
-              />
-            </Box>
-          </Flex>
-          <Accordion
-            onChange={(index) => {
-              setSelectedProblem(index + 1);
-            }}
-            allowToggle
-            boxShadow="2xl"
-          >
-            {console.count("Initialized Accordion Container")}
-            {problems?.length
-              ? problems.map((problem, index) => (
-                  <AccordionItem key={problem?._id} border="none">
-                    <h2>
-                      <AccordionButton
-                        height="3.5em"
-                        bg={
-                          index === selectedProblem - 1 ? selectedRowColor : ""
+                    border="solid 2px"
+                    borderColor={
+                      selectedReplaceProblemIndices.includes(index)
+                        ? selectedReplaceColor
+                        : "grey.100"
+                    }
+                    onClick={() => {
+                      let updatedIndices;
+                      if (selectedReplaceProblemIndices.includes(index)) {
+                        updatedIndices = [];
+                        for (
+                          let i = 0;
+                          i < selectedReplaceProblemIndices.length;
+                          i++
+                        ) {
+                          if (selectedReplaceProblemIndices[i] !== index)
+                            updatedIndices.push(
+                              selectedReplaceProblemIndices[i]
+                            );
                         }
-                        _hover={"none"}
-                        border="solid 1px"
-                      >
-                        <Box flex="2" textAlign="left">
-                          {index + 1}. <b>{problem?.name}</b>
+                      } else {
+                        updatedIndices = [
+                          ...selectedReplaceProblemIndices,
+                          index,
+                        ];
+                      }
+                      setSelectedReplaceProblemIndices(updatedIndices);
+                      handleUID();
+                      let uid = localStorage.getItem("uid");
+                      socket.emit("replace-problem-selected", {
+                        roomId: id,
+                        uid: uid,
+                        updatedIndices: updatedIndices,
+                      });
+                    }}
+                    variant="outline"
+                    disabled={replacing}
+                  >
+                    {index + 1}
+                  </Button>
+                ))}
+              </ButtonGroup>
+              <Box ml="1em">
+                <IconButton
+                  boxSize="3.5em"
+                  icon={<RepeatIcon />}
+                  variant="solid"
+                  colorScheme="primary"
+                  isLoading={replacing}
+                  onClick={handleReplace}
+                  disabled={
+                    selectedReplaceProblemIndices.length === 0 || replacing
+                  }
+                />
+              </Box>
+            </Flex>
+            <Accordion
+              onChange={(index) => {
+                setSelectedProblem(index + 1);
+              }}
+              allowToggle
+              boxShadow="2xl"
+            >
+              {console.count("Initialized Accordion Container")}
+              {problems?.length
+                ? problems.map((problem, index) => (
+                    <AccordionItem key={problem?._id} border="none">
+                      <h2>
+                        <AccordionButton
+                          height="3.5em"
+                          bg={
+                            index === selectedProblem - 1
+                              ? selectedRowColor
+                              : ""
+                          }
+                          _hover={"none"}
+                          border="solid 1px"
+                        >
+                          <Box flex="2" textAlign="left">
+                            {index + 1}. <b>{problem?.name}</b>
+                          </Box>
+                          <Box flex="1" textAlign="center">
+                            <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
+                            {problem.duelPoints}
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel border="solid 1px" borderTop={"none"}>
+                        <Box
+                          className="problem-statement"
+                          fontSize="0.95rem"
+                          mb="-1.5em"
+                        >
+                          <div
+                            dangerouslySetInnerHTML={{ __html: problem.content?.statement }}
+                          ></div>
                         </Box>
-                        <Box flex="1" textAlign="center">
-                          <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
-                          {problem.duelPoints}
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel border="solid 1px" borderTop={"none"}>
-                      <Box
-                        className="problem-statement"
-                        fontSize="0.95rem"
-                        mb="-1.5em"
-                      >
-                        {problem.content?.statement
-                          ? parse(problem.content.statement)
-                          : ""}
-                      </Box>
-                    </AccordionPanel>
-                  </AccordionItem>
-                ))
-              : ""}
-          </Accordion>
-        </Box>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  ))
+                : ""}
+            </Accordion>
+          </Box>
         </MathJax>
       );
     else
