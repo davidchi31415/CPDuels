@@ -168,12 +168,10 @@ const DuelPage = () => {
   }, [duelStatus]);
 
   return (
-    <BaseLayout
-      content={
-        <MathJax>
+    <MathJax>
+      <BaseLayout
+        content={
           <Box>
-            {console.count("counter")}
-
             {loading ? (
               <Flex
                 position="absolute"
@@ -269,9 +267,9 @@ const DuelPage = () => {
               </ModalContent>
             </Modal>
           </Box>
-        </MathJax>
-      }
-    />
+        }
+      />
+    </MathJax>
   );
 };
 
