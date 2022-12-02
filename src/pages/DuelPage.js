@@ -168,7 +168,7 @@ const DuelPage = () => {
   }, [duelStatus]);
 
   return (
-    <MathJax>
+    <MathJax dynamic={true}>
       <BaseLayout
         content={
           <Box>
