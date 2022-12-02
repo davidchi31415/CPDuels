@@ -1,18 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
-import theme from './theme';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { MathJaxContext } from 'better-react-mathjax';
-import '@fontsource/rubik';
-import '@fontsource/rubik/800.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import theme from "./theme";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { MathJaxContext } from "better-react-mathjax";
+import "@fontsource/rubik";
+import "@fontsource/rubik/800.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider theme={theme} resetCSS={true}>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-    <MathJaxContext src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-svg.js"><App /></MathJaxContext>
+    <MathJaxContext src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-mml-chtml.js">
+      <App />
+    </MathJaxContext>
   </ChakraProvider>
 );
 
