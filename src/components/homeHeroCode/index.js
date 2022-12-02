@@ -56,7 +56,7 @@ const HomeHeroCode = () => {
           return;
         }
         if (currentLine === -1) {
-          await sleep(1000);
+          await sleep(200);
           setDoneLoading(true);
         } else {
           await sleep(200);
