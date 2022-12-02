@@ -26,7 +26,6 @@ import {
 import SubmitCodeEditor from "../submitCodeEditor";
 import socket from "../../socket";
 import Database, { handleUID } from "../../data";
-import parse from "html-react-parser";
 import "./cfStyles.css";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { MathJax } from "better-react-mathjax";
@@ -240,7 +239,9 @@ const AccordionContainer = ({
                           mb="-1.5em"
                         >
                           <div
-                            dangerouslySetInnerHTML={{ __html: problem.content?.statement }}
+                            dangerouslySetInnerHTML={{
+                              __html: problem.content?.statement,
+                            }}
                           ></div>
                         </Box>
                       </AccordionPanel>
@@ -329,9 +330,11 @@ const AccordionContainer = ({
               }
             >
               {problem?.content?.constraints ? (
-                <Flex justify="space-between">
-                  {parse(problem.content.constraints)}
-                </Flex>
+                <Flex
+                  dangerouslySetInnerHTML={{
+                    __html: problem.content?.constraints,
+                  }}
+                ></Flex>
               ) : (
                 ""
               )}
@@ -339,9 +342,15 @@ const AccordionContainer = ({
                 <Text fontWeight="bold" fontSize="1.2rem">
                   Problem Statement
                 </Text>
-                {problem?.content?.statement
-                  ? parse(problem.content.statement)
-                  : ""}
+                {problem?.content?.statement ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: problem.content?.statement,
+                    }}
+                  ></div>
+                ) : (
+                  ""
+                )}
               </Box>
               <Box
                 mt={2}
@@ -351,7 +360,15 @@ const AccordionContainer = ({
                 <Text fontWeight="bold" fontSize="1.2rem">
                   Input
                 </Text>
-                {problem?.content?.input ? parse(problem.content.input) : ""}
+                {problem?.content?.input ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: problem.content?.input,
+                    }}
+                  ></div>
+                ) : (
+                  ""
+                )}
               </Box>
               <Box
                 mt={2}
@@ -361,7 +378,15 @@ const AccordionContainer = ({
                 <Text fontWeight="bold" fontSize="1.2rem">
                   Output
                 </Text>
-                {problem?.content?.output ? parse(problem.content.output) : ""}
+                {problem?.content?.output ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: problem.content?.output,
+                    }}
+                  ></div>
+                ) : (
+                  ""
+                )}
               </Box>
               <Box
                 mt={2}
@@ -377,12 +402,26 @@ const AccordionContainer = ({
                     },
                 }}
               >
-                {problem?.content?.testCases
-                  ? parse(problem.content.testCases)
-                  : ""}
+                {problem?.content?.testCases ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: problem.content?.testCases,
+                    }}
+                  ></div>
+                ) : (
+                  ""
+                )}
               </Box>
               <Box mt={2} className="problem-note" fontSize="0.95rem">
-                {problem?.content?.note ? parse(problem.content.note) : ""}
+                {problem?.content?.note ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: problem.content?.note,
+                    }}
+                  ></div>
+                ) : (
+                  ""
+                )}
               </Box>
               <Center pt={3}>
                 <Button
