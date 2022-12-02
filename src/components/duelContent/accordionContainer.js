@@ -74,7 +74,7 @@ const AccordionContainer = ({
   }, [refresh, playerNum, id]);
 
   useEffect(() => {
-    if (!mathJaxRendered && document.querySelector(".problem-statement")) {
+    if (!mathJaxRendered && document.querySelector("MathJaxEnd")) {
       onMathJaxRendered();
     }
   });
@@ -344,6 +344,7 @@ const AccordionContainer = ({
                 </Text>
                 {problem?.content?.statement ? (
                   <div
+                    className={(index === problems.length-1) ? "MathJaxEnd" : ""}
                     dangerouslySetInnerHTML={{
                       __html: problem.content?.statement,
                     }}
