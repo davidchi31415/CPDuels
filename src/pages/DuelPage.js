@@ -168,109 +168,108 @@ const DuelPage = () => {
   }, [duelStatus]);
 
   return (
-    <MathJax>
-      {console.count("counter")}
-      <BaseLayout
-        content={
-          <Box>
-            {loading ? (
-              <Flex
-                position="absolute"
-                top={0}
-                left={0}
-                justify="center"
-                width="100%"
-                height="100%"
-                textAlign="center"
-                background="rgb(0, 0, 0, 0.6)"
-                zIndex={10}
-              >
-                <Spinner
-                  thickness="4px"
-                  speed="0.65s"
-                  mt="50vh"
-                  emptyColor="grey.300"
-                  color="#43ff43"
-                  size="xl"
-                />
-              </Flex>
-            ) : (
-              ""
-            )}
+    <BaseLayout
+      content={
+        <Box>
+          {console.count("counter")}
+
+          {loading ? (
             <Flex
-              justify="space-between"
-              align="flex-start"
-              transform={[null, null, "scale(0.65)", "scale(0.85)", "none"]}
-              ml={[null, null, "-8.5em", "-3.5em", 0]}
-              mt={[null, null, "-8.25em", "-3.25em", 0]}
-              gap={[null, null, 2, null, null]}
+              position="absolute"
+              top={0}
+              left={0}
+              justify="center"
+              width="100%"
+              height="100%"
+              textAlign="center"
+              background="rgb(0, 0, 0, 0.6)"
+              zIndex={10}
             >
-              <TabContainer
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                mt="50vh"
+                emptyColor="grey.300"
+                color="#43ff43"
+                size="xl"
+              />
+            </Flex>
+          ) : (
+            ""
+          )}
+          <Flex
+            justify="space-between"
+            align="flex-start"
+            transform={[null, null, "scale(0.65)", "scale(0.85)", "none"]}
+            ml={[null, null, "-8.5em", "-3.5em", 0]}
+            mt={[null, null, "-8.25em", "-3.25em", 0]}
+            gap={[null, null, 2, null, null]}
+          >
+            <TabContainer
+              id={id}
+              duelPlatform={duelPlatform}
+              duelStatus={duelStatus}
+              players={players}
+              playerNum={playerNum}
+              problemsRefresh={problemsRefresh}
+              onProblemsRefresh={() => setProblemsRefresh(false)}
+              submissionsRefresh={submissionsRefresh}
+              onSubmissionsRefresh={() => setSubmissionsRefresh(false)}
+              submissionsToast={submissionsToast}
+              onSubmissionsToast={() => setSubmissionsToast(false)}
+              mathJaxRendered={mathJaxRendered}
+              onMathJaxRendered={() => setMathJaxRendered(true)}
+              replacingProblems={replacingProblems}
+              setReplacingProblems={setReplacingProblems}
+            />
+            <VStack spacing={2}>
+              <TimeAndJoinDisplay
                 id={id}
-                duelPlatform={duelPlatform}
                 duelStatus={duelStatus}
                 players={players}
                 playerNum={playerNum}
-                problemsRefresh={problemsRefresh}
-                onProblemsRefresh={() => setProblemsRefresh(false)}
-                submissionsRefresh={submissionsRefresh}
-                onSubmissionsRefresh={() => setSubmissionsRefresh(false)}
-                submissionsToast={submissionsToast}
-                onSubmissionsToast={() => setSubmissionsToast(false)}
-                mathJaxRendered={mathJaxRendered}
-                onMathJaxRendered={() => setMathJaxRendered(true)}
-                replacingProblems={replacingProblems}
-                setReplacingProblems={setReplacingProblems}
+                replacing={replacingProblems}
               />
-              <VStack spacing={2}>
-                <TimeAndJoinDisplay
+              {playerNum &&
+              duelStatus !== "FINISHED" &&
+              duelStatus !== "ABORTED" ? (
+                <AbortAndResignDisplay
                   id={id}
                   duelStatus={duelStatus}
                   players={players}
                   playerNum={playerNum}
-                  replacing={replacingProblems}
                 />
-                {playerNum &&
-                duelStatus !== "FINISHED" &&
-                duelStatus !== "ABORTED" ? (
-                  <AbortAndResignDisplay
-                    id={id}
-                    duelStatus={duelStatus}
-                    players={players}
-                    playerNum={playerNum}
-                  />
-                ) : (
-                  ""
-                )}
-                <ScoreDisplay
-                  id={id}
-                  duelStatus={duelStatus}
-                  players={players}
-                  playerNum={playerNum}
-                  refresh={scoresRefresh}
-                  onRefresh={() => setScoresRefresh(false)}
-                />
-              </VStack>
-            </Flex>
-            <Modal isOpen={isOpen} onClose={onClose} size="sm">
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader>Duel Is Over</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                  <p>You can view the results now.</p>
-                </ModalBody>
-                <ModalFooter justifyContent="center">
-                  <Button colorScheme="primary" mr={3} onClick={onClose}>
-                    Ok
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
-          </Box>
-        }
-      />
-    </MathJax>
+              ) : (
+                ""
+              )}
+              <ScoreDisplay
+                id={id}
+                duelStatus={duelStatus}
+                players={players}
+                playerNum={playerNum}
+                refresh={scoresRefresh}
+                onRefresh={() => setScoresRefresh(false)}
+              />
+            </VStack>
+          </Flex>
+          <Modal isOpen={isOpen} onClose={onClose} size="sm">
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Duel Is Over</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <p>You can view the results now.</p>
+              </ModalBody>
+              <ModalFooter justifyContent="center">
+                <Button colorScheme="primary" mr={3} onClick={onClose}>
+                  Ok
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Box>
+      }
+    />
   );
 };
 

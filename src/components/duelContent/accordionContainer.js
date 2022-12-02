@@ -29,6 +29,7 @@ import Database, { handleUID } from "../../data";
 import parse from "html-react-parser";
 import "./cfStyles.css";
 import { RepeatIcon } from "@chakra-ui/icons";
+import { MathJax } from "better-react-mathjax";
 
 const AccordionContainer = ({
   id,
@@ -124,6 +125,7 @@ const AccordionContainer = ({
   if (duelStatus === "INITIALIZED") {
     if (playerNum)
       return (
+        <MathJax>
         <Box>
           <Text fontSize="1.2rem" mb="1em">
             Already seen some of these problems? Select the ones you'd like to
@@ -243,6 +245,7 @@ const AccordionContainer = ({
               : ""}
           </Accordion>
         </Box>
+        </MathJax>
       );
     else
       return (
