@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, Center } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
-import Error404HeroCode from "../components/error404HeroCode";
+import Error404HeroCode from "../components/404Content/error404HeroCode";
 
 const Error404Page = () => {
   return (

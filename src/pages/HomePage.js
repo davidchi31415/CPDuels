@@ -15,10 +15,10 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
-import HomeHeroCode from "../components/homeHeroCode";
-import HomeInfoOne from "../components/homeInfoOne";
-import HomeInfoTwo from "../components/homeInfoTwo";
-import HomeInfoThree from "../components/homeInfoThree";
+import HomeHeroCode from "../components/homeContent/homeHeroCode";
+import HomeInfoOne from "../components/homeContent/homeInfoOne";
+import HomeInfoTwo from "../components/homeContent/homeInfoTwo";
+import HomeInfoThree from "../components/homeContent/homeInfoThree";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {

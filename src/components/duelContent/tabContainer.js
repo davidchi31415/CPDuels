@@ -13,11 +13,11 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 import AccordionContainer from "./accordionContainer";
-import SubmitCodeEditor from "../submitCodeEditor";
+import SubmitCodeEditor from "./submitCodeEditor";
 import Database from "../../data";
 import socket from "../../socket";
-import SubmissionsTable from "../submissionsTable";
-import ChatBox from "../chatBox";
+import SubmissionsTable from "./submissionsTable";
+import ChatBox from "./chatBox";
 
 const TabContainer = ({
   id,

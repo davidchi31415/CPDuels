@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
-import ContactCard from "../components/contactCard";
-import ContactForm from "../components/contactForm";
-import BuyUsACoffee from "../components/buyUsACoffee";
+import ContactCard from "../components/contactContent/contactCard";
+import ContactForm from "../components/contactContent/contactForm";
+import BuyUsACoffee from "../components/contactContent/buyUsACoffee";
 import handleViewport from "react-in-viewport";
 import DavidSelfie from "../images/CPDuels_Contact_David.jpg";
 import JeffreySelfie from "../images/CPDuels_Contact_Jeffrey.jpg";
@@ -56,8 +56,11 @@ const ContactPage = () => {
             <AnimatedContactCard info={infoDavid} />
             <AnimatedContactCard info={infoJeffrey} />
           </Flex>
-          <Box transform={[null, null, "scale(1.2)"]} my={[null, null, "1.5em"]}>
-          <ContactForm />
+          <Box
+            transform={[null, null, "scale(1.2)"]}
+            my={[null, null, "1.5em"]}
+          >
+            <ContactForm />
           </Box>
           <Text
             textStyle="display2"
@@ -69,7 +72,7 @@ const ContactPage = () => {
           >
             Support Us
           </Text>
-          <Box mt={[3, 5]} mb={12} transform={['scale(1.2)', 'scale(1.5)']}>
+          <Box mt={[3, 5]} mb={12} transform={["scale(1.2)", "scale(1.5)"]}>
             <BuyUsACoffee />
           </Box>
         </Flex>

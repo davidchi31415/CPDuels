@@ -23,7 +23,7 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-import SubmitCodeEditor from "../submitCodeEditor";
+import SubmitCodeEditor from "./submitCodeEditor";
 import socket from "../../socket";
 import Database, { handleUID } from "../../data";
 import "./cfStyles.css";

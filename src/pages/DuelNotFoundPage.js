@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, Center } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
-import DuelNotFoundHeroCode from "../components/duelNotFoundHeroCode";
+import DuelNotFoundHeroCode from "../components/404Content/duelNotFoundHeroCode";
 
 const DuelNotFoundPage = () => {
   return (

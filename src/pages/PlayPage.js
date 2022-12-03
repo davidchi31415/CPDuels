@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import BaseLayout from "../components/baseLayout";
-import WaitingDuelsTable from "../components/waitingDuelsTable";
-import CreateDuelForm from "../components/createDuelForm";
 import {
   Flex,
   Tabs,
@@ -16,9 +13,13 @@ import {
   AlertTitle,
   AlertDescription,
   Button,
+  Center,
 } from "@chakra-ui/react";
-import OngoingDuelsTable from "../components/ongoingDuelsTable";
-import FinishedDuelsTable from "../components/finishedDuelsTable";
+import BaseLayout from "../components/baseLayout";
+import CreateDuelForm from "../components/playContent/createDuelForm";
+import WaitingDuelsTable from "../components/playContent/waitingDuelsTable";
+import OngoingDuelsTable from "../components/playContent/ongoingDuelsTable";
+import FinishedDuelsTable from "../components/playContent/finishedDuelsTable";
 import Database, { handleUID } from "../data";
 import { useNavigate } from "react-router-dom";
 
@@ -33,13 +34,16 @@ const TabContainer = () => {
     <Tabs
       variant="line"
       borderColor={borderColor}
-      width="47em"
+      width="41em"
       index={index}
       onChange={(index) => setIndex(index)}
       colorScheme="primary"
     >
       <TabList>
         <Flex width="100%">
+          <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
+            Available Duels
+          </Tab>
           <Tab borderColor={borderColor} fontSize="1.2rem" flex="1">
             Ongoing Duels
           </Tab>
@@ -50,11 +54,20 @@ const TabContainer = () => {
       </TabList>
 
       <TabPanels border="none">
-        <TabPanel px="auto" mt={2} transform={["scale(1.1)", "none"]}>
-          <OngoingDuelsTable />
+        <TabPanel mt={0} transform={["scale(1.1)", "none"]}>
+          <Center>
+            <WaitingDuelsTable />
+          </Center>
         </TabPanel>
-        <TabPanel px="auto" mt={2} transform={["scale(1.1)", "none"]}>
-          <FinishedDuelsTable />
+        <TabPanel mt={0} transform={["scale(1.1)", "none"]}>
+          <Center>
+            <OngoingDuelsTable />
+          </Center>
+        </TabPanel>
+        <TabPanel mt={0} transform={["scale(1.1)", "none"]}>
+          <Center>
+            <FinishedDuelsTable />
+          </Center>
         </TabPanel>
       </TabPanels>
     </Tabs>
@@ -69,7 +82,7 @@ const InADuelAlert = ({ duelLink }) => {
   return (
     <Alert
       width={["19em", "25em", "45em", "60em", "72em"]}
-      height={[null, null, "10vh", "12vh"]}
+      height={[null, null, "3em", "4em"]}
       status="warning"
       variant="left-accent"
       backgroundColor={backgroundColor}
@@ -80,7 +93,7 @@ const InADuelAlert = ({ duelLink }) => {
         variant="solid"
         colorScheme="primary"
         isLoading={navigating}
-        ml={0}
+        ml={5}
         transform={[null, "scale(0.9)", null, "none"]}
         onClick={() => {
           setNavigating(true);
@@ -140,7 +153,7 @@ const PlayPage = () => {
       content={
         <Flex
           justify="space-between"
-          gap={[0, null, null, null, 2]}
+          gap={[0, null, null, null, 0]}
           flexWrap="wrap"
         >
           {inADuel ? (
@@ -151,32 +164,24 @@ const PlayPage = () => {
             ""
           )}
           <Box
-            transform={[
-              "scale(0.5)",
-              "scale(0.6)",
-              "scale(0.65)",
-              "scale(0.85)",
-              "none",
-            ]}
-            ml={["-10.75em", "-6em", "-6em", "-2em", 0]}
-            mr={["-14em", "-14em", "-14em", "-5em", 0]}
-            my={["-9em", "-7em", "-7em", "-3em", 0]}
-          >
-            <WaitingDuelsTable />
-          </Box>
-          <Box
-            transform={["scale(0.65)", "scale(0.65)", "scale(0.6)", "scale(0.8)", "none"]}
-            mx={["-5.5em", "-0.7em", "-5em", "-2em", 0]}
-            my={["-5em", "-6em", "-8.5em", "-4em", 0]}
-          >
-            <CreateDuelForm />
-          </Box>
-          <Box
-            mx={["-14em", "-8.5em", "auto"]}
-            mt={["-12em", "-8em", "-5em", 0]} mb={["-8em", "-8em", "-4em", 0]}
-            transform={["scale(0.5)", "scale(0.6)", "scale(0.7)", "scale(0.9)", "none"]}
+          // transform={[
+          //   "scale(0.5)",
+          //   "scale(0.6)",
+          //   "scale(0.65)",
+          //   "scale(0.85)",
+          //   "none",
+          // ]}
+          // ml={["-10.75em", "-6em", "-6em", "-3em", 0]}
+          // my={["-9em", "-7em", "-7em", "-3em", 0]}
           >
             <TabContainer />
+          </Box>
+          <Box
+          // transform={["scale(0.65)", "scale(0.65)", "scale(0.6)", "scale(0.8)", "none"]}
+          // mx={["-5.5em", "-0.7em", "-5em", "-2em", 0]}
+          // my={["-5em", "-6em", "-8.5em", "-4em", 0]}
+          >
+            <CreateDuelForm />
           </Box>
         </Flex>
       }

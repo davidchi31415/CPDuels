@@ -16,14 +16,14 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
-import TimeAndJoinDisplay from "../components/timeAndJoinDisplay";
-import ScoreDisplay from "../components/scoreDisplay";
+import TimeAndJoinDisplay from "../components/duelContent/timeAndJoinDisplay";
+import ScoreDisplay from "../components/duelContent/scoreDisplay";
 import Database, { handleUID } from "../data";
 import socket from "../socket";
 import { useParams, useNavigate } from "react-router-dom";
 import TabContainer from "../components/duelContent/tabContainer.js";
 import { MathJax } from "better-react-mathjax";
-import AbortAndResignDisplay from "../components/abortAndResignDisplay";
+import AbortAndResignDisplay from "../components/duelContent/abortAndResignDisplay";
 
 const DuelPage = () => {
   const { id } = useParams();
