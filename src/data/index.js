@@ -164,3 +164,9 @@ export const handleUID = () => {
       localStorage.setItem('uid', uid);
   }
 }
+
+export const getUID = () => {
+  handleUID();
+  let uid = localStorage.getItem('uid');
+  return uid;
+}

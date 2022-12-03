@@ -20,7 +20,7 @@ import CreateDuelForm from "../components/playContent/createDuelForm";
 import WaitingDuelsTable from "../components/playContent/waitingDuelsTable";
 import OngoingDuelsTable from "../components/playContent/ongoingDuelsTable";
 import FinishedDuelsTable from "../components/playContent/finishedDuelsTable";
-import Database, { handleUID } from "../data";
+import Database, { getUID } from "../data";
 import { useNavigate } from "react-router-dom";
 
 const TabContainer = () => {
@@ -112,8 +112,7 @@ const PlayPage = () => {
 
   useEffect(() => {
     const checkIfInDuel = async () => {
-      handleUID();
-      let uid = localStorage.getItem("uid");
+      let uid = getUID();
       let duelsOngoing = await Database.getDuelsOngoing();
       let duelsWaiting = await Database.getDuelsWaiting();
       let duelsInitialized = await Database.getDuelsInitialized();

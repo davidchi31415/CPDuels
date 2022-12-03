@@ -16,8 +16,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import Database, { handleUID } from "../../../data";
-import socket from "../../../socket";
+import Database from "../../../data";
 
 const ScoreDisplay = ({
   id,

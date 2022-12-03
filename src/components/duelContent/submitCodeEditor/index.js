@@ -19,7 +19,7 @@ import { MdDelete } from "react-icons/md";
 import languages, { languages_to_codes } from "./languages";
 import Editor from "./editor";
 import socket from "../../../socket";
-import { handleUID } from "../../../data";
+import { getUID } from "../../../data";
 
 const SubmitCodeEditor = ({
   duelStatus,
@@ -98,8 +98,7 @@ const SubmitCodeEditor = ({
       }
     }
     setLastSubmissionTime(Date.now());
-    handleUID();
-    let uid = localStorage.getItem("uid");
+    let uid = getUID();
     if (fileContent.current) {
       socket.emit("submit-problem", {
         roomId: duelId,
@@ -135,8 +134,7 @@ const SubmitCodeEditor = ({
 
   useEffect(() => {
     socket.on("problem-submitted-success", ({ roomId, uid }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
+      let localUid = getUID();
       if (roomId === duelId && uid === localUid && submitting) {
         setSubmitting(false);
         makeToast({
@@ -150,8 +148,7 @@ const SubmitCodeEditor = ({
     });
 
     socket.on("problem-submitted-error", ({ roomId, uid, message }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
+      let localUid = getUID();
       if (roomId === duelId && uid === localUid && submitting) {
         setSubmitting(false);
         makeToast({

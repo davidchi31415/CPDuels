@@ -25,7 +25,7 @@ import {
   Checkbox,
   Textarea,
 } from "@chakra-ui/react";
-import Database, { handleUID } from "../../../data";
+import Database, { getUID } from "../../../data";
 
 const ContactForm = () => {
   const [name, setName] = useState("");

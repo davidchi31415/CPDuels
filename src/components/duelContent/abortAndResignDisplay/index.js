@@ -11,7 +11,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@chakra-ui/react";
-import { handleUID } from "../../../data";
+import { getUID } from "../../../data";
 import socket from "../../../socket";
 
 const AbortButton = ({ onOpen, cancelled, onCancelled }) => {
@@ -96,8 +96,7 @@ const AbortAndResignDisplay = ({ id, duelStatus }) => {
   };
 
   const handleAbortOrResign = (action) => {
-    handleUID();
-    let uid = localStorage.getItem("uid");
+    let uid = getUID();
     if (action === "ABORT") {
       socket.emit("abort-duel", { roomId: id, uid: uid });
     } else {

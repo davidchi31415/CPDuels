@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import "./styles.css";
 import socket from "../../../socket";
-import Database, { handleUID } from "../../../data";
+import Database, { getUID } from "../../../data";
 
 const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
   const [typingIndicator, setTypingIndicator] = useState(null);
@@ -80,8 +80,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
       setSending(false);
       return;
     }
-    handleUID();
-    let uid = localStorage.getItem("uid");
+    let uid = getUID();
     setMessages((curr) => [
       ...curr,
       { author: username, content: currentMessage },
@@ -97,8 +96,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
 
   useEffect(() => {
     socket.on("message-receive", ({ roomId, senderUid, message }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
+      let localUid = getUID();
       if (id === roomId && localUid !== senderUid) {
         setMessages((curr) => [...curr, message]);
         setTypingIndicator(null);
@@ -106,8 +104,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
       }
     });
     socket.on("message-send-error", ({ roomId, senderUid, message }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
+      let localUid = getUID();
       if (id === roomId && localUid === senderUid) {
         makeToast({
           title: "Error",
@@ -119,8 +116,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
       }
     });
     socket.on("message-typing-receive", ({ roomId, senderUid, author }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
+      let localUid = getUID();
       if (id === roomId && localUid !== senderUid) {
         setTypingIndicator(author);
       }
@@ -213,8 +209,7 @@ const ChatBox = ({ id, players, playerNum, inView, setUnreadmessages }) => {
             onChange={(e) => {
               setCurrentMessage(e.target.value);
               setEmptyMessageError(false);
-              handleUID();
-              let uid = localStorage.getItem("uid");
+              let uid = getUID();
               socket.emit("message-typing-send", {
                 roomId: id,
                 uid: uid,

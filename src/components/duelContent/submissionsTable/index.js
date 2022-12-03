@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useColorModeValue, useToast, Text } from "@chakra-ui/react";
 import ReactTable from "./tableContainer.js";
-import Database, { handleUID } from "../../../data";
+import Database, { getUID } from "../../../data";
 import moment from "moment";
 import socket from "../../../socket";
 
@@ -13,8 +13,7 @@ const SubmissionsTable = ({ duelId, refresh, onRefresh, toast, onToast }) => {
   useEffect(() => {
     const getSubmissions = async () => {
       setSubmissions([]);
-      handleUID();
-      let uid = localStorage.getItem("uid");
+      let uid = getUID();
       let res = await Database.getSubmissionsByDuelIdAndUid(duelId, uid);
       if (res?.length) {
         let updateVal = res.reverse();

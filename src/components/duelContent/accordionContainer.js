@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import SubmitCodeEditor from "./submitCodeEditor";
 import socket from "../../socket";
-import Database, { handleUID } from "../../data";
+import Database, { getUID } from "../../data";
 import "./cfStyles.css";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { MathJax } from "better-react-mathjax";
@@ -105,8 +105,7 @@ const AccordionContainer = ({
 
   useEffect(() => {
     socket.on("replace-problem-received", ({ roomId, uid, updatedIndices }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
+      let localUid = getUID();
       if (roomId === id && uid !== localUid) {
         setSelectedReplaceProblemIndices(updatedIndices);
       }
@@ -171,8 +170,7 @@ const AccordionContainer = ({
                         ];
                       }
                       setSelectedReplaceProblemIndices(updatedIndices);
-                      handleUID();
-                      let uid = localStorage.getItem("uid");
+                      let uid = getUID();
                       socket.emit("replace-problem-selected", {
                         roomId: id,
                         uid: uid,
@@ -239,7 +237,9 @@ const AccordionContainer = ({
                           mb="-1.5em"
                         >
                           <div
-                            className={(index === problems.length - 1) ? "MathJaxEnd" : ""}
+                            className={
+                              index === problems.length - 1 ? "MathJaxEnd" : ""
+                            }
                             dangerouslySetInnerHTML={{
                               __html: problem.content?.statement,
                             }}
@@ -345,7 +345,9 @@ const AccordionContainer = ({
                 </Text>
                 {problem?.content?.statement ? (
                   <div
-                    className={(index === problems.length-1) ? "MathJaxEnd" : ""}
+                    className={
+                      index === problems.length - 1 ? "MathJaxEnd" : ""
+                    }
                     dangerouslySetInnerHTML={{
                       __html: problem.content?.statement,
                     }}

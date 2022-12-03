@@ -18,7 +18,7 @@ import {
 import BaseLayout from "../components/baseLayout";
 import TimeAndJoinDisplay from "../components/duelContent/timeAndJoinDisplay";
 import ScoreDisplay from "../components/duelContent/scoreDisplay";
-import Database, { handleUID } from "../data";
+import Database, { getUID } from "../data";
 import socket from "../socket";
 import { useParams, useNavigate } from "react-router-dom";
 import TabContainer from "../components/duelContent/tabContainer.js";
@@ -63,8 +63,7 @@ const DuelPage = () => {
       if (duelStatus !== duel.status) setDuelStatus(duel.status);
       if (duelPlatform !== duel.platform) setDuelPlatform(duel.platform);
       setPlayers(duel.players);
-      handleUID();
-      let uid = localStorage.getItem("uid");
+      let uid = getUID();
       if (uid === duel.players[0].uid) {
         if (playerNum !== 1) setPlayerNum(1);
       } else if (duel.players[1] && uid === duel.players[1].uid) {
@@ -86,8 +85,7 @@ const DuelPage = () => {
       }
     });
     socket.on("abort-duel-error", ({ roomId, uid, message }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
+      let localUid = getUID();
       if (roomId === id && uid === localUid) {
         makeToast({
           title: "Error",
@@ -99,8 +97,7 @@ const DuelPage = () => {
       }
     });
     socket.on("resign-duel-error", ({ roomId, uid, message }) => {
-      handleUID();
-      let localUid = localStorage.getItem("uid");
+      let localUid = getUID();
       if (roomId === id && uid === localUid) {
         makeToast({
           title: "Error",

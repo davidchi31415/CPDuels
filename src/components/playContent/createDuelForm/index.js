@@ -27,7 +27,7 @@ import {
   useToast,
   Checkbox,
 } from "@chakra-ui/react";
-import Database, { handleUID } from "../../../data";
+import Database, { getUID } from "../../../data";
 import { useNavigate } from "react-router-dom";
 
 const CreateDuelForm = () => {
@@ -81,8 +81,7 @@ const CreateDuelForm = () => {
       setSubmitting(false);
       return;
     }
-    handleUID();
-    let uid = localStorage.getItem("uid");
+    let uid = getUID();
     const duelData = {
       platform: platform,
       problemCount: problemCount,
