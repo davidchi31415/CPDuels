@@ -27,6 +27,7 @@ import SubmitCodeEditor from "./submitCodeEditor";
 import socket from "../../socket";
 import Database, { getUID } from "../../data";
 import "./cfStyles.css";
+import "./lcStyles.css";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { MathJax } from "better-react-mathjax";
 
@@ -64,9 +65,29 @@ const AccordionContainer = ({
     const getProblems = async () => {
       let duel = await Database.getDuelById(id);
       let problemContents = [];
-      for (let i = 0; i < duel.problems?.length; i++) {
-        let content = await Database.getCFProblemById(duel.problems[i].databaseId);
-        problemContents.push({...content, duelPoints: duel.problems[i].duelPoints});
+      if (duel.platform === "CF") {
+        for (let i = 0; i < duel.problems?.length; i++) {
+          let content = await Database.getCFProblemById(
+            duel.problems[i].databaseId
+          );
+          problemContents.push({
+            ...content,
+            duelPoints: duel.problems[i].duelPoints,
+          });
+        }
+      } else if (duel.platform === "LC") {
+        for (let i = 0; i < duel.problems?.length; i++) {
+          let content = await Database.getLCProblemById(
+            duel.problems[i].databaseId
+          );
+          problemContents.push({
+            ...content,
+            duelPoints: duel.problems[i].duelPoints,
+          });
+          console.log(problemContents);
+        }
+      } else {
+        // AT
       }
       setProblems(problemContents);
     };
@@ -124,6 +145,11 @@ const AccordionContainer = ({
     setSelectedReplaceProblemIndices([]);
     if (replacing && problems?.length) setProblems([]);
   }, [replacing, problems]);
+
+  const mapLCRatings = (ratingNum) => {
+    let ratingArray = ["EASY", "MEDIUM", "HARD"];
+    return ratingArray[ratingNum - 1];
+  };
 
   if (duelStatus === "INITIALIZED") {
     if (playerNum)
@@ -211,48 +237,98 @@ const AccordionContainer = ({
               boxShadow="2xl"
             >
               {console.count("Initialized Accordion Container")}
-              {problems?.length
-                ? problems.map((problem, index) => (
-                    <AccordionItem key={problem?._id} border="none">
-                      <h2>
-                        <AccordionButton
-                          height="3.5em"
-                          bg={
-                            index === selectedProblem - 1
-                              ? selectedRowColor
-                              : ""
-                          }
-                          _hover={"none"}
-                          border="solid 1px"
-                        >
-                          <Box flex="2" textAlign="left">
-                            {index + 1}. <b>{problem?.name}</b>
-                          </Box>
-                          <Box flex="1" textAlign="center">
-                            <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
-                            {problem.duelPoints}
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </h2>
-                      <AccordionPanel border="solid 1px" borderTop={"none"}>
-                        <Box
-                          className="problem-statement"
-                          fontSize="0.95rem"
-                          mb="-1.5em"
-                        >
-                          <div
-                            className={
-                              index === problems.length - 1 ? "MathJaxEnd" : ""
+              {duelPlatform === "CF"
+                ? problems?.length
+                  ? problems.map((problem, index) => (
+                      <AccordionItem key={problem?._id} border="none">
+                        <h2>
+                          <AccordionButton
+                            height="3.5em"
+                            bg={
+                              index === selectedProblem - 1
+                                ? selectedRowColor
+                                : ""
                             }
-                            dangerouslySetInnerHTML={{
-                              __html: problem.content?.statement,
-                            }}
-                          ></div>
-                        </Box>
-                      </AccordionPanel>
-                    </AccordionItem>
-                  ))
+                            _hover={"none"}
+                            border="solid 1px"
+                          >
+                            <Box flex="2" textAlign="left">
+                              {index + 1}. <b>problem?.name</b>
+                            </Box>
+                            <Box flex="1" textAlign="center">
+                              <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
+                              {problem.duelPoints}
+                            </Box>
+                            <AccordionIcon />
+                          </AccordionButton>
+                        </h2>
+                        <AccordionPanel border="solid 1px" borderTop={"none"}>
+                          <Box
+                            className="problem-statement"
+                            fontSize="0.95rem"
+                            mb="-1.5em"
+                          >
+                            <div
+                              className={
+                                index === problems.length - 1
+                                  ? "MathJaxEnd"
+                                  : ""
+                              }
+                              dangerouslySetInnerHTML={{
+                                __html: problem.content?.statement,
+                              }}
+                            ></div>
+                          </Box>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    ))
+                  : ""
+                : duelPlatform === "LC"
+                ? problems?.length
+                  ? problems.map((problem, index) => (
+                      <AccordionItem key={problem?._id} border="none">
+                        <h2>
+                          <AccordionButton
+                            height="3.5em"
+                            bg={
+                              index === selectedProblem - 1
+                                ? selectedRowColor
+                                : ""
+                            }
+                            _hover={"none"}
+                            border="solid 1px"
+                          >
+                            <Box flex="2" textAlign="left">
+                              {index + 1}. <b>{problem?.name}</b>
+                            </Box>
+                            <Box flex="1" textAlign="center">
+                              <b>Rated:</b> {mapLCRatings(problem?.difficulty)},{" "}
+                              <b>Points:</b> {problem.duelPoints}
+                            </Box>
+                            <AccordionIcon />
+                          </AccordionButton>
+                        </h2>
+                        <AccordionPanel border="solid 1px" borderTop={"none"}>
+                          <Box
+                            className="lc-problem-statement"
+                            fontSize="0.95rem"
+                            mb="-2.5em"
+                          >
+                            <div
+                              className={
+                                index === problems.length - 1
+                                  ? "MathJaxEnd"
+                                  : ""
+                              }
+                              dangerouslySetInnerHTML={{
+                                __html: problem.content?.problemPreview,
+                              }}
+                            ></div>
+                          </Box>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    ))
+                  : ""
                 : ""}
             </Accordion>
           </Box>
@@ -283,170 +359,257 @@ const AccordionContainer = ({
         ) : (
           ""
         )}
-        {problems.map((problem, index) => (
-          <AccordionItem key={problem._id} border="none">
-            <h2>
-              <AccordionButton
-                height="3.5em"
-                bg={
-                  index === selectedProblem - 1
-                    ? problemVerdicts[index] === "AC"
+        {duelPlatform === "CF"
+          ? problems.map((problem, index) => (
+              <AccordionItem key={problem._id} border="none">
+                <h2>
+                  <AccordionButton
+                    height="3.5em"
+                    bg={
+                      index === selectedProblem - 1
+                        ? problemVerdicts[index] === "AC"
+                          ? rightAnswerSelectedColor
+                          : problemVerdicts[index] === "WA"
+                          ? wrongAnswerSelectedColor
+                          : selectedRowColor
+                        : problemVerdicts[index] === "AC"
+                        ? rightAnswerColor
+                        : problemVerdicts[index] === "WA"
+                        ? wrongAnswerColor
+                        : ""
+                    }
+                    _hover={"none"}
+                    border="solid 1px"
+                    borderColor={
+                      index === selectedProblem - 1
+                        ? problemVerdicts[index] === "AC"
+                          ? rightAnswerColor
+                          : problemVerdicts[index] === "WA"
+                          ? wrongAnswerColor
+                          : ""
+                        : ""
+                    }
+                  >
+                    <Box flex="2" textAlign="left">
+                      {index + 1}. <b>{problem?.name}</b>
+                    </Box>
+                    <Box flex="1" textAlign="center">
+                      <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
+                      {problem?.duelPoints}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel
+                  p={4}
+                  border="solid 1px"
+                  borderTop={"none"}
+                  borderColor={
+                    problemVerdicts[index] === "AC"
                       ? rightAnswerSelectedColor
                       : problemVerdicts[index] === "WA"
                       ? wrongAnswerSelectedColor
-                      : selectedRowColor
-                    : problemVerdicts[index] === "AC"
-                    ? rightAnswerColor
-                    : problemVerdicts[index] === "WA"
-                    ? wrongAnswerColor
-                    : ""
-                }
-                _hover={"none"}
-                border="solid 1px"
-                borderColor={
-                  index === selectedProblem - 1
-                    ? problemVerdicts[index] === "AC"
-                      ? rightAnswerColor
-                      : problemVerdicts[index] === "WA"
-                      ? wrongAnswerColor
                       : ""
-                    : ""
-                }
-              >
-                <Box flex="2" textAlign="left">
-                  {index + 1}. <b>{problem?.name}</b>
-                </Box>
-                <Box flex="1" textAlign="center">
-                  <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
-                  {problem?.duelPoints}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel
-              p={4}
-              border="solid 1px"
-              borderTop={"none"}
-              borderColor={
-                problemVerdicts[index] === "AC"
-                  ? rightAnswerSelectedColor
-                  : problemVerdicts[index] === "WA"
-                  ? wrongAnswerSelectedColor
-                  : ""
-              }
-            >
-              {problem?.content?.constraints ? (
-                <Flex
-                  dangerouslySetInnerHTML={{
-                    __html: problem.content?.constraints,
-                  }}
-                ></Flex>
-              ) : (
-                ""
-              )}
-              <Box mt={2} className="problem-statement" fontSize="0.95rem">
-                <Text fontWeight="bold" fontSize="1.2rem">
-                  Problem Statement
-                </Text>
-                {problem?.content?.statement ? (
-                  <div
-                    className={
-                      index === problems.length - 1 ? "MathJaxEnd" : ""
-                    }
-                    dangerouslySetInnerHTML={{
-                      __html: problem.content?.statement,
-                    }}
-                  ></div>
-                ) : (
-                  ""
-                )}
-              </Box>
-              <Box
-                mt={2}
-                className="problem-input-specifications"
-                fontSize="0.95rem"
-              >
-                <Text fontWeight="bold" fontSize="1.2rem">
-                  Input
-                </Text>
-                {problem?.content?.input ? (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: problem.content?.input,
-                    }}
-                  ></div>
-                ) : (
-                  ""
-                )}
-              </Box>
-              <Box
-                mt={2}
-                className="problem-output-specifications"
-                fontSize="0.95rem"
-              >
-                <Text fontWeight="bold" fontSize="1.2rem">
-                  Output
-                </Text>
-                {problem?.content?.output ? (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: problem.content?.output,
-                    }}
-                  ></div>
-                ) : (
-                  ""
-                )}
-              </Box>
-              <Box
-                mt={2}
-                className="problem-sample-test-cases"
-                fontSize="0.95rem"
-                sx={{
-                  " && .test-example-line.test-example-line-odd": {
-                    backgroundColor: sampleTestLineColor,
-                  },
-                  " && .sample-test, .sample-test .title, .sample-test .input, .sample-test .output":
-                    {
-                      borderColor: defaultBorderColor,
-                    },
-                }}
-              >
-                {problem?.content?.testCases ? (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: problem.content?.testCases,
-                    }}
-                  ></div>
-                ) : (
-                  ""
-                )}
-              </Box>
-              <Box mt={2} className="problem-note" fontSize="0.95rem">
-                {problem?.content?.note ? (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: problem.content?.note,
-                    }}
-                  ></div>
-                ) : (
-                  ""
-                )}
-              </Box>
-              <Center pt={3}>
-                <Button
-                  onClick={onOpen}
-                  size="md"
-                  fontSize="lg"
-                  variant="solid"
-                  colorScheme="primary"
-                  isDisabled={duelStatus !== "ONGOING" || !playerNum}
+                  }
                 >
-                  Submit Your Answer
-                </Button>
-              </Center>
-            </AccordionPanel>
-          </AccordionItem>
-        ))}
+                  {problem?.content?.constraints ? (
+                    <Flex
+                      dangerouslySetInnerHTML={{
+                        __html: problem.content?.constraints,
+                      }}
+                    ></Flex>
+                  ) : (
+                    ""
+                  )}
+                  <Box mt={2} className="problem-statement" fontSize="0.95rem">
+                    <Text fontWeight="bold" fontSize="1.2rem">
+                      Problem Statement
+                    </Text>
+                    {problem?.content?.statement ? (
+                      <div
+                        className={
+                          index === problems.length - 1 ? "MathJaxEnd" : ""
+                        }
+                        dangerouslySetInnerHTML={{
+                          __html: problem.content?.statement,
+                        }}
+                      ></div>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                  <Box
+                    mt={2}
+                    className="problem-input-specifications"
+                    fontSize="0.95rem"
+                  >
+                    <Text fontWeight="bold" fontSize="1.2rem">
+                      Input
+                    </Text>
+                    {problem?.content?.input ? (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: problem.content?.input,
+                        }}
+                      ></div>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                  <Box
+                    mt={2}
+                    className="problem-output-specifications"
+                    fontSize="0.95rem"
+                  >
+                    <Text fontWeight="bold" fontSize="1.2rem">
+                      Output
+                    </Text>
+                    {problem?.content?.output ? (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: problem.content?.output,
+                        }}
+                      ></div>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                  <Box
+                    mt={2}
+                    className="problem-sample-test-cases"
+                    fontSize="0.95rem"
+                    sx={{
+                      " && .test-example-line.test-example-line-odd": {
+                        backgroundColor: sampleTestLineColor,
+                      },
+                      " && .sample-test, .sample-test .title, .sample-test .input, .sample-test .output":
+                        {
+                          borderColor: defaultBorderColor,
+                        },
+                    }}
+                  >
+                    {problem?.content?.testCases ? (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: problem.content?.testCases,
+                        }}
+                      ></div>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                  <Box mt={2} className="problem-note" fontSize="0.95rem">
+                    {problem?.content?.note ? (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: problem.content?.note,
+                        }}
+                      ></div>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                  <Center pt={3}>
+                    <Button
+                      onClick={onOpen}
+                      size="md"
+                      fontSize="lg"
+                      variant="solid"
+                      colorScheme="primary"
+                      isDisabled={duelStatus !== "ONGOING" || !playerNum}
+                    >
+                      Submit Your Answer
+                    </Button>
+                  </Center>
+                </AccordionPanel>
+              </AccordionItem>
+            ))
+          : duelPlatform === "LC"
+          ? problems.map((problem, index) => (
+              <AccordionItem key={problem._id} border="none">
+                <h2>
+                  <AccordionButton
+                    height="3.5em"
+                    bg={
+                      index === selectedProblem - 1
+                        ? problemVerdicts[index] === "AC"
+                          ? rightAnswerSelectedColor
+                          : problemVerdicts[index] === "WA"
+                          ? wrongAnswerSelectedColor
+                          : selectedRowColor
+                        : problemVerdicts[index] === "AC"
+                        ? rightAnswerColor
+                        : problemVerdicts[index] === "WA"
+                        ? wrongAnswerColor
+                        : ""
+                    }
+                    _hover={"none"}
+                    border="solid 1px"
+                    borderColor={
+                      index === selectedProblem - 1
+                        ? problemVerdicts[index] === "AC"
+                          ? rightAnswerColor
+                          : problemVerdicts[index] === "WA"
+                          ? wrongAnswerColor
+                          : ""
+                        : ""
+                    }
+                  >
+                    <Box flex="2" textAlign="left">
+                      {index + 1}. <b>{problem?.name}</b>
+                    </Box>
+                    <Box flex="1" textAlign="center">
+                      <b>Rated:</b> {mapLCRatings(problem?.difficulty)}, <b>Points:</b>{" "}
+                      {problem?.duelPoints}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel
+                  p={4}
+                  border="solid 1px"
+                  borderTop={"none"}
+                  borderColor={
+                    problemVerdicts[index] === "AC"
+                      ? rightAnswerSelectedColor
+                      : problemVerdicts[index] === "WA"
+                      ? wrongAnswerSelectedColor
+                      : ""
+                  }
+                >
+                  <Box
+                    className="lc-problem-statement"
+                    fontSize="0.95rem"
+                  >
+                    {problem?.content?.problemWhole ? (
+                      <div
+                        className={
+                          index === problems.length - 1 ? "MathJaxEnd" : ""
+                        }
+                        dangerouslySetInnerHTML={{
+                          __html: problem.content?.problemWhole,
+                        }}
+                      ></div>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                  <Center pt={3}>
+                    <Button
+                      onClick={onOpen}
+                      size="md"
+                      fontSize="lg"
+                      variant="solid"
+                      colorScheme="primary"
+                      isDisabled={duelStatus !== "ONGOING" || !playerNum}
+                    >
+                      Submit Your Answer
+                    </Button>
+                  </Center>
+                </AccordionPanel>
+              </AccordionItem>
+            ))
+          : ""}
         <Modal
           isOpen={isOpen}
           onClose={onClose}

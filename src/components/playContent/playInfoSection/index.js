@@ -30,7 +30,7 @@ const PlayInfoSection = () => {
           <Text mt="0.5em" ml="0.25em" fontSize="1.1rem">
             Join a duel by clicking on a row in the table of available duels. 
             You can search by username, rating, etc. to find one that suits you.
-            Or make your own and need to wait for someone to join.
+            Or make your own and wait for someone to join.
           </Text>
         </Box>
         <Box width="18em">
@@ -61,8 +61,11 @@ const PlayInfoSection = () => {
           </Text>
         </Box>
       </Flex>
+      <Text align="center" fontSize="1.2rem" mt="2em" width="27em">
+        <Text as="span" fontWeight="bold">Please Note</Text><br />Inactive duels will be auto-aborted after 5 minutes.
+      </Text>
       <Text align="center" fontSize="1.2rem" mt="3em">
-        We hope you enjoy using our platform! <br />
+        We hope you enjoy using our platform. <br />
         If you discover an issue, please 
         <Link as="span" textDecoration="none" to="/contact/report-issue">
           <Text color={reportLinkColor} fontWeight="bold" as="span"> report it</Text>

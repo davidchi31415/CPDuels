@@ -31,6 +31,19 @@ export default class Database {
     return problems;
   }
 
+  static async getLCProblemById(db_id) {
+    const problem = await this._getModel(`lcproblems/${db_id}`);
+    return problem;
+  }
+  static async getLCProblems(difficulty=null) {
+    const problems = await this._getModel('lcproblem').then(
+      result => {
+        return (difficulty === null) ? result : result.filter(problem => problem.difficulty === difficulty);
+      }
+    );
+    return problems;
+  }
+
   static async getProblemById(db_id) {
     const problem = await this._getModel(`problems/${db_id}`);
     return problem;
