@@ -20,6 +20,8 @@ import CreateDuelForm from "../components/playContent/createDuelForm";
 import WaitingDuelsTable from "../components/playContent/waitingDuelsTable";
 import OngoingDuelsTable from "../components/playContent/ongoingDuelsTable";
 import FinishedDuelsTable from "../components/playContent/finishedDuelsTable";
+import DuelCounter from "../components/playContent/duelCounter";
+import PlayInfoSection from "../components/playContent/playInfoSection";
 import Database, { getUID } from "../data";
 import { useNavigate } from "react-router-dom";
 
@@ -181,7 +183,11 @@ const PlayPage = () => {
           // my={["-5em", "-6em", "-8.5em", "-4em", 0]}
           >
             <CreateDuelForm />
+            <Box mt="1em">
+              <DuelCounter />
+            </Box>
           </Box>
+          <PlayInfoSection />
         </Flex>
       }
     />

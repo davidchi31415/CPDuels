@@ -3,6 +3,7 @@ import uuid from 'react-uuid';
 
 export default class Database {  
   static async _getModel(model) {
+    let time = Date.now();
     const response = await fetch(`${backendOrigin}/${model}`)
     .then(
       res => res.json()
@@ -13,7 +14,21 @@ export default class Database {
         console.log(err);
       }
     );
+    console.log((Date.now() - time) / 1000);
     return response;
+  }
+
+  static async getCFProblemById(db_id) {
+    const problem = await this._getModel(`cfproblems/${db_id}`);
+    return problem;
+  }
+  static async getCFProblems(rating=null) {
+    const problems = await this._getModel('cfproblem').then(
+      result => {
+        return (rating === null) ? result : result.filter(problem => problem.rating === rating);
+      }
+    );
+    return problems;
   }
 
   static async getProblemById(db_id) {

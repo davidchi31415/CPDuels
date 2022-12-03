@@ -63,9 +63,14 @@ const AccordionContainer = ({
     };
     const getProblems = async () => {
       let duel = await Database.getDuelById(id);
-      setProblems(duel.problems);
+      let problemContents = [];
+      for (let i = 0; i < duel.problems?.length; i++) {
+        let content = await Database.getCFProblemById(duel.problems[i].databaseId);
+        problemContents.push({...content, duelPoints: duel.problems[i].duelPoints});
+      }
+      setProblems(problemContents);
     };
-    getProblems();
+    // getProblems();
     if (refresh) {
       getProblemVerdicts();
       getProblems();
@@ -77,7 +82,7 @@ const AccordionContainer = ({
     if (!mathJaxRendered && document.querySelector(".MathJaxEnd")) {
       onMathJaxRendered();
     }
-  });
+  }, [refresh, mathJaxRendered]);
 
   const defaultBorderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",

@@ -137,10 +137,9 @@ const CreateDuelForm = () => {
       border="1px solid"
       borderColor={borderColor}
       rounded="md"
-      boxShadow="2xl"
+      boxShadow="xl"
       px={4}
-      pt="2em"
-      pb="3em"
+      py="2em"
     >
       <GridItem colSpan={2}>
         <Center>

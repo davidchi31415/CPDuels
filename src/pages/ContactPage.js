@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import BaseLayout from "../components/baseLayout";
 import ContactCard from "../components/contactContent/contactCard";
@@ -8,7 +8,7 @@ import handleViewport from "react-in-viewport";
 import DavidSelfie from "../images/CPDuels_Contact_David.jpg";
 import JeffreySelfie from "../images/CPDuels_Contact_Jeffrey.jpg";
 
-const ContactPage = () => {
+const ContactPage = ({ report }) => {
   const infoDavid = {
     image: DavidSelfie,
     name: "David Chi",
@@ -31,6 +31,14 @@ const ContactPage = () => {
   const AnimatedContactCard = handleViewport(ContactCard, {
     threshold: 0.75,
   });
+
+  const useReportRef = useRef();
+
+  useEffect(() => {
+    if (report && useReportRef.current) {
+      useReportRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [report]);
 
   return (
     <BaseLayout
@@ -59,6 +67,7 @@ const ContactPage = () => {
           <Box
             transform={[null, null, "scale(1.2)"]}
             my={[null, null, "1.5em"]}
+            ref={useReportRef}
           >
             <ContactForm />
           </Box>
