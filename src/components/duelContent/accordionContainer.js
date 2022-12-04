@@ -154,7 +154,7 @@ const AccordionContainer = ({
   if (duelStatus === "INITIALIZED") {
     if (playerNum)
       return (
-        <MathJax>
+        <MathJax dynamic={true}>
           <Box>
             <Text fontSize="1.2rem" mb="1em">
               Already seen some of these problems? Select the ones you'd like to
@@ -253,7 +253,7 @@ const AccordionContainer = ({
                             border="solid 1px"
                           >
                             <Box flex="2" textAlign="left">
-                              {index + 1}. <b>problem?.name</b>
+                              {index + 1}. <b>{problem?.name}</b>
                             </Box>
                             <Box flex="1" textAlign="center">
                               <b>Rated:</b> {problem?.rating}, <b>Points:</b>{" "}
