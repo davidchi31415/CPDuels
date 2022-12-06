@@ -506,6 +506,7 @@ const CreateDuelForm = () => {
             isLoading={submitting}
             variant="solid"
             colorScheme="primary"
+            boxShadow="0 4px 7px rgb(79 114 205 / 40%)"
           >
             Create
           </Button>

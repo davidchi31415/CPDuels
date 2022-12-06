@@ -15,6 +15,7 @@ const BuyUsACoffee = () => {
       letterSpacing="0.6px"
       fontWeight="bold"
       onClick={() => window.open("https://www.buymeacoffee.com/davidchi31j")}
+      boxShadow="0 4px 7px rgb(79 114 205 / 40%)"
     >
       <img
         className="coffeeImage"

@@ -81,6 +81,9 @@ const HomePage = () => {
                   height={["3.5em", "3.2em", "3em"]}
                   variant="solid"
                   colorScheme="primary"
+                  boxShadow="0 6px 17px rgb(79 114 205 / 40%)"
+                  _hover={{filter: "opacity(0.85)", transform: "scale(1.03)"}}
+                  transition="filter 0.2s ease, transform 0.2 ease"  
                 >
                   Play for Free
                 </Button>
@@ -187,6 +190,9 @@ const HomePage = () => {
                 height={["3.5em", "3.2em", "3em"]}
                 variant="solid"
                 colorScheme="primary"
+                boxShadow="0 4px 7px rgb(79 114 205 / 40%)"
+                _hover={{filter: "opacity(0.85)", transform: "scale(1.03)"}}
+                transition="filter 0.2s ease, transform 0.2 ease"
               >
                 Play Now
               </Button>
@@ -197,6 +203,9 @@ const HomePage = () => {
                 height={["3.5em", "3.2em", "3em"]}
                 variant="outline"
                 colorScheme="primary"
+                _hover={{filter: "opacity(0.85)", transform: "scale(1.03)"}}
+                transition="filter 0.2s ease, transform 0.2 ease"
+                boxShadow="0 4px 7px rgb(79 114 205 / 40%)"
               >
                 Contact Us
               </Button>

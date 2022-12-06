@@ -65,11 +65,11 @@ const PlayInfoSection = () => {
         <Text as="span" fontWeight="bold">Please Note</Text><br />Inactive duels will be auto-aborted after 5 minutes.
       </Text>
       <Text align="center" fontSize="1.2rem" mt="3em">
-        We hope you enjoy using our platform. <br />
+        We hope you enjoy using our platform! <br />
         If you discover an issue, please 
         <Link as="span" textDecoration="none" to="/contact/report-issue">
           <Text color={reportLinkColor} fontWeight="bold" as="span"> report it</Text>
-        </Link> to us!
+        </Link> to us.
         <br />- CPDuels Team
       </Text>
     </Flex>
