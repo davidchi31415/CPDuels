@@ -55,7 +55,7 @@ const CreateDuelForm = () => {
         ratingMax > 3000 ||
         ratingMax < ratingMin
       : platform === "LC"
-      ? ratingMin < 1 || ratingMax > 3 || ratingMin > ratingMax
+      ? ratingMin < 0 || ratingMax > 2 || ratingMin > ratingMax
       : false;
   const usernameError = username?.length > 20;
 
