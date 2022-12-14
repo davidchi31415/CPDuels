@@ -81,6 +81,7 @@ const DuelPage = () => {
     socket.on("status-change", ({ roomId, newStatus }) => {
       if (roomId === id) {
         setLoading(true);
+        setMathJaxRendered(false);
         getDuelInfo();
       }
     });
