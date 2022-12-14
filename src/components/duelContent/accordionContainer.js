@@ -147,8 +147,14 @@ const AccordionContainer = ({
   }, [replacing, problems]);
 
   const mapLCRatings = (ratingNum) => {
-    let ratingArray = ["EASY", "MEDIUM", "HARD"];
-    return ratingArray[ratingNum - 1];
+    switch (ratingNum) {
+      case 0:
+        return "EASY";
+      case 1:
+        return "MEDIUM";
+      default:
+        return "HARD";
+    }
   };
 
   if (duelStatus === "INITIALIZED") {

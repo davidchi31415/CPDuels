@@ -28,8 +28,7 @@ const PlayInfoSection = () => {
             <Text my="auto" ml="0.5em" fontSize="1.2rem">Join or create a duel.</Text>
           </Flex>
           <Text mt="0.5em" ml="0.25em" fontSize="1.1rem">
-            Join a duel by clicking on a row in the table of available duels. 
-            You can search by username, rating, etc. to find one that suits you.
+            Join a duel by searching for an available row in the table of available duels.
             Or make your own and wait for someone to join.
           </Text>
         </Box>
@@ -42,9 +41,8 @@ const PlayInfoSection = () => {
             <Text my="auto" ml="0.5em" fontSize="1.2rem">Finalize problem set.</Text>
           </Flex>
           <Text mt="0.5em" ml="0.25em" fontSize="1.1rem">
-            Once a duel has two players, we give you a preview of a freshly generated
-            problem set, and you can now decide to drop some problems and regenerate as
-            many times as you'd like.
+            When someone joins the duel, a problem set is automatically generated. 
+            You can chat with your partner and decide if you'd like to regenerate select problems.
           </Text>
         </Box>
         <Box width="18em">
@@ -56,8 +54,8 @@ const PlayInfoSection = () => {
             <Text my="auto" ml="0.5em" fontSize="1.2rem">Start the duel.<br />Get coding.</Text>
           </Flex>
           <Text mt="0.5em" ml="0.25em" fontSize="1.1rem">
-            Once you and your duel partner have settled on a problem set, you can both
-            ready-up, and the duel will begin automatically and a timer will be set. Have fun!
+            Once you and your duel partner have settled on a problem set, you can
+            ready-up. The duel will begin and a timer will be set. Have fun!
           </Text>
         </Box>
       </Flex>

@@ -66,6 +66,17 @@ const TabContainer = ({
     }
   }, [duelStatus, replacingProblems, mathJaxRendered, id]);
 
+  const mapLCDifficulty = (difficultyVal) => {
+    switch (difficultyVal) {
+      case 0:
+        return "EASY";
+      case 1:
+        return "MEDIUM";
+      default:
+        return "HARD";
+    }
+  }
+
   return (
     <Tabs
       variant="line"
@@ -126,7 +137,9 @@ const TabContainer = ({
             </GridItem>
             <GridItem>
               {duelInfo
-                ? `${duelInfo.ratingMin} - ${duelInfo.ratingMax}`
+                ? (duelInfo.platform === "LC" ? 
+                `${mapLCDifficulty(duelInfo.ratingMin)} - ${mapLCDifficulty(duelInfo.ratingMax)}`
+                : `${duelInfo.ratingMin} - ${duelInfo.ratingMax}`)
                 : "N/A"}
             </GridItem>
             <GridItem colSpan={1} fontWeight="bold">

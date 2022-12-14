@@ -39,6 +39,17 @@ const WaitingDuelsTable = () => {
     setData([]);
   };
 
+  const mapLCDifficulty = (difficultyVal) => {
+    switch (difficultyVal) {
+      case 0:
+        return "EASY";
+      case 1:
+        return "MED";
+      default:
+        return "HARD";
+    }
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -55,7 +66,8 @@ const WaitingDuelsTable = () => {
       },
       {
         Header: "Difficulty",
-        accessor: (row) => `${row.ratingMin}-${row.ratingMax}`,
+        accessor: (row) => (row.platform === "LC") ? 
+          `${mapLCDifficulty(row.ratingMin)}-${mapLCDifficulty(row.ratingMax)}` : `${row.ratingMin}-${row.ratingMax}`,
         id: (row) => row._id,
         width: "4em",
       },

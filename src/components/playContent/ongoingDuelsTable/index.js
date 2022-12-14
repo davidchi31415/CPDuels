@@ -56,7 +56,7 @@ const OngoingDuelsTable = () => {
       },
       {
         Header: "Time Left",
-        accessor: (row) => `${row.ratingMin}-${row.ratingMax}`,
+        accessor: (row) => `${row.timeLimit - Math.floor((((new Date).getTime()/1000 - row.startTime))/60)} min`,
         id: (row) => row._id,
         width: "4em",
       }

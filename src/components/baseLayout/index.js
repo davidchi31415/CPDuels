@@ -30,7 +30,7 @@ import { HiMenuAlt4 } from "react-icons/hi";
 const Banner = ({ setShowBanner }) => {
   return (
     <Flex mx="calc(-50vw)" backgroundColor="red" height="2.5em" justify="center" align="center">
-      <Text color="offWhite" fontSize="1.1rem">Site Under Development: AtCoder coming soon!</Text>
+      <Text color="offWhite" fontSize="1.1rem"><b>Site Under Development</b>: AtCoder coming soon!</Text>
       <IconButton
         my="auto"
         variant="unstyled"

@@ -265,7 +265,7 @@ const CreateDuelForm = () => {
                 <Select
                   value={ratingMin}
                   onChange={(e) => {
-                    setRatingMin(e.target.value);
+                    setRatingMin(parseInt(e.target.value));
                   }}
                   borderColor="grey.100"
                   pl={2}
@@ -287,7 +287,7 @@ const CreateDuelForm = () => {
                   <Select
                     value={ratingMax}
                     onChange={(e) => {
-                      setRatingMax(e.target.value);
+                      setRatingMax(parseInt(e.target.value));
                     }}
                     borderColor="grey.100"
                     pl={2}
@@ -354,8 +354,8 @@ const CreateDuelForm = () => {
               pl={2}
             >
               <option value="CF">Codeforces</option>
-              <option value="AT">AtCoder</option>
               <option value="LC">LeetCode</option>
+              <option value="AT" disabled={true}>AtCoder</option>
             </Select>
           </Flex>
         </FormControl>
