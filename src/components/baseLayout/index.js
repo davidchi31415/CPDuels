@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -26,6 +26,25 @@ import { IoMoon, IoClose } from "react-icons/io5";
 import LightLogo from "../../images/CPDuels Logo Light - NEW.svg";
 import DarkLogo from "../../images/CPDuels Logo Dark - NEW.svg";
 import { HiMenuAlt4 } from "react-icons/hi";
+
+const Banner = ({ setShowBanner }) => {
+  return (
+    <Flex mx="calc(-50vw)" backgroundColor="red" height="2.5em" justify="center" align="center">
+      <Text color="offWhite" fontSize="1.1rem">Site Under Development: AtCoder coming soon!</Text>
+      <IconButton
+        my="auto"
+        variant="unstyled"
+        icon={<IoClose size={24} />}
+        onClick={() => {
+          localStorage.setItem("atcoderBannerShown", true);
+          setShowBanner(false);
+        }}
+        position="absolute"
+        right="0.5em"
+      />    
+    </Flex>
+  );
+}
 
 const HamburgerMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -235,10 +254,14 @@ const ToggleColorMode = () => {
 const BaseLayout = ({ content }) => {
   const [isMobile] = useMediaQuery("(max-width: 480px)");
 
+  const bannerShown = localStorage.getItem("atcoderBannerShown");
+  const [showBanner, setShowBanner] = useState(bannerShown ? false : true);
+
   return (
     <Flex justifyContent="center" overflowX="hidden" overflowY="hidden">
       {console.count("Base Layout")}
       <Box width={["312px", "472px", "760px", "984px", "1150px"]} m={0} p={0}>
+        { showBanner ? <Banner setShowBanner={setShowBanner} /> : "" }
         {isMobile ? <MobileBaseNavbar /> : <BaseNavbar />}
         <BaseContainer content={content} />
         <BaseFooter />
