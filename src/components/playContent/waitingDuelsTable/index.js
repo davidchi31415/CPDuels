@@ -41,9 +41,9 @@ const WaitingDuelsTable = () => {
 
   const mapLCDifficulty = (difficultyVal) => {
     switch (difficultyVal) {
-      case 0:
-        return "EASY";
       case 1:
+        return "EASY";
+      case 2:
         return "MED";
       default:
         return "HARD";

@@ -148,9 +148,9 @@ const AccordionContainer = ({
 
   const mapLCRatings = (ratingNum) => {
     switch (ratingNum) {
-      case 0:
-        return "EASY";
       case 1:
+        return "EASY";
+      case 2:
         return "MEDIUM";
       default:
         return "HARD";

@@ -55,7 +55,7 @@ const CreateDuelForm = () => {
         ratingMax > 3000 ||
         ratingMax < ratingMin
       : platform === "LC"
-      ? ratingMin < 0 || ratingMax > 2 || ratingMin > ratingMax
+      ? ratingMin < 1 || ratingMax > 3 || ratingMin > ratingMax
       : false;
   const usernameError = username?.length > 20;
 
@@ -270,9 +270,9 @@ const CreateDuelForm = () => {
                   borderColor="grey.100"
                   pl={2}
                 >
-                  <option value={0}>Easy</option>
-                  <option value={1}>Med</option>
-                  <option value={2}>Hard</option>
+                  <option value={1}>Easy</option>
+                  <option value={2}>Med</option>
+                  <option value={3}>Hard</option>
                 </Select>
               </Flex>
             </FormControl>
@@ -292,9 +292,9 @@ const CreateDuelForm = () => {
                     borderColor="grey.100"
                     pl={2}
                   >
-                    <option value={0}>Easy</option>
-                    <option value={1}>Med</option>
-                    <option value={2}>Hard</option>
+                    <option value={1}>Easy</option>
+                    <option value={2}>Med</option>
+                    <option value={3}>Hard</option>
                   </Select>
                 </Flex>
                 {ratingMaxError ? (
@@ -345,8 +345,8 @@ const CreateDuelForm = () => {
                   setRatingMin(800);
                   setRatingMax(1200);
                 } else if (e.target.value === "LC") {
-                  setRatingMin(0);
-                  setRatingMax(1);
+                  setRatingMin(1);
+                  setRatingMax(2);
                 } else {
                 }
               }}
