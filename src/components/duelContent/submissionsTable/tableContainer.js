@@ -97,7 +97,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
                     if (rowIndex === page.length-1) {
                       return (
                         <Td {...cell.getCellProps()}
-                          style={{ width: cell.width, textAlign: "center" }}
+                          style={{ width: cell.width, textAlign: "center", cursor: "pointer" }}
                           borderBottom="none"
                           color={rowTextColor}
                         >
@@ -107,7 +107,7 @@ const ReactTable = ({ loading, columns, data, rowProps }) => {
                     }
                     return (
                       <Td {...cell.getCellProps()}
-                        style={{ width: cell.width, textAlign: "center" }}
+                        style={{ width: cell.width, textAlign: "center", cursor: "pointer" }}
                         borderBottom="solid 1px"
                         borderColor="grey.500"
                         color={rowTextColor}

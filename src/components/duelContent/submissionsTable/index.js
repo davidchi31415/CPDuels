@@ -1,14 +1,29 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useColorModeValue, useToast, Text } from "@chakra-ui/react";
+import { useColorModeValue, useToast, Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  IconButton,
+} from "@chakra-ui/react";
 import ReactTable from "./tableContainer.js";
 import Database, { getUID } from "../../../data";
+import Editor from "../submitCodeEditor/editor.js";
 import moment from "moment";
+import { MdContentCopy } from "react-icons/md";
 import socket from "../../../socket";
+import { codes_to_languages } from "../submitCodeEditor/languages.js";
 
 const SubmissionsTable = ({ duelId, refresh, onRefresh, toast, onToast }) => {
   const [submissions, setSubmissions] = useState([]);
+  const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const makeToast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const getSubmissions = async () => {
@@ -112,15 +127,55 @@ const SubmissionsTable = ({ duelId, refresh, onRefresh, toast, onToast }) => {
     []
   );
 
+  let chosenSubmission = submissions[currentSubmissionIndex];
+  let languageCode; let platform;
+  if (chosenSubmission) {
+    if (chosenSubmission.platform === "CF") languageCode = parseInt(chosenSubmission.languageCode);
+    else languageCode = chosenSubmission.languageCode;
+    platform = chosenSubmission.platform;
+  }
+
   return (
-    <ReactTable
-      loading={loading}
-      data={submissions}
-      columns={columns}
-      rowProps={(row) => ({
-        onClick: () => {},
-      })}
-    />
+    <>
+      <ReactTable
+        loading={loading}
+        data={submissions}
+        columns={columns}
+        rowProps={(row) => ({
+          onClick: (e) => {
+            setCurrentSubmissionIndex(row.index);
+            onOpen();
+          },
+        })}
+      />
+      {submissions?.length ?
+        <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            size="2xl"
+            motionPreset="slideInBottom"
+          >
+            <ModalOverlay />
+            <ModalContent top="0">
+              <ModalHeader pb={0}>
+                {chosenSubmission?.problemName}
+              </ModalHeader>
+              <ModalCloseButton />
+              <ModalBody width="675px" pb={3}>
+              Language: {codes_to_languages[platform][languageCode]} | Verdict: {chosenSubmission.status[0]}
+                <Editor duelPlatform={platform}
+                  languageCode={
+                    languageCode
+                  }
+                  providedValue={chosenSubmission.content}
+                  readOnly={true}
+                />
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        : ""
+      }
+    </>
   );
 };
 

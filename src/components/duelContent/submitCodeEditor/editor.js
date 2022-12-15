@@ -65,7 +65,7 @@ const Editor = ({
       }
       mode={selection}
       theme={theme}
-      onChange={readOnly ? "" : onChange}
+      onChange={readOnly ? () => {} : onChange}
       readOnly={readOnly ? readOnly : false}
       name="editor"
       width="100%"

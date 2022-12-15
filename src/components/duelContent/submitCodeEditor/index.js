@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useRef } from "react";
 import { MdDelete } from "react-icons/md";
-import languages, { codes_to_snippets, languages_to_codes } from "./languages";
+import languages, { codes_to_languages, codes_to_snippets, languages_to_codes } from "./languages";
 import Editor from "./editor";
 import socket from "../../../socket";
 import { getUID } from "../../../data";
@@ -110,8 +110,10 @@ const SubmitCodeEditor = ({
         uid: uid,
         submission: {
           languageCode: chosenLanguage,
+          languageName: codes_to_languages[duelPlatform][chosenLanguage],
           number: problemNum,
           content: fileContent.current,
+          platform: duelPlatform,
         },
       });
     } else if (code.current) {
@@ -120,8 +122,10 @@ const SubmitCodeEditor = ({
         uid: uid,
         submission: {
           languageCode: chosenLanguage,
+          languageName: codes_to_languages[duelPlatform][chosenLanguage],
           number: problemNum,
           content: code.current,
+          platform: duelPlatform,
         },
       });
     } else {
@@ -137,12 +141,20 @@ const SubmitCodeEditor = ({
     }
   };
 
+  const languageCodeToSnippet = (code, snippets) => {
+    for (let snippet of snippets) {
+      if (snippet?.langSlug === code) return snippet.code;
+    }
+    return false;
+  }
+
   useEffect(() => {
     if (duelPlatform === "LC" && problemNum && problems?.length && Object.keys(codes_to_snippets).includes(chosenLanguage)) {
       let snippet;
       try {
-        snippet = problems[problemNum-1]?.content?.codeSnippets[codes_to_snippets[chosenLanguage]]?.code;
-        setChosenSnippet(snippet);
+        snippet = languageCodeToSnippet(chosenLanguage, problems[problemNum-1]?.content?.codeSnippets);
+        if (snippet) setChosenSnippet(snippet);
+        else setChosenSnippet("");
       } catch(err) {
         setChosenSnippet("");
       }
