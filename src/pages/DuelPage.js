@@ -134,6 +134,7 @@ const DuelPage = () => {
       if (roomId === id) {
         setLoading(true);
         setProblems([]); setProblemVerdicts([]);
+        setProblemsRefresh(true);
         setMathJaxRendered(false);
         getDuelInfo();
       }
