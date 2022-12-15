@@ -256,8 +256,8 @@ const SubmitCodeEditor = ({
             w="7em"
             value={problemChosen}
             onChange={(e) => {
-              setProblemNum(e.target.value);
-              if (e.target.value !== 0) setProblemNumError(false);
+              setProblemNum(parseInt(e.target.value));
+              if (parseInt(e.target.value) !== 0) setProblemNumError(false);
             }}
           >
             <option value={0}></option>
