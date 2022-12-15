@@ -132,6 +132,7 @@ const DuelPage = () => {
     socket.on("status-change", ({ roomId, newStatus }) => {
       if (roomId === id) {
         setLoading(true);
+        setProblems([]); setProblemVerdicts([]);
         setMathJaxRendered(false);
         getDuelInfo();
       }
@@ -162,6 +163,7 @@ const DuelPage = () => {
     });
     socket.on("problem-change", ({ roomId }) => {
       if (roomId === id) {
+        setProblems([]); setProblemVerdicts([]);
         setProblemsRefresh(true);
         setScoresRefresh(true);
         setMathJaxRendered(false);

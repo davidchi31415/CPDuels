@@ -42,7 +42,7 @@ const languages = { // For Editor
     "Java": "java",
     "Python": "python",
     "Python3": "python3",
-    "C": "c",
+    "C": "c_cpp",
     "C#": "csharp",
     "JavaScript": "javascript",
     "Ruby": "ruby",

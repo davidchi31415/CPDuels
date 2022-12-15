@@ -11,6 +11,7 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
+  Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
@@ -215,7 +216,8 @@ const SubmitCodeEditor = ({
       py={!isPopup ? 5 : 2}
       width="100%"
     >
-      {isPopup ? console.count("counter") : ""}
+      {isPopup ? <Text mb={1}>Code is <b>not saved</b> upon exiting modal, refreshing page, or switching languages.</Text>
+      : <Text mb={1}>Code is <b>not saved</b> upon refreshing page or switching languages.</Text>}
       <Flex pb={3} gap={1} justify="center" align="flex-end">
         <FormControl
           minHeight="5.5em"

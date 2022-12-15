@@ -16,10 +16,10 @@ const SubmissionsTable = ({ duelId, refresh, onRefresh, toast, onToast }) => {
       let uid = getUID();
       let res = await Database.getSubmissionsByDuelIdAndUid(duelId, uid);
       if (res?.length) {
-        let updateVal = res.reverse();
+        let updateVal = [...res].reverse();
         setSubmissions(updateVal);
         if (toast) {
-          let newSubmission = updateVal[updateVal.length - 1];
+          let newSubmission = res[res.length - 1];
           if (newSubmission.status && newSubmission.status[0] !== "PENDING") {
             makeToast({
               title: `Problem ${newSubmission.problemNumber} Verdict`,

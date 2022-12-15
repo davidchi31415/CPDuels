@@ -570,6 +570,8 @@ const AccordionContainer = ({
           onClose={onClose}
           size="2xl"
           motionPreset="slideInBottom"
+          closeOnOverlayClick={false}
+          closeOnEsc={false}
         >
           <ModalOverlay />
           <ModalContent top="0">
@@ -585,6 +587,7 @@ const AccordionContainer = ({
                 isPopup={true}
                 problemChosen={selectedProblem}
                 numProblems={problems.length}
+                problems={problems}
                 duelId={id}
               />
             </ModalBody>
