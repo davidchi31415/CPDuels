@@ -176,7 +176,7 @@ const SubmitCodeEditor = ({
         snippet = problems[problemNum-1]?.content?.codeSnippets[codes_to_snippets[chosenLanguage]]?.code;
         setChosenSnippet(snippet);
       } catch(err) {
-        setChosenSnippet(null);
+        setChosenSnippet("");
       }
     }
   }, [problems, problemNum, chosenLanguage, duelPlatform]);
