@@ -76,7 +76,7 @@ const CreateDuelForm = () => {
         description: (
           <Flex justify="center" gap="1em">
             <Text my="auto">{toastParams.description}</Text>
-            <Link fontWeight="bold">Rejoin</Link>
+            <Link onClick={() => window.location.href = toastParams.url} fontWeight="bold">Rejoin</Link>
           </Flex>
         ),
       })
