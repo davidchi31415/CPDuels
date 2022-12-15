@@ -32,6 +32,8 @@ const SubmitCodeEditor = ({
   problemChosen,
   numProblems,
   problems,
+  problemSubmitReceived,
+  onProblemSubmitReceived,
 }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
@@ -136,41 +138,6 @@ const SubmitCodeEditor = ({
   };
 
   useEffect(() => {
-    socket.on("problem-submitted-success", ({ roomId, uid }) => {
-      let localUid = getUID();
-      if (roomId === duelId && uid === localUid && submitting) {
-        setSubmitting(false);
-        makeToast({
-          title: "Submitted Successfully",
-          description: "Now wait for the verdict :)",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-      }
-    });
-
-    socket.on("problem-submitted-error", ({ roomId, uid, message }) => {
-      let localUid = getUID();
-      if (roomId === duelId && uid === localUid && submitting) {
-        setSubmitting(false);
-        makeToast({
-          title: "Submission Error",
-          description: message,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    });
-
-    return () => {
-      socket.off("problem-submitted-success");
-      socket.off("problem-submitted-error");
-    };
-  }, [submitting]);
-
-  useEffect(() => {
     if (duelPlatform === "LC" && problemNum && problems?.length && Object.keys(codes_to_snippets).includes(chosenLanguage)) {
       let snippet;
       try {
@@ -181,6 +148,13 @@ const SubmitCodeEditor = ({
       }
     }
   }, [problems, problemNum, chosenLanguage, duelPlatform]);
+
+  useEffect(() => {
+    if (problemSubmitReceived) {
+      setSubmitting(false);
+      onProblemSubmitReceived();
+    }
+  }, [problemSubmitReceived]);
 
   const handleUpload = (e) => {
     setFileUploaded(true);

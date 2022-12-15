@@ -4,6 +4,24 @@
   text-transform: capitalize;
 }
 
+.time-limit {
+  width: 6.5em;
+  margin-right: 3em;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+
+.memory-limit {
+  width: 8.5em;
+  margin-right: 3em;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+
+.input-file {
+  margin-right: 3em;
+}
+
 .problem-statement p, .problem-input-specifications p, .problem-output-specifications p, .problem-sample-test-cases p, .problem-note p {
   margin-top: 0.5em;
   margin-bottom: 0.5em;

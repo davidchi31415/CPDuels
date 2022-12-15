@@ -42,6 +42,8 @@ const AccordionContainer = ({
   mathJaxRendered,
   onMathJaxRendered,
   replacing,
+  problemSubmitReceived,
+  onProblemSubmitReceived,
 }) => {
   const [selectedProblem, setSelectedProblem] = useState();
   const [selectedReplaceProblemIndices, setSelectedReplaceProblemIndices] =
@@ -588,6 +590,8 @@ const AccordionContainer = ({
                 problemChosen={selectedProblem}
                 numProblems={problems.length}
                 problems={problems}
+                problemSubmitReceived={problemSubmitReceived}
+                onProblemSubmitReceived={onProblemSubmitReceived}
                 duelId={id}
               />
             </ModalBody>

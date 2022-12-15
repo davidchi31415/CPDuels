@@ -35,6 +35,8 @@ const TabContainer = ({
   onMathJaxRendered,
   replacingProblems,
   setReplacingProblems,
+  problemSubmitReceived,
+  onProblemSubmitReceived,
 }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
@@ -170,6 +172,8 @@ const TabContainer = ({
             onMathJaxRendered={onMathJaxRendered}
             replacing={replacingProblems}
             setReplacing={setReplacingProblems}
+            problemSubmitReceived={problemSubmitReceived}
+            onProblemSubmitReceived={onProblemSubmitReceived}
           />
         </TabPanel>
         <TabPanel px={0}>
@@ -181,6 +185,8 @@ const TabContainer = ({
             duelId={id}
             numProblems={numProblems}
             problems={problems} // for getting snippets
+            problemSubmitReceived={problemSubmitReceived}
+            onProblemSubmitReceived={onProblemSubmitReceived}
           />
         </TabPanel>
         <TabPanel px={0}>

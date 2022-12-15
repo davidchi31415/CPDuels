@@ -40,6 +40,7 @@ const DuelPage = () => {
   const [problemsRefresh, setProblemsRefresh] = useState(true);
   const [mathJaxRendered, setMathJaxRendered] = useState(false);
   const [replacingProblems, setReplacingProblems] = useState(false);
+  const [problemSubmitReceived, setProblemSubmitReceived] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -216,6 +217,41 @@ const DuelPage = () => {
   }, [id]);
 
   useEffect(() => {
+    socket.on("problem-submitted-success", ({ roomId, uid }) => {
+      let localUid = getUID();
+      if (roomId === id && uid === localUid) {
+        setProblemSubmitReceived(true);
+        makeToast({
+          title: "Submitted Successfully",
+          description: "Now wait for the verdict :)",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    });
+
+    socket.on("problem-submitted-error", ({ roomId, uid, message }) => {
+      let localUid = getUID();
+      if (roomId === id && uid === localUid) {
+        setProblemSubmitReceived(true);
+        makeToast({
+          title: "Submission Error",
+          description: message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    });
+
+    return () => {
+      socket.off("problem-submitted-success");
+      socket.off("problem-submitted-error");
+    };
+  }, [problemSubmitReceived]);
+
+  useEffect(() => {
     if (duelStatus === "FINISHED") onOpen();
   }, [duelStatus]);
 
@@ -272,6 +308,8 @@ const DuelPage = () => {
                 onMathJaxRendered={() => setMathJaxRendered(true)}
                 replacingProblems={replacingProblems}
                 setReplacingProblems={setReplacingProblems}
+                problemSubmitReceived={problemSubmitReceived}
+                onProblemSubmitReceived={() => setProblemSubmitReceived(false)}
               />
               <VStack spacing={2}>
                 <TimeAndJoinDisplay
