@@ -133,7 +133,6 @@ const DuelPage = () => {
     socket.on("status-change", ({ roomId, newStatus }) => {
       if (roomId === id) {
         setLoading(true);
-        setProblems([]); setProblemVerdicts([]);
         setProblemsRefresh(true);
         setMathJaxRendered(false);
         getDuelInfo();
