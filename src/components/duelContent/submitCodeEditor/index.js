@@ -171,9 +171,13 @@ const SubmitCodeEditor = ({
 
   useEffect(() => {
     if (duelPlatform === "LC" && problemNum && problems?.length && Object.keys(codes_to_snippets).includes(chosenLanguage)) {
-      let snippet = problems[problemNum-1]?.content?.codeSnippets[codes_to_snippets[chosenLanguage]]?.code;
-      if (snippet) setChosenSnippet(snippet);
-      else setChosenSnippet();
+      let snippet;
+      try {
+        snippet = problems[problemNum-1]?.content?.codeSnippets[codes_to_snippets[chosenLanguage]]?.code;
+        setChosenSnippet(snippet);
+      } catch(err) {
+        setChosenSnippet(null);
+      }
     }
   }, [problems, problemNum, chosenLanguage, duelPlatform]);
 
