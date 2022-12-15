@@ -47,7 +47,7 @@ const languages = { // For Editor
     "JavaScript": "javascript",
     "Ruby": "ruby",
     "Swift": "swift",
-    "Go": "go",
+    "Go": "golang",
     "Scala": "scala",
     "Kotlin": "kotlin",
     "Rust": "rust",
