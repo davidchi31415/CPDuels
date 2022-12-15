@@ -90,7 +90,9 @@ const AccordionContainer = ({
   }, [id]);
 
   useEffect(() => {
-    setSelectedReplaceProblemIndices([]);
+    if (replacing) {
+      setSelectedReplaceProblemIndices([]);
+    }
   }, [replacing, problems]);
 
   const mapLCRatings = (ratingNum) => {

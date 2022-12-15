@@ -74,7 +74,7 @@ const DuelPage = () => {
       }
       setPlayerNum(_playerNum);
 
-      if (!problems?.length) {
+      if (!problems?.length || problemsRefresh) {
         let problemContents = [];
         if (duel.platform === "CF") {
           for (let i = 0; i < duel.problems?.length; i++) {
@@ -194,6 +194,7 @@ const DuelPage = () => {
     socket.on("regenerate-problems-completed", ({ roomId }) => {
       if (roomId === id) {
         setReplacingProblems(false);
+        setProblems([]);
         setProblemsRefresh(true);
         setMathJaxRendered(false);
         if (playerNum)
