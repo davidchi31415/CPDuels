@@ -189,12 +189,12 @@ const DuelPage = () => {
     socket.on("regenerate-problems-received", ({ roomId }) => {
       if (roomId === id) {
         setReplacingProblems(true);
+        setProblems([]);
       }
     });
     socket.on("regenerate-problems-completed", ({ roomId }) => {
       if (roomId === id) {
         setReplacingProblems(false);
-        setProblems([]);
         setProblemsRefresh(true);
         setMathJaxRendered(false);
         if (playerNum)
