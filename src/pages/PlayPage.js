@@ -99,7 +99,7 @@ const InADuelAlert = ({ duelLink }) => {
         transform={[null, "scale(0.9)", null, "none"]}
         onClick={() => {
           setNavigating(true);
-          navigate(duelLink);
+          window.location.href = duelLink;
         }}
       >
         Return
@@ -111,42 +111,31 @@ const InADuelAlert = ({ duelLink }) => {
 const PlayPage = () => {
   const [inADuel, setInADuel] = useState(false);
   const [currentDuelLink, setCurrentDuelLink] = useState();
+  const [duelCount, setDuelCount] = useState({active: 0, ongoing: 0, waiting: 0, initialized: 0});
 
   useEffect(() => {
     const checkIfInDuel = async () => {
-      let uid = getUID();
-      let duelsOngoing = await Database.getDuelsOngoing();
-      let duelsWaiting = await Database.getDuelsWaiting();
-      let duelsInitialized = await Database.getDuelsInitialized();
-      for (let i = 0; i < duelsOngoing.length; i++) {
-        if (
-          duelsOngoing[i].players[0].uid === uid ||
-          duelsOngoing[i].players[1].uid === uid
-        ) {
-          setInADuel(true);
-          setCurrentDuelLink(`/play/${duelsOngoing[i]._id}`);
-          return;
-        }
+      let res = await Database.checkIfUserInDuel();
+      if (res?.currentDuels?.length) {
+        setInADuel(true);
+        setCurrentDuelLink(res.currentDuels[0]);
+      } else {
+        setInADuel(false);
       }
-      for (let i = 0; i < duelsWaiting.length; i++) {
-        if (duelsWaiting[i].players[0].uid === uid) {
-          setInADuel(true);
-          setCurrentDuelLink(`/play/${duelsWaiting[i]._id}`);
-          return;
-        }
+    }
+    const getDuelCountInfo = async () => {
+      let duels = await Database.getDuels();
+      let duelCounterInfoUpdate = {active: 0, ongoing: 0, waiting: 0, initialized: 0};
+      if (duels?.length) {
+        duelCounterInfoUpdate.active = duels.filter(duel => duel.status !== "FINISHED" && duel.status !== "ABORTED").length;
+        duelCounterInfoUpdate.waiting = duels.filter(duel => duel.status === "WAITING").length;
+        duelCounterInfoUpdate.initialized = duels.filter(duel => duel.status === "INITIALIZED").length;
+        duelCounterInfoUpdate.ongoing = duels.filter(duel => duel.status === "ONGOING").length;
       }
-      for (let i = 0; i < duelsInitialized.length; i++) {
-        if (
-          duelsInitialized[i].players[0].uid === uid ||
-          duelsInitialized[i].players[1].uid === uid
-        ) {
-          setInADuel(true);
-          setCurrentDuelLink(`/play/${duelsInitialized[i]._id}`);
-          return;
-        }
-      }
+      setDuelCount(duelCounterInfoUpdate);
     };
     checkIfInDuel();
+    getDuelCountInfo();
   }, [inADuel]);
 
   return (
@@ -184,7 +173,7 @@ const PlayPage = () => {
           >
             <CreateDuelForm />
             <Box mt="1em">
-              <DuelCounter />
+              <DuelCounter duelCount={duelCount} />
             </Box>
           </Box>
           <PlayInfoSection />

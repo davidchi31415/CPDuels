@@ -1,4 +1,4 @@
-const languages = {
+const languages = { // For Editor
   CF: {
     "GNU GCC C11 5.1.0": "c_cpp",
     "Clang++20 Diagnostics": "c_cpp",
@@ -37,12 +37,34 @@ const languages = {
     "JavaScript V8 4.8.0": "javascript",
     "Node.js 12.16.3": "javascript",
   },
+  LC: {
+    "C++": "c_cpp",
+    "Java": "java",
+    "Python": "python",
+    "Python3": "python3",
+    "C": "c",
+    "C#": "csharp",
+    "JavaScript": "javascript",
+    "Ruby": "ruby",
+    "Swift": "swift",
+    "Go": "go",
+    "Scala": "scala",
+    "Kotlin": "kotlin",
+    "Rust": "rust",
+    "PHP": "php",
+    "TypeScript": "typescript",
+    "Racket": "scheme",
+    "Erlang": "erlang",
+    "Elixir": "elixir",
+    "Dart": "dart",
+  },
   defaults: {
     CF: "GNU G++17 7.3.0",
+    LC: "C++"
   },
 };
 
-export const languages_to_codes = {
+export const languages_to_codes = { // For submit
   CF: {
     "GNU GCC C11 5.1.0": 43,
     "Clang++20 Diagnostics": 80,
@@ -80,6 +102,27 @@ export const languages_to_codes = {
     "Scala 2.12.8": 20,
     "JavaScript V8 4.8.0": 34,
     "Node.js 12.16.3": 55,
+  },
+  LC: {
+    "C++": "cpp",
+    "Java": "java",
+    "Python": "python",
+    "Python3": "python3",
+    "C": "c",
+    "C#": "csharp",
+    "JavaScript": "javascript",
+    "Ruby": "ruby",
+    "Swift": "swift",
+    "Go": "go",
+    "Scala": "scala",
+    "Kotlin": "kotlin",
+    "Rust": "rust",
+    "PHP": "php",
+    "TypeScript": "typescript",
+    "Racket": "racket",
+    "Erlang": "erlang",
+    "Elixir": "elixir",
+    "Dart": "dart",
   },
 };
 
@@ -122,6 +165,27 @@ export const codes_to_languages = {
     34: "JavaScript V8 4.8.0",
     55: "Node.js 12.16.3",
   },
+  LC: {
+    "cpp": "C++",
+    "java": "Java",
+    "python": "Python",
+    "python3": "Python3",
+    "c": "C",
+    "csharp": "C#",
+    "javascript": "JavaScript",
+    "ruby": "Ruby",
+    "swift": "Swift",
+    "go": "Go",
+    "scala": "Scala",
+    "kotlin": "Kotlin",
+    "rust": "Rust",
+    "php": "PHP",
+    "typescript": "TypeScript",
+    "racket": "Racket",
+    "erlang": "Erlang",
+    "elixir": "Elixir",
+    "dart": "Dart",
+  }
 };
 
 export default languages;

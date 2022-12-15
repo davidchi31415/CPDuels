@@ -2,9 +2,9 @@ import backendOrigin from "../config/origins";
 import uuid from 'react-uuid';
 
 export default class Database {  
-  static async _getModel(model) {
+  static async _getModel(model, params) {
     let time = Date.now();
-    const response = await fetch(`${backendOrigin}/${model}`)
+    const response = await fetch(`${backendOrigin}/${model}`, params)
     .then(
       res => res.json()
     ).then(
@@ -70,6 +70,12 @@ export default class Database {
   static async getUsers() {
     const users = await this._getModel('user');
     return users;
+  }
+
+  static async checkIfUserInDuel() {
+    let uid = getUID();
+    const duels = await this._getModel(`general/playercurrentduels/${uid}`);
+    return duels;
   }
 
   static async getDuelById(db_id) {

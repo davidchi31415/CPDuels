@@ -214,8 +214,16 @@ const SubmitCodeEditor = ({
             w={isPopup ? "10em" : "12em"}
             value={chosenLanguage}
             onChange={(e) => {
-              setChosenLanguage(parseInt(e.target.value));
-              if (parseInt(e.target.value)) setChosenLanguageError(false);
+              if (duelPlatform === "CF") {
+                setChosenLanguage(parseInt(e.target.value));
+                if (parseInt(e.target.value)) setChosenLanguageError(false);
+              } else if (duelPlatform === "LC") {
+                console.log(e.target.value);
+                setChosenLanguage(e.target.value);
+                if (e.target.value) setChosenLanguageError(false);
+              } else {
+                // AtCoder
+              }
             }}
           >
             <option value={0}></option>

@@ -24,6 +24,9 @@ import {
   Skeleton,
   useToast,
   useColorModeValue,
+  Link,
+  Alert,
+  AlertTitle,
 } from "@chakra-ui/react";
 import Database, { getUID } from "../../../data";
 import socket from "../../../socket";
@@ -74,14 +77,15 @@ const JoinDisplay = ({ id, playerNum }) => {
   };
 
   useEffect(() => {
-    socket.on("join-duel-error", ({ message }) => {
-      setJoining(false);
+    socket.on("join-duel-error", ({ message, url }) => {
+      setJoining(false); setJoiningGuest(false);
       makeToast({
         title: "Error",
         description: message,
         status: "error",
-        duration: 2000,
+        duration: 5000,
         isClosable: true,
+        url: url ? url : ""
       });
     });
 
@@ -105,7 +109,18 @@ const JoinDisplay = ({ id, playerNum }) => {
     if (toastRef.current) {
       toast.close(toastRef.current);
     }
-    toastRef.current = toast(toastParams);
+    if (toastParams.url) {
+      toastRef.current = toast({
+        ...toastParams,
+        description: (
+          <Flex justify="center" gap="1em">
+            <Text my="auto">{toastParams.description}</Text>
+            <Link fontWeight="bold">Rejoin</Link>
+          </Flex>
+        ),
+      })
+    }
+    else toastRef.current = toast(toastParams);
   };
 
   return playerNum ? (

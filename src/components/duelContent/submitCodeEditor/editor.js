@@ -19,6 +19,10 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-ruby";
 import "ace-builds/src-noconflict/mode-rust";
 import "ace-builds/src-noconflict/mode-scala";
+import "ace-builds/src-noconflict/mode-scheme";
+import "ace-builds/src-noconflict/mode-typescript";
+import "ace-builds/src-noconflict/mode-erlang";
+import "ace-builds/src-noconflict/mode-elixir";
 
 import "ace-builds/src-noconflict/theme-iplastic";
 import "ace-builds/src-noconflict/theme-monokai";

@@ -25,6 +25,7 @@ import {
   Center,
   Text,
   useToast,
+  Link,
   Checkbox,
 } from "@chakra-ui/react";
 import Database, { getUID } from "../../../data";
@@ -68,10 +69,19 @@ const CreateDuelForm = () => {
   const makeToast = (toastParams) => {
     if (toastRef.current) {
       toast.close(toastRef.current);
-      toastRef.current = toast(toastParams);
-    } else {
-      toastRef.current = toast(toastParams);
     }
+    if (toastParams.url) {
+      toastRef.current = toast({
+        ...toastParams,
+        description: (
+          <Flex justify="center" gap="1em">
+            <Text my="auto">{toastParams.description}</Text>
+            <Link fontWeight="bold">Rejoin</Link>
+          </Flex>
+        ),
+      })
+    }
+    else toastRef.current = toast(toastParams);
   };
 
   const handleSubmit = async (e) => {
@@ -107,12 +117,16 @@ const CreateDuelForm = () => {
     await Database.addDuel(duelData).then((res) => {
       if (!res._id) {
         setSubmitting(false);
+        let message;
+        if (res.url) message = `${res.message}`;
+        else message = res.message;
         makeToast({
           title: "Error",
-          description: res.message,
+          description: message,
           status: "error",
           duration: 9000,
           isClosable: true,
+          url: res.url ? res.url : "",
         });
       } else {
         makeToast({
