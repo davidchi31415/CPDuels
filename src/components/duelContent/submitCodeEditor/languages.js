@@ -188,4 +188,26 @@ export const codes_to_languages = {
   }
 };
 
+export const codes_to_snippets = { // For leetcode indexing
+  "cpp": 0,
+    "java": 1,
+    "python": 2,
+    "python3": 3,
+    "c": 4,
+    "csharp": 5,
+    "javascript": 6,
+    "ruby": 7,
+    "swift": 8,
+    "go": 9,
+    "scala": 10,
+    "kotlin": 11,
+    "rust": 12,
+    "php": 13,
+    "typescript": 14,
+    "racket": 15,
+    "erlang": 16,
+    "elixir": 17,
+    "dart": 18,
+}
+
 export default languages;

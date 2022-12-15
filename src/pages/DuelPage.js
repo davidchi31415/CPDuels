@@ -32,6 +32,8 @@ const DuelPage = () => {
   const [duelStatus, setDuelStatus] = useState("");
   const [players, setPlayers] = useState([]);
   const [playerNum, setPlayerNum] = useState();
+  const [problems, setProblems] = useState([]);
+  const [problemVerdicts, setProblemVerdicts] = useState([]);
   const [submissionsRefresh, setSubmissionsRefresh] = useState(true);
   const [submissionsToast, setSubmissionsToast] = useState(false);
   const [scoresRefresh, setScoresRefresh] = useState(true);
@@ -62,16 +64,65 @@ const DuelPage = () => {
       setLoading(false);
       if (duelStatus !== duel.status) setDuelStatus(duel.status);
       if (duelPlatform !== duel.platform) setDuelPlatform(duel.platform);
+
       setPlayers(duel.players);
-      let uid = getUID();
+      let uid = getUID(); let _playerNum;
       if (uid === duel.players[0].uid) {
-        if (playerNum !== 1) setPlayerNum(1);
+          _playerNum = 1;
       } else if (duel.players[1] && uid === duel.players[1].uid) {
-        if (playerNum !== 2) setPlayerNum(2);
+        _playerNum = 2;
       }
+      setPlayerNum(_playerNum);
+
+      if (!problems?.length) {
+        let problemContents = [];
+        if (duel.platform === "CF") {
+          for (let i = 0; i < duel.problems?.length; i++) {
+            let content = await Database.getCFProblemById(
+              duel.problems[i].databaseId
+            );
+            problemContents.push({
+              ...content,
+              duelPoints: duel.problems[i].duelPoints,
+            });
+          }
+        } else if (duel.platform === "LC") {
+            for (let i = 0; i < duel.problems?.length; i++) {
+              let content = await Database.getLCProblemById(
+                duel.problems[i].databaseId
+              );
+              problemContents.push({
+                ...content,
+                duelPoints: duel.problems[i].duelPoints,
+              });
+              console.log(problemContents);
+            }
+        } else {
+            // AT
+        }
+        setProblems(problemContents);
+      }
+
       if (duel.regeneratingProblems) setReplacingProblems(true);
-    };
-    getDuelInfo();
+      
+      let newProblemVerdicts = [...Array(duel.problems.length).fill([null])];
+      if (_playerNum) {
+        let playerIndex = _playerNum - 1;
+        for (let i = 0; i < duel.problems.length; i++) {
+          if (duel.problems[i].playerSolveTimes[playerIndex])
+            newProblemVerdicts[i] = "AC";
+          else if (duel.problems[i].playerAttempts[playerIndex])
+            newProblemVerdicts[i] = "WA";
+        }
+      }
+      setProblemVerdicts(newProblemVerdicts);
+    }
+
+    if (problemsRefresh) {
+      getDuelInfo();
+      setProblemsRefresh(false);
+    }
+
     socket.on("connect", async () => {
       socket.emit("join", { roomId: id });
     });
@@ -132,7 +183,7 @@ const DuelPage = () => {
       socket.off("resign-duel-error");
       socket.off("submission-change");
     };
-  }, [id]);
+  }, [id, problemsRefresh, problems]);
 
   useEffect(() => {
     socket.on("regenerate-problems-received", ({ roomId }) => {
@@ -208,8 +259,8 @@ const DuelPage = () => {
                 duelStatus={duelStatus}
                 players={players}
                 playerNum={playerNum}
-                problemsRefresh={problemsRefresh}
-                onProblemsRefresh={() => setProblemsRefresh(false)}
+                problems={problems}
+                problemVerdicts={problemVerdicts}
                 submissionsRefresh={submissionsRefresh}
                 onSubmissionsRefresh={() => setSubmissionsRefresh(false)}
                 submissionsToast={submissionsToast}

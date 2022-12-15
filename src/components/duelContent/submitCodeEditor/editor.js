@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import AceEditor from "react-ace";
 import { useColorModeValue } from "@chakra-ui/react";
 import languages, { codes_to_languages } from "./languages";
@@ -49,14 +49,19 @@ const Editor = ({
       ? languages[platform][codes_to_languages[platform][languageCode]]
       : languages[platform][languages.defaults[platform]];
 
+  const editorRef = useRef();
+  useEffect(() => {
+    if (providedValue && editorRef.current) {
+      editorRef.current.setValue(providedValue);
+    }
+  }, [providedValue]);
+
   return (
     <AceEditor
       onLoad={
-        providedValue
-          ? (editor) => {
-              editor.session.setValue(providedValue);
-            }
-          : ""
+        (editor) => {
+          editorRef.current = editor.session;
+        }
       }
       mode={selection}
       theme={theme}

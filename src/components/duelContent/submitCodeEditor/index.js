@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useRef } from "react";
 import { MdDelete } from "react-icons/md";
-import languages, { languages_to_codes } from "./languages";
+import languages, { codes_to_snippets, languages_to_codes } from "./languages";
 import Editor from "./editor";
 import socket from "../../../socket";
 import { getUID } from "../../../data";
@@ -30,6 +30,7 @@ const SubmitCodeEditor = ({
   isPopup,
   problemChosen,
   numProblems,
+  problems,
 }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
@@ -45,8 +46,9 @@ const SubmitCodeEditor = ({
   const [fileUploaded, setFileUploaded] = useState(false);
   const fileName = useRef("");
   const fileContent = useRef("");
-  const code = useRef("");
   const [lastSubmissionTime, setLastSubmissionTime] = useState();
+  const code = useRef();
+  const [chosenSnippet, setChosenSnippet] = useState();
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -166,6 +168,12 @@ const SubmitCodeEditor = ({
       socket.off("problem-submitted-error");
     };
   }, [submitting]);
+
+  useEffect(() => {
+    if (duelPlatform === "LC" && problemNum && problems?.length && Object.keys(codes_to_snippets).includes(chosenLanguage)) {
+      setChosenSnippet(problems[problemNum-1].content.codeSnippets[codes_to_snippets[chosenLanguage]].code);
+    }
+  }, [problems, problemNum, chosenLanguage, duelPlatform]);
 
   const handleUpload = (e) => {
     setFileUploaded(true);
@@ -310,6 +318,7 @@ const SubmitCodeEditor = ({
             duelPlatform={duelPlatform ? duelPlatform : ""}
             languageCode={chosenLanguage}
             onSetCode={handleCode}
+            providedValue={chosenSnippet}
           />
         </Box>
         <FormErrorMessage mt={1}>

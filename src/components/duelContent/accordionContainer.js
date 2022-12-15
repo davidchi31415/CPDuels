@@ -30,80 +30,28 @@ import "./cfStyles.css";
 import "./lcStyles.css";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { MathJax } from "better-react-mathjax";
+import { codes_to_snippets } from "./submitCodeEditor/languages";
 
 const AccordionContainer = ({
   id,
   duelPlatform,
   duelStatus,
   playerNum,
-  refresh,
-  onRefresh,
+  problems,
+  problemVerdicts,
   mathJaxRendered,
   onMathJaxRendered,
   replacing,
-  setReplacing,
 }) => {
-  const [problems, setProblems] = useState([]);
-  const [problemVerdicts, setProblemVerdicts] = useState([]);
   const [selectedProblem, setSelectedProblem] = useState();
   const [selectedReplaceProblemIndices, setSelectedReplaceProblemIndices] =
     useState([]); // Initialized duel
 
   useEffect(() => {
-    const getProblemVerdicts = async () => {
-      let duel = await Database.getDuelById(id);
-      let newProblemVerdicts = [...Array(duel.problems.length).fill([null])];
-      let playerIndex = playerNum - 1;
-      for (let i = 0; i < duel.problems.length; i++) {
-        if (duel.problems[i].playerSolveTimes[playerIndex])
-          newProblemVerdicts[i] = "AC";
-        else if (duel.problems[i].playerAttempts[playerIndex])
-          newProblemVerdicts[i] = "WA";
-      }
-      setProblemVerdicts(newProblemVerdicts);
-    };
-    const getProblems = async () => {
-      let duel = await Database.getDuelById(id);
-      let problemContents = [];
-      if (duel.platform === "CF") {
-        for (let i = 0; i < duel.problems?.length; i++) {
-          let content = await Database.getCFProblemById(
-            duel.problems[i].databaseId
-          );
-          problemContents.push({
-            ...content,
-            duelPoints: duel.problems[i].duelPoints,
-          });
-        }
-      } else if (duel.platform === "LC") {
-        for (let i = 0; i < duel.problems?.length; i++) {
-          let content = await Database.getLCProblemById(
-            duel.problems[i].databaseId
-          );
-          problemContents.push({
-            ...content,
-            duelPoints: duel.problems[i].duelPoints,
-          });
-          console.log(problemContents);
-        }
-      } else {
-        // AT
-      }
-      setProblems(problemContents);
-    };
-    // getProblems();
-    if (refresh) {
-      getProblemVerdicts();
-      getProblems();
-      onRefresh();
-    }
-  }, [refresh, playerNum, id]);
-
-  useEffect(() => {
     if (!mathJaxRendered && document.querySelector(".MathJaxEnd")) {
       onMathJaxRendered();
     }
-  }, [refresh, mathJaxRendered]);
+  }, [mathJaxRendered]);
 
   const defaultBorderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
@@ -143,7 +91,6 @@ const AccordionContainer = ({
 
   useEffect(() => {
     setSelectedReplaceProblemIndices([]);
-    if (replacing && problems?.length) setProblems([]);
   }, [replacing, problems]);
 
   const mapLCRatings = (ratingNum) => {

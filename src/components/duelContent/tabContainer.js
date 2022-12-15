@@ -25,8 +25,8 @@ const TabContainer = ({
   duelStatus,
   players,
   playerNum,
-  problemsRefresh,
-  onProblemsRefresh,
+  problems,
+  problemVerdicts,
   submissionsRefresh,
   onSubmissionsRefresh,
   submissionsToast,
@@ -164,8 +164,8 @@ const TabContainer = ({
             duelPlatform={duelPlatform}
             duelStatus={duelStatus}
             playerNum={playerNum}
-            refresh={problemsRefresh}
-            onRefresh={onProblemsRefresh}
+            problems={problems}
+            problemVerdicts={problemVerdicts}
             mathJaxRendered={mathJaxRendered}
             onMathJaxRendered={onMathJaxRendered}
             replacing={replacingProblems}
@@ -180,6 +180,7 @@ const TabContainer = ({
             duelPlatform={duelPlatform}
             duelId={id}
             numProblems={numProblems}
+            problems={problems} // for getting snippets
           />
         </TabPanel>
         <TabPanel px={0}>
