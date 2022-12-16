@@ -3,7 +3,7 @@ import {
   Box,
   Flex,
   VStack,
-  Button,
+  Spinner,
   useColorModeValue,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -23,6 +23,8 @@ const FakeDuelPage = () => {
   const [duelStartAnimationFinished, setDuelStartAnimationFinished] =
     useState(false);
   const [duelAnimationFinished, setDuelAnimationFinished] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [animating, setAnimating] = useState(false);
 
   const [isMobile] = useMediaQuery("(max-width: 767px)");
 
@@ -32,6 +34,18 @@ const FakeDuelPage = () => {
   const AnimatedTimeAndJoinDisplay = handleViewport(FakeTimeAndJoinDisplay, {
     threshold: 0.5,
   });
+
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  useEffect(() => {
+    const animate = async () => {
+      setAnimating(true);
+      await sleep(500);
+      setLoading(false);
+    }
+    if (loading && !animating) {
+      animate();
+    } 
+  }, [loading]);
 
   if (isMobile) {
     return (
@@ -70,15 +84,42 @@ const FakeDuelPage = () => {
         overflowY="hidden"
         pointerEvents="none"
       >
+        {loading ? (
+          <Flex
+            position="absolute"
+            top={0}
+            left={0}
+            justify="center"
+            width="100%"
+            height="100%"
+            textAlign="center"
+            background="rgb(0, 0, 0, 0.6)"
+            zIndex={10}
+          >
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              mt="50vh"
+              emptyColor="grey.300"
+              color="#43ff43"
+              size="xl"
+            />
+          </Flex>
+        ) : (
+          ""
+        )}
         <AnimatedTabContainer
-          ready={duelStartAnimationFinished}
+          ready={duelStartAnimationFinished && !loading}
           finished={duelAnimationFinished}
           onFinished={() => setDuelAnimationFinished(true)}
         />
         <VStack spacing={5}>
           <AnimatedTimeAndJoinDisplay
             finished={duelStartAnimationFinished}
-            onFinished={() => setDuelStartAnimationFinished(true)}
+            onFinished={() => {
+              setDuelStartAnimationFinished(true);
+              setLoading(true);
+            }}
           />
           <FakeScoreDisplay duelStatus={duelStatus} playerNum={playerNum} />
         </VStack>

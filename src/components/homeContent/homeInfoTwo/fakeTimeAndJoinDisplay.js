@@ -20,24 +20,38 @@ import {
   Tr,
   Th,
   Td,
+  Flex,
   Skeleton,
   useToast,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
-const StartDisplay = ({ starting }) => {
+const ReadyUpDisplay = ({ ready }) => {
   return (
-    <Button
-      size="md"
-      loadingText="Starting"
-      isLoading={starting}
-      colorScheme="primary"
-      variant="solid"
-    >
-      Start Duel
-    </Button>
+    <Flex direction="column" align="center" gap="1em">
+      <Center gap={2}>
+        <IconButton
+          size="md"
+          colorScheme="green"
+          variant="solid"
+          boxSize="3em"
+          disabled={ready}
+          icon={<CheckIcon boxSize="2em" />}
+        />
+        <IconButton
+          size="md"
+          colorScheme="red"
+          boxSize="3em"
+          disabled={!ready}
+          icon={<CloseIcon boxSize="1.5em" />}
+        />
+      </Center>
+      <Text fontSize="1.5rem">{ready ? 2 : 1}/2</Text>
+    </Flex>
   );
 };
+
 
 const TimeDisplay = () => {
   return (
@@ -54,7 +68,7 @@ const FakeTimeAndJoinDisplay = ({
   onFinished,
 }) => {
   const [currentDisplay, setCurrentDisplay] = useState(
-    finished ? <TimeDisplay /> : <StartDisplay starting={false} />
+    finished ? <TimeDisplay /> : <ReadyUpDisplay ready={false} />
   );
 
   const [animating, setAnimating] = useState(false);
@@ -63,9 +77,9 @@ const FakeTimeAndJoinDisplay = ({
   useEffect(() => {
     const animate = async () => {
       setAnimating(true);
-      await sleep(500);
-      setCurrentDisplay(<StartDisplay starting={true} />);
-      await sleep(2000);
+      await sleep(1500);
+      setCurrentDisplay(<ReadyUpDisplay ready={true} />);
+      await sleep(1000);
       setCurrentDisplay(<TimeDisplay />);
       onFinished();
     };

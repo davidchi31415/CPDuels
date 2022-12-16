@@ -12,6 +12,7 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 import FakeAccordionContainer from "./fakeAccordionContainer";
+import { MathJax } from "better-react-mathjax";
 
 const FakeTabContainer = ({
   inViewport,
@@ -36,13 +37,12 @@ const FakeTabContainer = ({
   useEffect(() => {
     const animateOpenProblemTab = async () => {
       setAnimating(true);
-      await sleep(2000);
-      setIndex(1);
       await sleep(500);
       setAnimatingProblems(true);
       setAnimating(false);
     };
     if (inViewport && ready && !animating && !finished) {
+      setIndex(1);
       animateOpenProblemTab();
     }
   }, [finished, inViewport, animating, ready]);
@@ -111,12 +111,14 @@ const FakeTabContainer = ({
             </Grid>
           </TabPanel>
           <TabPanel px={0}>
-            <FakeAccordionContainer
-              inViewport={inViewport}
-              ready={animatingProblems}
-              finished={problemsAnimated}
-              onFinished={() => setProblemsAnimated(true)}
-            />
+            <MathJax>
+              <FakeAccordionContainer
+                inViewport={inViewport}
+                ready={animatingProblems}
+                finished={problemsAnimated}
+                onFinished={() => setProblemsAnimated(true)}
+              />
+            </MathJax>
           </TabPanel>
           <TabPanel>
           </TabPanel>

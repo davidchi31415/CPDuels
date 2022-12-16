@@ -34,7 +34,7 @@ const HomeHeroCode = () => {
     '#include "1v1_duels.h"\n',
     "\n",
     "int main() {\n",
-    "  CPDuels::Duel duel = new CPDuels::Duel(\n",
+    "  CPDuels::Duel duel = CPDuels::createDuel(\n",
     '    "tourist", "apgpsoop", 10, 180, 2400, 3000\n',
     "  );\n",
     "  duel.start();\n",

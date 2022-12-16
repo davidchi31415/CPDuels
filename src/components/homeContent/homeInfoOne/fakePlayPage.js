@@ -529,47 +529,37 @@ const FakeCreateDuelForm = ({
           </Center>
         </GridItem>
         <GridItem>
-          <Center>
-            <FormControl>
-              <FormLabel my="auto">Username (optional)</FormLabel>
-              <Input
-                mt={1}
-                type="text"
-                value={username}
-                borderColor="grey.100"
-                width="12em"
-                pl={2}
-              />
-            </FormControl>
-          </Center>
-        </GridItem>
-        <GridItem>
-          <Center>
-            <FormControl>
-              <FormLabel my="auto">Private?</FormLabel>
-              <Switch
-                mt={1}
-                size="lg"
-                colorScheme="primary"
-                isChecked={isPrivate}
-              />
-              <FormHelperText mt={1}>
-                Private matches don't show up on the table (invite-only).
-              </FormHelperText>
-            </FormControl>
-          </Center>
-        </GridItem>
-        <GridItem colSpan={2}>
+        <Center>
           <FormControl>
-            <Checkbox size="md" borderColor="grey.100" defaultChecked={true}>
-              Exclude attempted problems
-            </Checkbox>
+            <FormLabel my="auto">Username (optional)</FormLabel>
+            <Input
+              mt={1}
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              borderColor="grey.100"
+              width="12em"
+              pl={2}
+            />
+          </FormControl>
+        </Center>
+      </GridItem>
+      <GridItem>
+        <Center>
+          <FormControl>
+            <FormLabel my="auto">Private?</FormLabel>
+            <Switch
+              mt={1}
+              size="lg"
+              colorScheme="primary"
+              onChange={(e) => setIsPrivate(e.target.checked)}
+            />
             <FormHelperText mt={1}>
-              This uses your username (must be valid) on the selected platform.
-              Otherwise, you can use any username you'd like.
+              Private matches don't show up on the table (invite-only).
             </FormHelperText>
           </FormControl>
-        </GridItem>
+        </Center>
+      </GridItem>
         <GridItem colSpan={2}>
           <Center>
             <Button
@@ -613,7 +603,7 @@ const FakePlayPage = () => {
         borderRadius="md"
         transform={["scale(0.6)", "scale(0.8)"]}
         boxShadow={largeShadow}
-        my={["-5em", "-1em"]}
+        my={["-3.5em", "-1em"]}
       >
         <AnimatedCreateDuelForm
           finished={duelCreationAnimationFinished}
