@@ -25,7 +25,7 @@ import PlayInfoSection from "../components/playContent/playInfoSection";
 import Database, { getUID } from "../data";
 import { useNavigate } from "react-router-dom";
 
-const TabContainer = () => {
+const TabContainer = ({ duels, setRefresh }) => {
   const borderColor = useColorModeValue(
     "rgb(0, 0, 0, 0.5)",
     "rgb(255, 255, 255, 0.5)"
@@ -58,17 +58,17 @@ const TabContainer = () => {
       <TabPanels border="none">
         <TabPanel mt={0} transform={["scale(1.1)", "none"]}>
           <Center>
-            <WaitingDuelsTable />
+            <WaitingDuelsTable duels={duels} setRefresh={setRefresh} />
           </Center>
         </TabPanel>
         <TabPanel mt={0} transform={["scale(1.1)", "none"]}>
           <Center>
-            <OngoingDuelsTable />
+            <OngoingDuelsTable duels={duels} setRefresh={setRefresh} />
           </Center>
         </TabPanel>
         <TabPanel mt={0} transform={["scale(1.1)", "none"]}>
           <Center>
-            <FinishedDuelsTable />
+            <FinishedDuelsTable duels={duels} setRefres={setRefresh} />
           </Center>
         </TabPanel>
       </TabPanels>
@@ -111,7 +111,9 @@ const InADuelAlert = ({ duelLink }) => {
 const PlayPage = () => {
   const [inADuel, setInADuel] = useState(false);
   const [currentDuelLink, setCurrentDuelLink] = useState();
+  const [duels, setDuels] = useState([]);
   const [duelCount, setDuelCount] = useState({active: 0, ongoing: 0, waiting: 0, initialized: 0});
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     const checkIfInDuel = async () => {
@@ -123,10 +125,11 @@ const PlayPage = () => {
         setInADuel(false);
       }
     }
-    const getDuelCountInfo = async () => {
+    const getDuels = async () => {
       let duels = await Database.getDuels();
       let duelCounterInfoUpdate = {active: 0, ongoing: 0, waiting: 0, initialized: 0};
       if (duels?.length) {
+        setDuels(duels);
         duelCounterInfoUpdate.active = duels.filter(duel => duel.status !== "FINISHED" && duel.status !== "ABORTED").length;
         duelCounterInfoUpdate.waiting = duels.filter(duel => duel.status === "WAITING").length;
         duelCounterInfoUpdate.initialized = duels.filter(duel => duel.status === "INITIALIZED").length;
@@ -134,9 +137,12 @@ const PlayPage = () => {
       }
       setDuelCount(duelCounterInfoUpdate);
     };
-    checkIfInDuel();
-    getDuelCountInfo();
-  }, [inADuel]);
+    if (refresh) {
+      checkIfInDuel();
+      getDuels();
+      setRefresh(false);
+    }
+  }, [inADuel, refresh]);
 
   return (
     <BaseLayout
@@ -164,7 +170,7 @@ const PlayPage = () => {
           // ml={["-10.75em", "-6em", "-6em", "-3em", 0]}
           // my={["-9em", "-7em", "-7em", "-3em", 0]}
           >
-            <TabContainer />
+            <TabContainer duels={duels} setRefresh={setRefresh}/>
           </Box>
           <Box
           // transform={["scale(0.65)", "scale(0.65)", "scale(0.6)", "scale(0.8)", "none"]}

@@ -14,24 +14,26 @@ import {
 import { useNavigate } from "react-router-dom";
 import { MdRefresh } from "react-icons/md";
 
-const FinishedDuelsTable = () => {
+const FinishedDuelsTable = ({ duels, setRefresh }) => {
   const [data, setData] = useState([]);
   const [platform, setPlatform] = useState("All");
   const [loading, setLoading] = useState(true);
-  const [refresh, setRefresh] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    Database.getDuelsFinishedPublic().then((result) => {
-      if (result?.length)
-        for (let index = 0; index < result.length; index++)
-          result[index].index = index + 1;
-      setData(result);
-      setLoading(false);
-    });
-    setRefresh(false);
-  }, [refresh]);
+    let newDuels = [...duels].filter((duel) => 
+      {
+        if (platform === "All") {
+          return duel.status === "FINISHED"
+        } else {
+          return duel.platform === platform && duel.status === "FINISHED"
+        }
+      }
+    );
+    setData(newDuels);
+    setLoading(false);
+  }, [duels, platform]);
 
   const handleRefresh = () => {
     setRefresh(true);
