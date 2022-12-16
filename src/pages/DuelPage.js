@@ -170,12 +170,15 @@ const DuelPage = () => {
         setMathJaxRendered(false);
       }
     });
-    socket.on("submission-change", ({ duelId }) => {
+    socket.on("submission-change", ({ duelId, uid }) => {
       if (duelId === id) {
         setSubmissionsRefresh(true);
-        setSubmissionsToast(true);
         setProblemsRefresh(true);
         setScoresRefresh(true);
+        let localUid = getUID();
+        if (uid === localUid) {
+          setSubmissionsToast(true);
+        }
       }
     });
     return () => {
