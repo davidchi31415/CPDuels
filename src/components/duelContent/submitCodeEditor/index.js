@@ -112,6 +112,7 @@ const SubmitCodeEditor = ({
       }
       if (!validJavaCode) {
         setJavaCodeError(true);
+        setSubmitting(false);
         makeToast({
           tile: "Submission Error",
           description: "Code must match regex [^{}]*public\s+(final)?\s*class\s+(\w+).*",
@@ -138,6 +139,7 @@ const SubmitCodeEditor = ({
       }
       if (!validJavaCode) {
         setJavaCodeError(true);
+        setSubmitting(false);
         makeToast({
           tile: "Submission Error",
           description: "Code must match regex [^{}]*public\s+(final)?\s*class\s+(\w+).*",
