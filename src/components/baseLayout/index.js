@@ -29,8 +29,8 @@ import { HiMenuAlt4 } from "react-icons/hi";
 
 const Banner = ({ setShowBanner }) => {
   return (
-    <Flex mx="calc(-50vw)" backgroundColor="red" height="2.5em" justify="center" align="center">
-      <Text color="offWhite" fontSize="1.1rem"><b>LeetCode</b> and <b>AtCoder</b> coming soon!</Text>
+    <Flex mx="calc(-50vw)" backgroundColor="red" height={["4em", "2.5em"]} justify="center">
+      <Text color="offWhite" fontSize={["1rem", "1.1rem"]} mt="0.4em"><b>LeetCode</b> and <b>AtCoder</b> coming soon!</Text>
       <IconButton
         my="auto"
         variant="unstyled"
@@ -40,7 +40,8 @@ const Banner = ({ setShowBanner }) => {
           setShowBanner(false);
         }}
         position="absolute"
-        right="0.5em"
+        right={["", "0.5em"]}
+        top={["1.5em", "0"]}
       />    
     </Flex>
   );

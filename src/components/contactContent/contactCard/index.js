@@ -74,6 +74,7 @@ const ContactCard = ({ inViewport, forwardedRef, info }) => {
           fontSize={["0.9rem", "1rem"]}
         >
           {info.description}
+          <i><br />{info.ps ? info.ps : ""}</i>
         </Text>
         <Flex justify="center" gap={2} py={0}>
           <SocialIcon url={info.linkedin} />

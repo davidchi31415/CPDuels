@@ -13,8 +13,10 @@ const ContactPage = ({ report }) => {
     image: DavidSelfie,
     name: "David Chi",
     role: "Frontend",
-    description: `I am a junior Computer Science student at Texas A&M. I am primarily focused on web development and machine learning,
-    and I am seeking a software engineering internship where I can put my skills to use professionally.`,
+    description: `I am a junior Computer Science student at Texas A&M. 
+    I am an avid runner, lifter, and developer on my free time, and I also really like chemistry.
+    Feel free to reach out to me on Linkedin.`,
+    ps: "looking for internship... :)",
     linkedin: "https://www.linkedin.com/in/david-chi-41392521a/",
     github: "https://github.com/davidchi31415",
   };
