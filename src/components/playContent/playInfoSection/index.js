@@ -55,7 +55,35 @@ const PlayInfoSection = () => {
           </Flex>
           <Text mt="0.5em" ml="0.25em" fontSize="1.1rem">
             Once you and your duel partner have settled on a problem set, you can
-            ready-up. The duel will begin and a timer will be set. Have fun!
+            ready-up. The duel will begin and a timer will be set.
+          </Text>
+        </Box>
+      </Flex>
+      <Flex justify="space-between" gap="2em" mt="2em">
+        <Box width="18em">
+          <Flex>
+            <Box 
+              backgroundColor={circleIconBackgroundColor} width="3.5em" height="3.5em" 
+              borderRadius="100%" color={circleIconColor} textAlign="center"
+            ><Text pt="0.45em" fontSize="1.5rem" fontWeight="bold">4</Text></Box>
+            <Text my="auto" ml="0.5em" fontSize="1.2rem">Solve Problems.</Text>
+          </Flex>
+          <Text mt="0.5em" ml="0.25em" fontSize="1.1rem">
+            Possible points for a problem decrease with time - solve them as quickly as you can! 
+            But keep in mind that each incorrect submission costs <b>50</b> points.
+          </Text>
+        </Box>
+        <Box width="18em">
+          <Flex>
+            <Box 
+              backgroundColor={circleIconBackgroundColor} width="3.5em" height="3.5em" 
+              borderRadius="100%" color={circleIconColor} textAlign="center"
+            ><Text pt="0.45em" fontSize="1.5rem" fontWeight="bold">5</Text></Box>
+            <Text my="auto" ml="0.5em" fontSize="1.2rem">Win (or lose).<br />But have fun!</Text>
+          </Flex>
+          <Text mt="0.5em" ml="0.25em" fontSize="1.1rem">
+            When the time is up or when both players have solved every problem, the duel automatically ends. Whoever has more points is
+            declared winner.
           </Text>
         </Box>
       </Flex>
