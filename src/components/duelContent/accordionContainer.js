@@ -468,14 +468,16 @@ const AccordionContainer = ({
                   </Box>
                   <Center pt={3}>
                     <Button
-                      onClick={onOpen}
+                      onClick={duelStatus === "FINISHED" ? () => {
+                          window.open(`https://www.codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`);
+                        } : onOpen
+                      }
                       size="md"
                       fontSize="lg"
                       variant="solid"
                       colorScheme="primary"
-                      isDisabled={duelStatus !== "ONGOING" || !playerNum}
                     >
-                      Submit Your Answer
+                      {duelStatus === "FINISHED" ? "See Problem Source" : "Submit Your Answer"}
                     </Button>
                   </Center>
                 </AccordionPanel>
