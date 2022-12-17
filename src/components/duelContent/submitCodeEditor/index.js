@@ -133,7 +133,7 @@ const SubmitCodeEditor = ({
         },
       });
     } else if (code.current) {
-      if (duelPlatform === "CF" && languages[duelPlatform][codes_to_languages[duelPlatform]][chosenLanguage]] === "java") {
+      if (duelPlatform === "CF" && languages[duelPlatform][codes_to_languages[duelPlatform][chosenLanguage]] === "java") {
         validJavaCode = /[^{}]*public\s+(final)?\s*class\s+(\w+).*/.test(code.current);
       }
       if (!validJavaCode) {
