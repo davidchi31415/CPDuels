@@ -115,7 +115,7 @@ const SubmitCodeEditor = ({
         setSubmitting(false);
         makeToast({
           tile: "Submission Error",
-          description: "Code must match regex [^{}]*public\s+(final)?\s*class\s+(\w+).*",
+          description: "Code must match regex [^{}]*public\\s+(final)?\\s*class\\s+(\\w+).*",
           status: "error",
           duration: 5000,
           isClosable: true,
@@ -142,7 +142,7 @@ const SubmitCodeEditor = ({
         setSubmitting(false);
         makeToast({
           tile: "Submission Error",
-          description: "Code must match regex [^{}]*public\s+(final)?\s*class\s+(\w+).*",
+          description: "Code must match regex [^{}]*public\\s+(final)?\\s*class\\s+(\\w+).*",
           status: "error",
           duration: 5000,
           isClosable: true,
