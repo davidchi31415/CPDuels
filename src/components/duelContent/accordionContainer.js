@@ -476,6 +476,7 @@ const AccordionContainer = ({
                       fontSize="lg"
                       variant="solid"
                       colorScheme="primary"
+                      isDisabled={playerNum ? false : true}
                     >
                       {duelStatus === "FINISHED" ? "See Problem Source" : "Submit Your Answer"}
                     </Button>
