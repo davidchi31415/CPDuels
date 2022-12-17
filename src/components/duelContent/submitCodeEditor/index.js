@@ -52,6 +52,7 @@ const SubmitCodeEditor = ({
   const [lastSubmissionTime, setLastSubmissionTime] = useState();
   const code = useRef();
   const [chosenSnippet, setChosenSnippet] = useState();
+  const [javaCodeError, setJavaCodeError] = useState(false); // For CF only
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -104,7 +105,22 @@ const SubmitCodeEditor = ({
     }
     setLastSubmissionTime(Date.now());
     let uid = getUID();
+    let validJavaCode = true;
     if (fileContent.current) {
+      if (duelPlatform === "CF" && languages[duelPlatform][codes_to_languages[chosenLanguage]] === "java") {
+        validJavaCode = /[^{}]*public\s+(final)?\s*class\s+(\w+).*/.test(fileContent.current);
+      }
+      if (!validJavaCode) {
+        setJavaCodeError(true);
+        makeToast({
+          tile: "Submission Error",
+          description: "Code must match regex [^{}]*public\s+(final)?\s*class\s+(\w+).*",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
       socket.emit("submit-problem", {
         roomId: duelId,
         uid: uid,
@@ -117,6 +133,20 @@ const SubmitCodeEditor = ({
         },
       });
     } else if (code.current) {
+      if (duelPlatform === "CF" && languages[duelPlatform][codes_to_languages[chosenLanguage]] === "java") {
+        validJavaCode = /[^{}]*public\s+(final)?\s*class\s+(\w+).*/.test(code.current);
+      }
+      if (!validJavaCode) {
+        setJavaCodeError(true);
+        makeToast({
+          tile: "Submission Error",
+          description: "Code must match regex [^{}]*public\s+(final)?\s*class\s+(\w+).*",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
       socket.emit("submit-problem", {
         roomId: duelId,
         uid: uid,
@@ -190,6 +220,7 @@ const SubmitCodeEditor = ({
   const handleCode = (newCode) => {
     code.current = newCode;
     setEditorFileError(false);
+    setJavaCodeError(false);
   };
 
   return (
@@ -304,7 +335,7 @@ const SubmitCodeEditor = ({
           </InputGroup>
         </FormControl>
       </Flex>
-      <FormControl pt={0} minHeight="28.5em" isInvalid={editorFileError}>
+      <FormControl pt={0} minHeight="28.5em" isInvalid={editorFileError || javaCodeError}>
         <FormLabel my="auto">or Enter Your Submission:</FormLabel>
         <Box border="1px solid" borderColor="grey.100">
           <Editor
@@ -315,9 +346,15 @@ const SubmitCodeEditor = ({
             providedValue={chosenSnippet}
           />
         </Box>
-        <FormErrorMessage mt={1}>
-          Enter code in the box or upload a file.
-        </FormErrorMessage>
+        {
+          javaCodeError ?
+          <FormErrorMessage mt={1}>
+            Code must match regex [^{}]*public\s+(final)?\s*class\s+(\w+).*
+          </FormErrorMessage>
+          : <FormErrorMessage mt={1}>
+              Enter code in the box or upload a file.
+            </FormErrorMessage>
+        }
       </FormControl>
 
       <Center mt={1}>
