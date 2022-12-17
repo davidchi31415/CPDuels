@@ -9,7 +9,7 @@ const BuyUsACoffee = () => {
       display="inline-flex"
       alignItems="center"
       rounded="md"
-      colorScheme="primary"
+      colorScheme="green"
       p="0.5rem"
       fontSize="1rem"
       letterSpacing="0.6px"

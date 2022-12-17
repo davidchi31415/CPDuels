@@ -368,7 +368,7 @@ const CreateDuelForm = () => {
               pl={2}
             >
               <option value="CF">Codeforces</option>
-              <option value="LC">LeetCode</option>
+              <option value="LC" disabled={true}>LeetCode</option>
               <option value="AT" disabled={true}>AtCoder</option>
             </Select>
           </Flex>
