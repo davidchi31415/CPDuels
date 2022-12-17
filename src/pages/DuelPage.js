@@ -41,6 +41,7 @@ const DuelPage = () => {
   const [mathJaxRendered, setMathJaxRendered] = useState(false);
   const [replacingProblems, setReplacingProblems] = useState(false);
   const [problemSubmitReceived, setProblemSubmitReceived] = useState(false);
+  const [autoAborted, setAutoAborted] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -181,6 +182,14 @@ const DuelPage = () => {
         }
       }
     });
+    socket.on("duel-aborted-inactive", ({ roomId }) => {
+      if (roomId === id) {
+        setSubmissionsRefresh(true);
+        setProblemsRefresh(true);
+        setScoresRefresh(true);
+        setAutoAborted(true);
+      }
+    });
     return () => {
       socket.off("connect");
       socket.off("error-message");
@@ -188,6 +197,7 @@ const DuelPage = () => {
       socket.off("abort-duel-error");
       socket.off("resign-duel-error");
       socket.off("submission-change");
+      socket.off("duel-aborted-inactive");
     };
   }, [id, problemsRefresh, problems]);
 
@@ -255,8 +265,8 @@ const DuelPage = () => {
   }, [problemSubmitReceived]);
 
   useEffect(() => {
-    if (duelStatus === "FINISHED") onOpen();
-  }, [duelStatus]);
+    if (duelStatus === "FINISHED" || autoAborted) onOpen();
+  }, [duelStatus, autoAborted]);
 
   return (
     <MathJax dynamic={true}>
@@ -347,10 +357,16 @@ const DuelPage = () => {
             <Modal isOpen={isOpen} onClose={onClose} size="sm">
               <ModalOverlay />
               <ModalContent>
-                <ModalHeader>Duel Is Over</ModalHeader>
+                {autoAborted ? 
+                  <ModalHeader>Duel Aborted</ModalHeader>
+                  : <ModalHeader>Duel Is Over</ModalHeader>
+                }
                 <ModalCloseButton />
                 <ModalBody>
-                  <p>You can view the results now.</p>
+                  {autoAborted ?
+                    <p>Your duel was auto-aborted for not starting after 5 minutes.</p>
+                    : <p>You can view the results now.</p>
+                  }
                 </ModalBody>
                 <ModalFooter justifyContent="center">
                   <Button colorScheme="primary" mr={3} onClick={onClose}>
