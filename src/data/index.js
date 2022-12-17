@@ -136,12 +136,16 @@ export default class Database {
   }
 
   static async getSubmissionsByDuelId(id) {
-    const filteredSubmissions = await this._getModel(`general/playerduelsubmissions/${id}`);
-    return filteredSubmissions;
+    let res = await this._getModel(`general/playerduelsubmissions/${id}`);
+    if (res?.submissions) return res.submissions;
+    else console.log("Couldn't get submissions.");
+    return [];
   }
   static async getSubmissionsByDuelIdAndUid(id, uid) {
-    const filteredSubmissions = await this._getModel(`general/playerduelsubmissions/${id}/${uid}`);
-    return filteredSubmissions;
+    let res = await this._getModel(`general/playerduelsubmissions/${id}/${uid}`);
+    if (res?.submissions) return res.submissions;
+    else console.log("Couldn't get submissions.");
+    return [];
   }
 
   static async addDuel(params) {
