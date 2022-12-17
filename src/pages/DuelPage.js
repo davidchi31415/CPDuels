@@ -364,7 +364,7 @@ const DuelPage = () => {
                 <ModalCloseButton />
                 <ModalBody>
                   {autoAborted ?
-                    <p>Your duel was auto-aborted for not starting after 5 minutes.</p>
+                    <p>Your duel was auto-aborted for not starting after 2 minutes.</p>
                     : <p>You can view the results now.</p>
                   }
                 </ModalBody>
