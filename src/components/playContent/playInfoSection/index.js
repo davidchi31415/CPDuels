@@ -87,8 +87,8 @@ const PlayInfoSection = () => {
           </Text>
         </Box>
       </Flex>
-      <Text align="center" fontSize="1.2rem" mt="2em" width="27em">
-        <Text as="span" fontWeight="bold">Please Note</Text><br />Waiting duels will be auto-aborted after 2 minutes if not initialized (someone joining), and initialized duels will also be aborted if not started.
+      <Text align="center" fontSize="1.2rem" mt="2em" width="18em">
+        <Text as="span" fontWeight="bold">Please Note</Text><br />Waiting duels will be auto-aborted after <b>2 minutes</b> if not initialized (someone joining), and initialized duels will also be aborted if not started.
       </Text>
       <Text align="center" fontSize="1.2rem" mt="3em">
         We hope you enjoy using our platform! <br />
