@@ -5,6 +5,8 @@ import theme from "./theme";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { MathJaxContext } from "better-react-mathjax";
+import "@fontsource/rubik";
+import "@fontsource/rubik/800.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
